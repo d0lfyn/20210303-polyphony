@@ -1,7 +1,5 @@
 # ***Polyphony*** `v0.3.0 (initium)` *for Sonic Pi*
 
-<hr/>
-
 ## Contents
 
 - [Intro](#intro)
@@ -9,15 +7,11 @@
 - [Quick Settings](#quick-settings)
 - [Questions and Comments](#questions-and-comments)
 
-<hr/>
-
 ## Intro
 
 Make music with *Polyphony*. Ideate. Compose. Perform.
 
 This project is under active development.
-
-<hr/>
 
 ## Setup
 
@@ -29,8 +23,6 @@ This project is under active development.
  - for `ensemble` in `"settings/voices/articulated"` and `"settings/voices/sustained"` of `settings.rb`, replace the symbols with the appropriate ensemble
 4. under `midiPorts` in `"settings/voices/articulated"` and `"settings/voices/sustained"` of `settings.rb`, replace the array entries with the appropriate MIDI out ports
 5. In Sonic Pi, run the following: `run_file("LOCATION")`, replacing `LOCATION` with the location of the project
-
-<hr/>
 
 ## Quick Settings
 
