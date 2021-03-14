@@ -16,7 +16,7 @@ This project is under active development.
 ## Setup
 
 1. On line 1 of `main.rb`, replace the `DIRECTORY` string with the location of the project
-2. Within the `active` array in `"settings/voices"` in `settings.rb`, comment/uncomment desired sections to play.
+2. Within the `selection` array in `"settings/voices"` in `settings.rb`, comment/uncomment desired sections to play.
 3. Set up new instruments as desired:
  - within `INSTRUMENTS` on line 1 in `ensembles.rb`, enter new instruments (see template on line 2)
  - within `ENSEMBLES` below `INSTRUMENTS` in `ensembles.rb`, enter new ensembles using instruments from `INSTRUMENTS`
@@ -32,14 +32,14 @@ All settings can be found in `settings.rb`.
 
 Setting               | Values                  | Description
 ---                   | ---                     | ---
-`seed`                | int [0,)                | random seed
+`seed`                | int \[0,)                | random seed
 
 ### `"settings/metronome"`
 
 Setting               | Values                  | Description
 ---                   | ---                     | ---
 `unitsPerMinute`      | (0,)                    | tempo
-`timeLimitInMinutes`  | [0,) \|\| nil           | nil performs forever
+`timeLimitInMinutes`  | \[0,) \|\| nil           | nil performs forever
 
 ### `"settings/space"`
 
