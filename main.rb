@@ -1,4 +1,4 @@
-DIRECTORY = "~/OneDrive/music-production/sonic-pi/20210303".freeze
+DIRECTORY = "~/OneDrive/music-production/sonic-pi/20210303-polyphony".freeze
 # order-dependent
 eval_file(File.join(DIRECTORY, "general.rb"))
 eval_file(File.join(DIRECTORY, "ensembles.rb"))
