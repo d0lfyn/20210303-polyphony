@@ -1,4 +1,4 @@
-# ***Chronometry*** `v0.3.0` (initium) *for Sonic Pi*
+# ***Polyphony*** `v0.3.0` (initium) *for Sonic Pi*
 
 <hr/>
 
@@ -13,7 +13,7 @@
 
 ## Intro
 
-Make music with *Chronometry*. Ideate. Synthesise. Perform.
+Make music with *Polyphony*. Ideate. Compose. Perform.
 
 This project is under active development.
 
