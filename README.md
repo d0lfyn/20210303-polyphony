@@ -18,7 +18,7 @@ This project is under active development.
 1. On line 1 of `main.rb`, replace the `DIRECTORY` string with the location of the project
 2. Within the `selection` array in `"settings/voices"` in `settings.rb`, comment/uncomment desired sections to play.
 3. Set up new instruments as desired:
- - within `INSTRUMENTS` on line 1 in `ensembles.rb`, enter new instruments (see template on line 2)
+ - within `INSTRUMENTS` on line 1 in `ensembles.rb`, enter new instruments (use an existing instrument as a template!)
  - within `ENSEMBLES` below `INSTRUMENTS` in `ensembles.rb`, enter new ensembles using instruments from `INSTRUMENTS`
  - for `ensemble` in `"settings/voices/articulated"` and `"settings/voices/sustained"` of `settings.rb`, replace the symbols with the appropriate ensemble
 4. under `midiPorts` in `"settings/voices/articulated"` and `"settings/voices/sustained"` of `settings.rb`, replace the array entries with the appropriate MIDI out ports
@@ -32,14 +32,14 @@ All settings can be found in `settings.rb`.
 
 Setting               | Values                  | Description
 ---                   | ---                     | ---
-`seed`                | int \[0,)                | random seed
+`seed`                | int \[0,)               | random seed
 
 ### `"settings/metronome"`
 
 Setting               | Values                  | Description
 ---                   | ---                     | ---
 `unitsPerMinute`      | (0,)                    | tempo
-`timeLimitInMinutes`  | \[0,) \|\| nil           | nil performs forever
+`timeLimitInMinutes`  | \[0,) \|\| nil          | nil performs forever
 
 ### `"settings/space"`
 
