@@ -1,4 +1,4 @@
-# ***Polyphony*** `v0.3.0` (initium) *for Sonic Pi*
+# ***Polyphony*** `v0.3.0 (initium)` *for Sonic Pi*
 
 <hr/>
 
