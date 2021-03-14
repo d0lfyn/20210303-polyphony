@@ -19,7 +19,7 @@ This project is under active development.
 2. Within the `selection` array in `"settings/voices"` in `settings.rb`, comment/uncomment desired sections to play.
 3. Set up new instruments as desired:
  - within `INSTRUMENTS` on line 1 in `ensembles.rb`, enter new instruments (use an existing instrument as a template!)
- - within `ENSEMBLES` below `INSTRUMENTS` in `ensembles.rb`, enter new ensembles using instruments from `INSTRUMENTS`
+ - within `ensembles` below `INSTRUMENTS` in `ensembles.rb`, enter new ensembles using instruments from `INSTRUMENTS`
  - for `ensemble` in `"settings/voices/articulated"` and `"settings/voices/sustained"` of `settings.rb`, replace the symbols with the appropriate ensemble
 4. under `midiPorts` in `"settings/voices/articulated"` and `"settings/voices/sustained"` of `settings.rb`, replace the array entries with the appropriate MIDI out ports
 5. In Sonic Pi, run the following: `run_file("LOCATION")`, replacing `LOCATION` with the location of the project
@@ -43,9 +43,9 @@ Setting               | Values                  | Description
 
 ### `"settings/space"`
 
-Setting               | Values                          | Description
----                   | ---                             | ---
-`initialKey`          | `:C2`-`:B2`, `:major`/`:minor`  | key signature
+Setting               | Values                                   | Description
+---                   | ---                                      | ---
+`initialKey`          | int 0-11, `:major`/`:minor`/`:locrian`   | key signature (0-11 corresponds to C-B)
 
 ### `"settings/voices"`
 
@@ -57,14 +57,14 @@ Setting               | Values                         | Description
 
 Setting               | Values                               | Description
 ---                   | ---                                  | ---
-`ensemble`            | (see `ENSEMBLES` in `ensembles.rb`)  | ensemble to use
+`ensemble`            | (see `ensembles` in `ensembles.rb`)  | ensemble to use
 `midiPorts`           | MIDI out port from sonic pi          | ports to use
 
 ### `"settings/voices/sustained"`
 
 Setting               | Values                               | Description
 ---                   | ---                                  | ---
-`ensemble`            | (see `ENSEMBLES` in `ensembles.rb`)  | ensemble to use
+`ensemble`            | (see `ensembles` in `ensembles.rb`)  | ensemble to use
 `midiPorts`           | MIDI out port from sonic pi          | ports to use
 
 ## Questions and Comments
