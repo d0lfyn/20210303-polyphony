@@ -53,7 +53,7 @@ set("settings/metronome", {
   unitsPerMinute: 360, # (0,)
 
   startDelay: 2, # [0,)
-  timeLimitInMinutes: 4, # [0,) | nil performs forever
+  timeLimitInMinutes: nil, # [0,) | nil performs forever
 }.freeze)
 
 set("settings/space", {
