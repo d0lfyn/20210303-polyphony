@@ -48,7 +48,7 @@ INSTRUMENTS = {
 		LONG_SWITCHES: [1].freeze,
 		LEGATO_SWITCHES: [0].freeze,
 		CC_NUMS: [1, 11].freeze,
-		RANGE: makeRangePair(note(:C4), note(:E6)),
+		RANGE: makeRangePair(note(:C4), note(:G6)),
 	}.freeze,
 	HARPSICHORD: {
 		SHORT_SWITCHES: [].freeze,
@@ -104,7 +104,7 @@ INSTRUMENTS = {
 		LONG_SWITCHES: [1, 2, 3, 11, 18].freeze,
 		LEGATO_SWITCHES: [0].freeze,
 		CC_NUMS: [1, 11].freeze,
-		RANGE: makeRangePair(note(:G3), note(:E6)),
+		RANGE: makeRangePair(note(:G3), note(:G6)),
 	}.freeze,
 	VIOLIN_PLUCK: {
 		SHORT_SWITCHES: [6].freeze,
@@ -112,7 +112,7 @@ INSTRUMENTS = {
 		LONG_SWITCHES: [1, 2, 3, 11, 18].freeze,
 		LEGATO_SWITCHES: [6].freeze,
 		CC_NUMS: [1, 11].freeze,
-		RANGE: makeRangePair(note(:G3), note(:E6)),
+		RANGE: makeRangePair(note(:G3), note(:G6)),
 	}.freeze,
 	YANGQIN: {
 		SHORT_SWITCHES: [].freeze,
