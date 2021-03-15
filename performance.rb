@@ -57,7 +57,7 @@ define :generateVoice do |pVoiceType, pVoiceNumber|
 		if isVoiceActive?(pVoiceType, pVoiceNumber)
 			logOptional("#{pVoiceType} #{pVoiceNumber.to_s} playing #{getVoiceSynthesis(pVoiceType, pVoiceNumber).to_s}")
 
-			send("perform#{pVoiceType.capitalize}Synthesis", pVoiceNumber)
+			send("performMIDI#{pVoiceType.capitalize}Synthesis", pVoiceNumber)
 			clearVoice(pVoiceType, pVoiceNumber)
 
 			logOptional("#{pVoiceType} #{pVoiceNumber.to_s} done")
@@ -182,7 +182,7 @@ define :launchCCSustained do |pVoiceNumber, pInstrument, pNumMeasures|
 	end
 end
 
-define :performArticulated do |pPitch, pDuration, pVelocityOn, pVelocityOff|
+define :performMIDIArticulated do |pPitch, pDuration, pVelocityOn, pVelocityOff|
 	in_thread do
 		midi_note_on(pPitch, vel_f: pVelocityOn)
 		waitNumUnitsQuantised(pDuration)
@@ -190,7 +190,7 @@ define :performArticulated do |pPitch, pDuration, pVelocityOn, pVelocityOff|
 	end
 end
 
-define :performArticulatedSynthesis do |pVoiceNumber|
+define :performMIDIArticulatedSynthesis do |pVoiceNumber|
 	instrument = getVoiceInstrument("articulated".freeze, pVoiceNumber)
 	svap = get("settings/voices/articulated")[:performance]
 	synthesis = getVoiceSynthesis("articulated".freeze, pVoiceNumber)
@@ -207,9 +207,9 @@ define :performArticulatedSynthesis do |pVoiceNumber|
 				spaceDomain = getCurrentSpaceDomain()
 				compositeRhythmSpans.each do |span|
 					if ((span >= svap[:legatoSpanThreshold]) && evalChance?(svap[:chanceLegato]))
-						performLegatoHypothesisForSpan(synthesis[:position], hypothesis, span, spaceDomain, instrument)
+						performMIDILegatoHypothesisForSpan(synthesis[:position], hypothesis, span, spaceDomain, instrument)
 					else
-						performShortMidHypothesisForSpan(synthesis[:position], hypothesis, span, spaceDomain, instrument)
+						performMIDIShortMidHypothesisForSpan(synthesis[:position], hypothesis, span, spaceDomain, instrument)
 					end
 				end
 
@@ -221,9 +221,9 @@ define :performArticulatedSynthesis do |pVoiceNumber|
 				spaceDomain = getCurrentSpaceDomain()
 				span = get("settings/metronome")[:numUnitsPerMeasure]
 				if evalChance?(svap[:chanceLegato])
-					performLegatoHypothesisForSpan(synthesis[:position], hypothesis, span, spaceDomain, instrument)
+					performMIDILegatoHypothesisForSpan(synthesis[:position], hypothesis, span, spaceDomain, instrument)
 				else
-					performShortMidHypothesisForSpan(synthesis[:position], hypothesis, span, spaceDomain, instrument)
+					performMIDIShortMidHypothesisForSpan(synthesis[:position], hypothesis, span, spaceDomain, instrument)
 				end
 			else
 				break
@@ -234,15 +234,15 @@ define :performArticulatedSynthesis do |pVoiceNumber|
 			spaceDomain = getCurrentSpaceDomain()
 			span = get("settings/metronome")[:numUnitsPerMeasure]
 			if evalChance?(svap[:chanceLegato])
-				performLegatoHypothesisForSpan(synthesis[:position], hypothesis, span, spaceDomain, instrument)
+				performMIDILegatoHypothesisForSpan(synthesis[:position], hypothesis, span, spaceDomain, instrument)
 			else
-				performShortMidHypothesisForSpan(synthesis[:position], hypothesis, span, spaceDomain, instrument)
+				performMIDIShortMidHypothesisForSpan(synthesis[:position], hypothesis, span, spaceDomain, instrument)
 			end
 		end
 	end
 end
 
-define :performLegatoHypothesisForSpan do |pPosition, pHypothesis, pSpan, pSpaceDomain, pInstrument|
+define :performMIDILegatoHypothesisForSpan do |pPosition, pHypothesis, pSpan, pSpaceDomain, pInstrument|
 	svapl = get("settings/voices/articulated")[:performance][:legatoMIDI]
 
 	isOnFirstUnit = true
@@ -268,9 +268,9 @@ define :performLegatoHypothesisForSpan do |pPosition, pHypothesis, pSpan, pSpace
 		sync_bpm("time/subunit") unless isOnFirstUnit
 		sync_bpm("time/subunit")
 		if ((unitsLeft > 0) && (nextChronomorph[:displacement] != chronomorph[:displacement]))
-			performArticulated(pitch, (duration + 1), velocityOn, velocityOff)
+			performMIDIArticulated(pitch, (duration + 1), velocityOn, velocityOff)
 		else
-			performArticulated(pitch, duration, velocityOn, velocityOff)
+			performMIDIArticulated(pitch, duration, velocityOn, velocityOff)
 		end
 		waitNumUnitsQuantised(duration)
 
@@ -280,7 +280,7 @@ define :performLegatoHypothesisForSpan do |pPosition, pHypothesis, pSpan, pSpace
 	switchKeyswitchOff(keyswitch)
 end
 
-define :performShortMidHypothesisForSpan do |pPosition, pHypothesis, pSpan, pSpaceDomain, pInstrument|
+define :performMIDIShortMidHypothesisForSpan do |pPosition, pHypothesis, pSpan, pSpaceDomain, pInstrument|
 	svaps = get("settings/voices/articulated")[:performance][:shortMidMIDI]
 
 	isOnFirstUnit = true
@@ -303,7 +303,7 @@ define :performShortMidHypothesisForSpan do |pPosition, pHypothesis, pSpan, pSpa
 		sync_bpm("time/subunit")
 		switchKeyswitchOn(keyswitch)
 		sync_bpm("time/subunit")
-		performArticulated(pitch, duration, velocityOn, velocityOff)
+		performMIDIArticulated(pitch, duration, velocityOn, velocityOff)
 		waitNumUnitsQuantised(duration)
 		switchKeyswitchOff(keyswitch)
 
@@ -312,7 +312,7 @@ define :performShortMidHypothesisForSpan do |pPosition, pHypothesis, pSpan, pSpa
 	end
 end
 
-define :performSustainedSynthesis do |pVoiceNumber|
+define :performMIDISustainedSynthesis do |pVoiceNumber|
 	svsp = get("settings/voices/sustained")[:performance]
 
 	instrument = getVoiceInstrument("sustained".freeze, pVoiceNumber)
