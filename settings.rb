@@ -61,6 +61,9 @@ set("settings/space", {
 
 	chanceProgress: 0.8, # [0,1]
 	chanceReturnToRoot: 0.2, # [0,1]
+	diminishedScales: [:locrian].freeze, # [any heptatonic scale]
+	majorScales: [:ionian, :lydian, :mixolydian].freeze, # [any heptatonic scale]
+	minorScales: [:dorian, :phrygian, :aeolian].freeze, # [any heptatonic scale]
 	progressions: nil, # [0,tonicity] | nil permits all progressions
 
 	initialKey: makeKey(0, :aeolian), # 0-11 [any heptatonic scale]

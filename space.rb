@@ -12,18 +12,18 @@ define :arePositionsProximate? do |pPosition0, pPosition1, pSpaceDomain, pProxim
 	return (frequencyDifference <= pProximityLimit)
 end
 
-define :calculateModulationToChordRoot do |pSpaceDomain, pChordRoot|
+define :calculateModulationToChordRoot do |pSpaceDomain, pChordRoot, pSettingsSpace|
   newTonic = ((calculatePitch(pChordRoot, pSpaceDomain) % 12))
   newThird =  ((calculatePitch((pChordRoot + 2), pSpaceDomain) % 12))
   newFifth =  ((calculatePitch((pChordRoot + 4), pSpaceDomain) % 12))
 
   if (((newThird - newTonic) == 4) || ((newTonic - newThird) == 8))
-    return makeKey(newTonic, [:ionian, :lydian, :mixolydian].choose)
+    return makeKey(newTonic, pSettingsSpace[:majorScales].choose)
   else
     if (((newFifth - newTonic) == 6) || ((newTonic - newFifth) == 6))
-      return makeKey(newTonic, :locrian)
+      return makeKey(newTonic, pSettingsSpace[:diminishedScales].choose)
     else
-			return makeKey(newTonic, [:dorian, :phrygian, :aeolian].choose)
+			return makeKey(newTonic, pSettingsSpace[:minorScales].choose)
     end
   end
 end
@@ -127,7 +127,7 @@ define :getCurrentTonicity do
 end
 
 define :modulate do
-	newKey = calculateModulationToChordRoot(getCurrentSpaceDomain(), get("space/chordRoot"))
+	newKey = calculateModulationToChordRoot(getCurrentSpaceDomain(), get("space/chordRoot"), get("settings/space"))
 	set("space/key", newKey)
 	set("space/chordRoot", 0)
 
