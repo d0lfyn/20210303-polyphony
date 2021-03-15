@@ -43,9 +43,9 @@ Setting               | Values                  | Description
 
 ### `"settings/space"`
 
-Setting               | Values                                   | Description
----                   | ---                                      | ---
-`initialKey`          | int 0-11, `:major`/`:minor`/`:locrian`   | key signature (0-11 corresponds to C-B)
+Setting               | Values                             | Description
+---                   | ---                                | ---
+`initialKey`          | int 0-11, [any heptatonic scale]   | key signature (0-11 corresponds to C-B)
 
 ### `"settings/voices"`
 

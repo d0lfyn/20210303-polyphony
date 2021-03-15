@@ -18,12 +18,12 @@ define :calculateModulationToChordRoot do |pSpaceDomain, pChordRoot|
   newFifth =  ((calculatePitch((pChordRoot + 4), pSpaceDomain) % 12))
 
   if (((newThird - newTonic) == 4) || ((newTonic - newThird) == 8))
-    return makeKey(newTonic, :major)
+    return makeKey(newTonic, [:ionian, :lydian, :mixolydian].choose)
   else
     if (((newFifth - newTonic) == 6) || ((newTonic - newFifth) == 6))
       return makeKey(newTonic, :locrian)
     else
-      return makeKey(newTonic, :minor)
+			return makeKey(newTonic, [:dorian, :phrygian, :aeolian].choose)
     end
   end
 end

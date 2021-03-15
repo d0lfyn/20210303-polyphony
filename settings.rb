@@ -63,7 +63,7 @@ set("settings/space", {
 	chanceReturnToRoot: 0.2, # [0,1]
 	progressions: nil, # [0,tonicity] | nil permits all progressions
 
-	initialKey: makeKey(0, :minor), # 0-11 :major/:minor
+	initialKey: makeKey(0, :aeolian), # 0-11 [any heptatonic scale]
 	numOctaves: 9, # int [1,)
 
 	maxPositionInterval: 5, # int [0,)
