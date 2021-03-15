@@ -166,7 +166,7 @@ define :launchCCSustained do |pVoiceNumber, pInstrument, pNumMeasures|
 		while isVoiceActive?("sustained".freeze, pVoiceNumber)
 			height = rand(scc[:maxHeight])
 			numSubunits = get("settings/metronome")[:numSubunits]
-			periodUnits = ((pNumMeasures - 2) * get("settings/metronome")[:numUnitsPerMeasure])
+			periodUnits = (dice(pNumMeasures) * get("settings/metronome")[:numUnitsPerMeasure])
 			periodSubunits = (periodUnits * numSubunits)
 			(0...periodUnits).each do |u|
 				(0...numSubunits).each do |su|
@@ -198,7 +198,7 @@ define :performArticulatedSynthesis do |pVoiceNumber|
 	with_midi_defaults(port: selectPort(pVoiceNumber, svap[:midiPorts]), channel: selectChannel(pVoiceNumber)) do
 		sync_bpm("time/subunit") # 4
 		sync_bpm("time/subunit") # 0
-		launchCCArticulated(pVoiceNumber, instrument)
+		launchCCArticulated(pVoiceNumber, instrument) unless instrument[:CC_NUMS].empty?
 		while evalChance?(svap[:chanceContinue])
 			compositeRhythm = getCompositeRhythm(getIntInRangePair(svap[:rangeNumRhythms]), svap[:rangeNumRhythmicDivisions], get("settings/metronome")[:numUnitsPerMeasure])
 			compositeRhythmSpans = convertOffsetsToSpans(compositeRhythm, get("settings/metronome")[:numUnitsPerMeasure])
@@ -330,7 +330,7 @@ define :performSustainedSynthesis do |pVoiceNumber|
 	with_midi_defaults(port: selectPort(pVoiceNumber, svsp[:midiPorts]), channel: selectChannel(pVoiceNumber)) do
 		sync_bpm("time/subunit") # 4
 		sync_bpm("time/subunit") # 0
-		launchCCSustained(pVoiceNumber, instrument, numMeasuresRemaining)
+		launchCCSustained(pVoiceNumber, instrument, numMeasuresRemaining) unless instrument[:CC_NUMS].empty?
 
 		sync_bpm("time/subunit")
 		switchKeyswitchOn(keyswitch)
