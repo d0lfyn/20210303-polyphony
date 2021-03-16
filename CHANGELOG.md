@@ -2,7 +2,7 @@
 
 v0.3.0 (2021-03-14)
 - [log](#v0.3.0)
-- [commits]("")
+- [tag]("https://github.com/dolphinOfDelphi/20210303-polyphony/releases/tag/v0.3.0")
 
 <hr/>
 
