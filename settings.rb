@@ -91,7 +91,9 @@ set("settings/voices/articulated", {
 	maxNumVoicesActive: 4, # int [0,)
   rangeNumToAddPerMeasure: makeRangePair(0, 1), # int [0,)
 
-  performance: {
+	useMIDI: true,
+
+  midiPerformance: {
 		chanceContinue: 0.9, # [0,1]
 		chanceRepeat: 0.75, # [0,1]
 
@@ -145,7 +147,9 @@ set("settings/voices/sustained", {
 	maxNumVoicesActive: 4, # int [0,)
   rangeNumToAddPerMeasure: makeRangePair(0, 3), # int [0,)
 
-  performance: {
+	useMIDI: true,
+
+  midiPerformance: {
     ensemble: get("ensembles")[:STRINGS],
 
     midiPorts: [

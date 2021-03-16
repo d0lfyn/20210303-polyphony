@@ -57,7 +57,9 @@ define :generateVoice do |pVoiceType, pVoiceNumber|
 		if isVoiceActive?(pVoiceType, pVoiceNumber)
 			logOptional("#{pVoiceType} #{pVoiceNumber.to_s} playing #{getVoiceSynthesis(pVoiceType, pVoiceNumber).to_s}")
 
-			send("performMIDI#{pVoiceType.capitalize}Synthesis", pVoiceNumber)
+			if get("settings/voices/#{pVoiceType}")[:useMIDI]
+				send("performMIDI#{pVoiceType.capitalize}Synthesis", pVoiceNumber)
+			end
 			clearVoice(pVoiceType, pVoiceNumber)
 
 			logOptional("#{pVoiceType} #{pVoiceNumber.to_s} done")
@@ -94,11 +96,11 @@ define :getAllSyntheses do
 end
 
 define :getAllVoicesNumbersArray do |pVoiceType|
-	return makeRangeArrayFromZero(get("settings/voices/#{pVoiceType}")[:performance][:ensemble].length)
+	return makeRangeArrayFromZero(get("settings/voices/#{pVoiceType}")[:midiPerformance][:ensemble].length)
 end
 
 define :getAllVoicesNumbersRange do |pVoiceType|
-	return (0...get("settings/voices/#{pVoiceType}")[:performance][:ensemble].length).freeze
+	return (0...get("settings/voices/#{pVoiceType}")[:midiPerformance][:ensemble].length).freeze
 end
 
 define :getAllVoicesSyntheses do |pVoiceType|
@@ -111,7 +113,7 @@ define :getAllVoicesSyntheses do |pVoiceType|
 end
 
 define :getVoiceInstrument do |pVoiceType, pNumber|
-	return get("settings/voices/#{pVoiceType}")[:performance][:ensemble][pNumber]
+	return get("settings/voices/#{pVoiceType}")[:midiPerformance][:ensemble][pNumber]
 end
 
 define :getVoiceSynthesis do |pVoiceType, pNumber|
@@ -134,7 +136,7 @@ end
 
 define :launchCCArticulated do |pVoiceNumber, pInstrument|
 	in_thread(name: "articulated#{pVoiceNumber.to_s}CC".to_sym) do
-		scc = get("settings/voices/articulated")[:performance][:ccMIDI]
+		scc = get("settings/voices/articulated")[:midiPerformance][:ccMIDI]
 
 		ccValue = scc[:base]
 		windUpCC(ccValue, pInstrument)
@@ -159,7 +161,7 @@ end
 
 define :launchCCSustained do |pVoiceNumber, pInstrument, pNumMeasures|
 	in_thread(name: "sustained#{pVoiceNumber.to_s}CC".to_sym) do
-		scc = get("settings/voices/sustained")[:performance][:ccMIDI]
+		scc = get("settings/voices/sustained")[:midiPerformance][:ccMIDI]
 
 		ccValue = scc[:base]
 		windUpCC(ccValue, pInstrument)
@@ -192,7 +194,7 @@ end
 
 define :performMIDIArticulatedSynthesis do |pVoiceNumber|
 	instrument = getVoiceInstrument("articulated".freeze, pVoiceNumber)
-	svap = get("settings/voices/articulated")[:performance]
+	svap = get("settings/voices/articulated")[:midiPerformance]
 	synthesis = getVoiceSynthesis("articulated".freeze, pVoiceNumber)
 
 	with_midi_defaults(port: selectPort(pVoiceNumber, svap[:midiPorts]), channel: selectChannel(pVoiceNumber)) do
@@ -243,7 +245,7 @@ define :performMIDIArticulatedSynthesis do |pVoiceNumber|
 end
 
 define :performMIDILegatoHypothesisForSpan do |pPosition, pHypothesis, pSpan, pSpaceDomain, pInstrument|
-	svapl = get("settings/voices/articulated")[:performance][:legatoMIDI]
+	svapl = get("settings/voices/articulated")[:midiPerformance][:legatoMIDI]
 
 	isOnFirstUnit = true
 	keyswitch = pInstrument[:LEGATO_SWITCHES].choose
@@ -281,7 +283,7 @@ define :performMIDILegatoHypothesisForSpan do |pPosition, pHypothesis, pSpan, pS
 end
 
 define :performMIDIShortMidHypothesisForSpan do |pPosition, pHypothesis, pSpan, pSpaceDomain, pInstrument|
-	svaps = get("settings/voices/articulated")[:performance][:shortMidMIDI]
+	svaps = get("settings/voices/articulated")[:midiPerformance][:shortMidMIDI]
 
 	isOnFirstUnit = true
 	unitsLeft = pSpan
@@ -313,7 +315,7 @@ define :performMIDIShortMidHypothesisForSpan do |pPosition, pHypothesis, pSpan, 
 end
 
 define :performMIDISustainedSynthesis do |pVoiceNumber|
-	svsp = get("settings/voices/sustained")[:performance]
+	svsp = get("settings/voices/sustained")[:midiPerformance]
 
 	instrument = getVoiceInstrument("sustained".freeze, pVoiceNumber)
 	keyswitch = instrument[:LONG_SWITCHES].choose
@@ -336,7 +338,7 @@ define :performMIDISustainedSynthesis do |pVoiceNumber|
 		switchKeyswitchOn(keyswitch)
 
 		sync_bpm("time/subunit")
-		midi_note_on(pitch, vel_f: calculateVelocity(get("settings/voices/sustained")[:performance][:longMIDI][:velocityOn]))
+		midi_note_on(pitch, vel_f: calculateVelocity(get("settings/voices/sustained")[:midiPerformance][:longMIDI][:velocityOn]))
 		sync_bpm("time/measure")
 		numMeasuresRemaining -= 1
 		while ((get("space/key") == startingKey) && (numMeasuresRemaining > 0))
@@ -351,7 +353,7 @@ define :performMIDISustainedSynthesis do |pVoiceNumber|
 			sync_bpm("time/measure")
 			numMeasuresRemaining -= 1
 		end
-		midi_note_off(pitch, vel_f: calculateVelocity(get("settings/voices/sustained")[:performance][:longMIDI][:velocityOff]))
+		midi_note_off(pitch, vel_f: calculateVelocity(get("settings/voices/sustained")[:midiPerformance][:longMIDI][:velocityOff]))
 
 		switchKeyswitchOff(keyswitch)
 	end
@@ -426,7 +428,7 @@ end
 
 define :signalAllActivePortsOff do
 	get("settings/voices")[:selection].each do |voiceType|
-    get("settings/voices/#{voiceType}")[:performance][:midiPorts].each do |port|
+    get("settings/voices/#{voiceType}")[:midiPerformance][:midiPorts].each do |port|
       midi_all_notes_off(port: port)
     end
   end
