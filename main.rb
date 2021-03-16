@@ -9,6 +9,8 @@ eval_file(File.join(DIRECTORY, "composition.rb"))
 eval_file(File.join(DIRECTORY, "ideation.rb"))
 eval_file(File.join(DIRECTORY, "logging.rb"))
 eval_file(File.join(DIRECTORY, "metronome.rb"))
+eval_file(File.join(DIRECTORY, "performance-helpers.rb"))
+eval_file(File.join(DIRECTORY, "performance-midi.rb"))
 eval_file(File.join(DIRECTORY, "performance.rb"))
 eval_file(File.join(DIRECTORY, "time.rb"))
 
