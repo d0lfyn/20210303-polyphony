@@ -41,6 +41,7 @@ set("settings/ideation/creation", {
 
 set("settings/logging", {
   shouldLogCues: false,
+	shouldLogDebug: false,
   shouldLogMIDI: false,
 
 	shouldLogOptional: true,
@@ -95,46 +96,62 @@ set("settings/voices/articulated", {
 		chanceContinue: 0.9, # [0,1]
 		chanceRepeat: 0.75, # [0,1]
 
-		chanceLegato: 0, # [0,1]
-		legatoSpanThreshold: 8, # int [1,)
-
-    ensemble: get("ensembles")[:STRINGS],
-
-    midiPorts: [
-      "polyphony-articulated-0_2",
-      # "polyphony-articulated-1_4",
-    ].freeze,
-
 		rangeNumRhythmicDivisions: makeRangePair(1, 8), # int [1,)
 		rangeNumRhythms: makeRangePair(1, 2), # int [1,)
 
-		ccMIDI: {
-			base: 0.5, # [0,1]
-			maxHeight: 0.15, # [0,1]
-			rangeNumMeasuresInPeriod: makeRangePair(2, 4), # int [1,)
-		},
-		legatoMIDI: {
-			velocityOff: {
-				base: 0.75, # [0,1]
-				rangeRandom: makeMirrorRangePair(0.1), # [0,1]
+		useMIDI: false,
+
+		midi: {
+			chanceLegato: 0, # [0,1]
+			legatoSpanThreshold: 8, # int [1,)
+
+			ensemble: get("ensembles/midi")[:STRINGS],
+
+			ports: [
+				"polyphony-articulated-0_2",
+				# "polyphony-articulated-1_4",
+			].freeze,
+
+			cc: {
+				base: 0.5, # [0,1]
+				maxHeight: 0.15, # [0,1]
+				rangeNumMeasuresInPeriod: makeRangePair(2, 4), # int [1,)
+			},
+			legato: {
+				velocityOff: {
+					base: 0.75, # [0,1]
+					rangeRandom: makeMirrorRangePair(0.1), # [0,1]
+				}.freeze,
+				velocityOn: {
+					accent: 0, # [0,1]
+					base: 1, # [0,1]
+					rangeRandom: makeRangePair(-0.9, 0), # [0,1]
+				}.freeze,
 			}.freeze,
-			velocityOn: {
-				accent: 0, # [0,1]
-				base: 1, # [0,1]
-				rangeRandom: makeRangePair(-0.9, 0), # [0,1]
+			shortMid: {
+				durationMid: 2,
+
+				velocityOff: {
+					base: 0.75, # [0,1]
+					rangeRandom: makeMirrorRangePair(0.1), # [0,1]
+				}.freeze,
+				velocityOn: {
+					accent: 0.1, # [0,1]
+					base: 0.5, # [0,1]
+					rangeRandom: makeMirrorRangePair(0.1), # [0,1]
+				}.freeze,
 			}.freeze,
 		}.freeze,
-		shortMidMIDI: {
-			durationMid: 2,
 
-			velocityOff: {
-				base: 0.75, # [0,1]
-				rangeRandom: makeMirrorRangePair(0.1), # [0,1]
-			}.freeze,
-			velocityOn: {
-				accent: 0.1, # [0,1]
-				base: 0.5, # [0,1]
-				rangeRandom: makeMirrorRangePair(0.1), # [0,1]
+		spi: {
+			ensemble: get("ensembles/spi")[:SYNTHS_SATB],
+
+			shortMid: {
+				amp: {
+					accent: 0.1, # [0,1]
+					base: 0.5, # [0,1]
+					rangeRandom: makeMirrorRangePair(0.1), # [0,1]
+				}.freeze,
 			}.freeze,
 		}.freeze,
   }.freeze,
@@ -146,27 +163,42 @@ set("settings/voices/sustained", {
   rangeNumToAddPerMeasure: makeRangePair(0, 3), # int [0,)
 
   performance: {
-    ensemble: get("ensembles")[:STRINGS],
-
-    midiPorts: [
-      "polyphony-sustained-0_3",
-      # "polyphony-sustained-0_5",
-    ].freeze,
-
 		rangeNumMeasuresToSustain: makeRangePair(3, 4), # int [1,)
 
-		ccMIDI: {
-			base: 0.5, # [0,1]
-			maxHeight: 0.15, # [0,1]
-		},
-		longMIDI: {
-			velocityOff: {
-				base: 0.75, # [0,1]
-				rangeRandom: makeMirrorRangePair(0.1), # [0,1]
+		useMIDI: false,
+
+		midi: {
+			ensemble: get("ensembles/midi")[:STRINGS],
+
+			ports: [
+				"polyphony-sustained-0_3",
+				# "polyphony-sustained-0_5",
+			].freeze,
+
+			cc: {
+				base: 0.5, # [0,1]
+				maxHeight: 0.15, # [0,1]
+			},
+			long: {
+				velocityOff: {
+					base: 0.75, # [0,1]
+					rangeRandom: makeMirrorRangePair(0.1), # [0,1]
+				}.freeze,
+				velocityOn: {
+					base: 0.3, # [0,1]
+					rangeRandom: makeMirrorRangePair(0.1), # [0,1]
+				}.freeze,
 			}.freeze,
-			velocityOn: {
-				base: 0.3, # [0,1]
-				rangeRandom: makeMirrorRangePair(0.1), # [0,1]
+		}.freeze,
+
+		spi: {
+			ensemble: get("ensembles/spi")[:SYNTHS_SATB],
+
+			long: {
+				amp: {
+					base: 0.25, # [0,1]
+					rangeRandom: makeMirrorRangePair(0.1), # [0,1]
+				}.freeze,
 			}.freeze,
 		}.freeze,
   }.freeze,

@@ -1,4 +1,4 @@
-# ***Polyphony*** `v0.3.0 (initium)` *for Sonic Pi*
+# ***Polyphony*** `v0.3.2 (initium)` *for Sonic Pi*
 
 ## Contents
 
@@ -16,13 +16,28 @@ This project is under active development.
 ## Setup
 
 1. On line 1 of `main.rb`, replace the `DIRECTORY` string with the location of the project
-2. Within the `selection` array in `"settings/voices"` in `settings.rb`, comment/uncomment desired sections to play.
-3. Set up new instruments as desired:
- - within `INSTRUMENTS` on line 1 in `ensembles.rb`, enter new instruments (use an existing instrument as a template!)
- - within `ensembles` below `INSTRUMENTS` in `ensembles.rb`, enter new ensembles using instruments from `INSTRUMENTS`
- - for `ensemble` in `"settings/voices/articulated"` and `"settings/voices/sustained"` of `settings.rb`, replace the symbols with the appropriate ensemble
-4. under `midiPorts` in `"settings/voices/articulated"` and `"settings/voices/sustained"` of `settings.rb`, replace the array entries with the appropriate MIDI out ports
-5. In Sonic Pi, run the following: `run_file("LOCATION")`, replacing `LOCATION` with the location of the project
+1. Within the `selection` array in `"settings/voices"` in `settings.rb`, comment/uncomment desired sections to play
+1. To use Sonic Pi's internal synths, proceed to [Sonic Pi Setup](#sonic-pi-setup). To use MIDI, proceed to [MIDI Setup](#midi-setup)
+1. In Sonic Pi, run the following: `run_file("LOCATION")`, replacing `LOCATION` with the location of the project
+
+## Sonic Pi Setup
+
+1. Set `useMIDI` in `"settings/voices/articulated"` and `"settings/voices/sustained"` of `settings.rb` to `false`
+1. Set up new instruments:
+	- within `SPI_INSTRUMENTS` in `ensembles.rb`, enter new instruments (use an existing instrument as a template!)
+	- within `ensembles` in `ensembles.rb`, enter new ensembles using instruments from `SPI_INSTRUMENTS`
+	- for `ensemble` in `"settings/voices/articulated" > performance > spi` and `"settings/voices/sustained" > performance > spi` of `settings.rb`, replace the symbols with the appropriate ensemble
+1. Proceed with [setup](#setup)
+
+## MIDI Setup
+
+1. Set `useMIDI` in `"settings/voices/articulated"` and `"settings/voices/sustained"` of `settings.rb` to `true`
+1. Set up new instruments:
+	- within `MIDI_INSTRUMENTS` in `ensembles.rb`, enter new instruments (use an existing instrument as a template!)
+	- within `ensembles` in `ensembles.rb`, enter new ensembles using instruments from `MIDI_INSTRUMENTS`
+	- for `ensemble` in `"settings/voices/articulated" > performance > midi` and `"settings/voices/sustained" > performance > midi` of `settings.rb`, replace the symbols with the appropriate ensemble
+1. Under `ports` in `"settings/voices/articulated"` and `"settings/voices/sustained"` of `settings.rb`, replace the array entries with the appropriate MIDI out ports
+1. Proceed with [setup](#setup)
 
 ## Quick Settings
 
@@ -58,14 +73,14 @@ Setting               | Values                         | Description
 Setting               | Values                               | Description
 ---                   | ---                                  | ---
 `ensemble`            | (see `ensembles` in `ensembles.rb`)  | ensemble to use
-`midiPorts`           | MIDI out port from sonic pi          | ports to use
+`ports`               | MIDI out port from sonic pi          | ports to use
 
 ### `"settings/voices/sustained"`
 
 Setting               | Values                               | Description
 ---                   | ---                                  | ---
 `ensemble`            | (see `ensembles` in `ensembles.rb`)  | ensemble to use
-`midiPorts`           | MIDI out port from sonic pi          | ports to use
+`ports`               | MIDI out port from sonic pi          | ports to use
 
 ## Questions and Comments
 

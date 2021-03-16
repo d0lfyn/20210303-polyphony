@@ -254,7 +254,7 @@ define :rearrangeArticulatedVoices do |pOriginalKey|
 				addedSyntheses.push(newSynthesis)
 			end
 
-			puts("articulated #{i.to_s} switching from #{oldPosition.to_s} to #{newPosition.to_s}") if get("settings/general")[:shouldLogOptional]
+			logOptional("articulated #{i.to_s} switching from #{oldPosition.to_s} to #{newPosition.to_s}")
 		end
 	end
 
