@@ -13,7 +13,7 @@ Make music with *Polyphony*. Ideate. Compose. Perform.
 
 This project is under active development.
 
-## Setup
+## MIDI Setup
 
 1. On line 1 of `main.rb`, replace the `DIRECTORY` string with the location of the project
 2. Within the `selection` array in `"settings/voices"` in `settings.rb`, comment/uncomment desired sections to play.
@@ -21,7 +21,7 @@ This project is under active development.
  - within `INSTRUMENTS` on line 1 in `ensembles.rb`, enter new instruments (use an existing instrument as a template!)
  - within `ensembles` below `INSTRUMENTS` in `ensembles.rb`, enter new ensembles using instruments from `INSTRUMENTS`
  - for `ensemble` in `"settings/voices/articulated"` and `"settings/voices/sustained"` of `settings.rb`, replace the symbols with the appropriate ensemble
-4. under `midiPorts` in `"settings/voices/articulated"` and `"settings/voices/sustained"` of `settings.rb`, replace the array entries with the appropriate MIDI out ports
+4. under `ports` in `"settings/voices/articulated"` and `"settings/voices/sustained"` of `settings.rb`, replace the array entries with the appropriate MIDI out ports
 5. In Sonic Pi, run the following: `run_file("LOCATION")`, replacing `LOCATION` with the location of the project
 
 ## Quick Settings
@@ -58,14 +58,14 @@ Setting               | Values                         | Description
 Setting               | Values                               | Description
 ---                   | ---                                  | ---
 `ensemble`            | (see `ensembles` in `ensembles.rb`)  | ensemble to use
-`midiPorts`           | MIDI out port from sonic pi          | ports to use
+`ports`               | MIDI out port from sonic pi          | ports to use
 
 ### `"settings/voices/sustained"`
 
 Setting               | Values                               | Description
 ---                   | ---                                  | ---
 `ensemble`            | (see `ensembles` in `ensembles.rb`)  | ensemble to use
-`midiPorts`           | MIDI out port from sonic pi          | ports to use
+`ports`               | MIDI out port from sonic pi          | ports to use
 
 ## Questions and Comments
 

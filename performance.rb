@@ -24,7 +24,7 @@ define :generateVoice do |pVoiceType, pVoiceNumber|
 		if isVoiceActive?(pVoiceType, pVoiceNumber)
 			logOptional("#{pVoiceType} #{pVoiceNumber.to_s} playing #{getVoiceSynthesis(pVoiceType, pVoiceNumber).to_s}")
 
-			if get("settings/voices/#{pVoiceType}")[:useMIDI]
+			if get("settings/voices/#{pVoiceType}")[:performance][:useMIDI]
 				send("performMIDI#{pVoiceType.capitalize}Synthesis", pVoiceNumber)
 			else
 				send("performInternal#{pVoiceType.capitalize}Synthesis", pVoiceNumber)

@@ -8,7 +8,7 @@ end
 
 define :launchCCArticulated do |pVoiceNumber, pInstrument|
 	in_thread(name: "articulated#{pVoiceNumber.to_s}CC".to_sym) do
-		scc = get("settings/voices/articulated")[:midiPerformance][:ccMIDI]
+		scc = get("settings/voices/articulated")[:performance][:midi][:cc]
 
 		ccValue = scc[:base]
 		windUpCC(ccValue, pInstrument)
@@ -33,7 +33,7 @@ end
 
 define :launchCCSustained do |pVoiceNumber, pInstrument, pNumMeasures|
 	in_thread(name: "sustained#{pVoiceNumber.to_s}CC".to_sym) do
-		scc = get("settings/voices/sustained")[:midiPerformance][:ccMIDI]
+		scc = get("settings/voices/sustained")[:performance][:midi][:cc]
 
 		ccValue = scc[:base]
 		windUpCC(ccValue, pInstrument)
@@ -66,10 +66,10 @@ end
 
 define :performMIDIArticulatedSynthesis do |pVoiceNumber|
 	instrument = getVoiceInstrument("articulated".freeze, pVoiceNumber)
-	svap = get("settings/voices/articulated")[:midiPerformance]
+	svap = get("settings/voices/articulated")[:performance]
 	synthesis = getVoiceSynthesis("articulated".freeze, pVoiceNumber)
 
-	with_midi_defaults(port: selectPort(pVoiceNumber, svap[:midiPorts]), channel: selectChannel(pVoiceNumber)) do
+	with_midi_defaults(port: selectPort(pVoiceNumber, svap[:midi][:ports]), channel: selectChannel(pVoiceNumber)) do
 		sync_bpm("time/subunit") # 4
 		sync_bpm("time/subunit") # 0
 		launchCCArticulated(pVoiceNumber, instrument) unless instrument[:CC_NUMS].empty?
@@ -80,7 +80,7 @@ define :performMIDIArticulatedSynthesis do |pVoiceNumber|
 			while evalChance?(svap[:chanceRepeat])
 				spaceDomain = getCurrentSpaceDomain()
 				compositeRhythmSpans.each do |span|
-					if ((span >= svap[:legatoSpanThreshold]) && evalChance?(svap[:chanceLegato]))
+					if ((span >= svap[:midi][:legatoSpanThreshold]) && evalChance?(svap[:midi][:chanceLegato]))
 						performMIDILegatoHypothesisForSpan(synthesis[:position], hypothesis, span, spaceDomain, instrument)
 					else
 						performMIDIShortMidHypothesisForSpan(synthesis[:position], hypothesis, span, spaceDomain, instrument)
@@ -94,7 +94,7 @@ define :performMIDIArticulatedSynthesis do |pVoiceNumber|
 				hypothesis = synthesis[:hypotheses].choose
 				spaceDomain = getCurrentSpaceDomain()
 				span = get("settings/metronome")[:numUnitsPerMeasure]
-				if evalChance?(svap[:chanceLegato])
+				if evalChance?(svap[:midi][:chanceLegato])
 					performMIDILegatoHypothesisForSpan(synthesis[:position], hypothesis, span, spaceDomain, instrument)
 				else
 					performMIDIShortMidHypothesisForSpan(synthesis[:position], hypothesis, span, spaceDomain, instrument)
@@ -107,7 +107,7 @@ define :performMIDIArticulatedSynthesis do |pVoiceNumber|
 			hypothesis = synthesis[:hypotheses].choose
 			spaceDomain = getCurrentSpaceDomain()
 			span = get("settings/metronome")[:numUnitsPerMeasure]
-			if evalChance?(svap[:chanceLegato])
+			if evalChance?(svap[:midi][:chanceLegato])
 				performMIDILegatoHypothesisForSpan(synthesis[:position], hypothesis, span, spaceDomain, instrument)
 			else
 				performMIDIShortMidHypothesisForSpan(synthesis[:position], hypothesis, span, spaceDomain, instrument)
@@ -117,7 +117,7 @@ define :performMIDIArticulatedSynthesis do |pVoiceNumber|
 end
 
 define :performMIDILegatoHypothesisForSpan do |pPosition, pHypothesis, pSpan, pSpaceDomain, pInstrument|
-	svapl = get("settings/voices/articulated")[:midiPerformance][:legatoMIDI]
+	svapl = get("settings/voices/articulated")[:performance][:midi][:legato]
 
 	isOnFirstUnit = true
 	keyswitch = pInstrument[:LEGATO_SWITCHES].choose
@@ -155,7 +155,7 @@ define :performMIDILegatoHypothesisForSpan do |pPosition, pHypothesis, pSpan, pS
 end
 
 define :performMIDIShortMidHypothesisForSpan do |pPosition, pHypothesis, pSpan, pSpaceDomain, pInstrument|
-	svaps = get("settings/voices/articulated")[:midiPerformance][:shortMidMIDI]
+	svaps = get("settings/voices/articulated")[:performance][:midi][:shortMid]
 
 	isOnFirstUnit = true
 	unitsLeft = pSpan
@@ -187,7 +187,7 @@ define :performMIDIShortMidHypothesisForSpan do |pPosition, pHypothesis, pSpan, 
 end
 
 define :performMIDISustainedSynthesis do |pVoiceNumber|
-	svsp = get("settings/voices/sustained")[:midiPerformance]
+	svsp = get("settings/voices/sustained")[:performance]
 
 	instrument = getVoiceInstrument("sustained".freeze, pVoiceNumber)
 	keyswitch = instrument[:LONG_SWITCHES].choose
@@ -201,7 +201,7 @@ define :performMIDISustainedSynthesis do |pVoiceNumber|
 	synthesis = getVoiceSynthesis("sustained".freeze, pVoiceNumber)
 	pitch = calculatePitch(synthesis[:position], getCurrentSpaceDomain())
 
-	with_midi_defaults(port: selectPort(pVoiceNumber, svsp[:midiPorts]), channel: selectChannel(pVoiceNumber)) do
+	with_midi_defaults(port: selectPort(pVoiceNumber, svsp[:midi][:ports]), channel: selectChannel(pVoiceNumber)) do
 		sync_bpm("time/subunit") # 4
 		sync_bpm("time/subunit") # 0
 		launchCCSustained(pVoiceNumber, instrument, numMeasuresRemaining) unless instrument[:CC_NUMS].empty?
@@ -210,7 +210,7 @@ define :performMIDISustainedSynthesis do |pVoiceNumber|
 		switchKeyswitchOn(keyswitch)
 
 		sync_bpm("time/subunit")
-		midi_note_on(pitch, vel_f: calculateVelocity(get("settings/voices/sustained")[:midiPerformance][:longMIDI][:velocityOn]))
+		midi_note_on(pitch, vel_f: calculateVelocity(svsp[:midi][:long][:velocityOn]))
 		sync_bpm("time/measure")
 		numMeasuresRemaining -= 1
 		while ((get("space/key") == startingKey) && (numMeasuresRemaining > 0))
@@ -225,7 +225,7 @@ define :performMIDISustainedSynthesis do |pVoiceNumber|
 			sync_bpm("time/measure")
 			numMeasuresRemaining -= 1
 		end
-		midi_note_off(pitch, vel_f: calculateVelocity(get("settings/voices/sustained")[:midiPerformance][:longMIDI][:velocityOff]))
+		midi_note_off(pitch, vel_f: calculateVelocity(svsp[:midi][:long][:velocityOff]))
 
 		switchKeyswitchOff(keyswitch)
 	end
@@ -255,7 +255,7 @@ end
 
 define :signalAllActivePortsOff do
 	get("settings/voices")[:selection].each do |voiceType|
-    get("settings/voices/#{voiceType}")[:midiPerformance][:midiPorts].each do |port|
+    get("settings/voices/#{voiceType}")[:performance][:midi][:ports].each do |port|
       midi_all_notes_off(port: port)
     end
   end
