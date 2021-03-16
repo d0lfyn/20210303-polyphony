@@ -8,6 +8,7 @@ define :activateVoices do |pVoiceType|
 	numVoicesRemaining = (get("settings/voices/#{pVoiceType}")[:maxNumVoicesActive] - numVoicesActive)
 	numVoicesToAdd = getMin(numVoicesToAdd, numVoicesRemaining)
 
+puts numVoicesActive
 	unless numVoicesToAdd.zero?
 		getAllVoicesNumbersArray(pVoiceType).shuffle.each do |vn|
 			if (isVoiceFree?(pVoiceType, vn) && send("prepare#{pVoiceType.capitalize}Synthesis?", vn))
@@ -27,7 +28,7 @@ define :generateVoice do |pVoiceType, pVoiceNumber|
 			if get("settings/voices/#{pVoiceType}")[:performance][:useMIDI]
 				send("performMIDI#{pVoiceType.capitalize}Synthesis", pVoiceNumber)
 			else
-				send("performInternal#{pVoiceType.capitalize}Synthesis", pVoiceNumber)
+				send("performSPi#{pVoiceType.capitalize}Synthesis", pVoiceNumber)
 			end
 			clearVoice(pVoiceType, pVoiceNumber)
 

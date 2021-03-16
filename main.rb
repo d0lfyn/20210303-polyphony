@@ -11,6 +11,7 @@ eval_file(File.join(DIRECTORY, "logging.rb"))
 eval_file(File.join(DIRECTORY, "metronome.rb"))
 eval_file(File.join(DIRECTORY, "performance-helpers.rb"))
 eval_file(File.join(DIRECTORY, "performance-midi.rb"))
+eval_file(File.join(DIRECTORY, "performance-spi.rb"))
 eval_file(File.join(DIRECTORY, "performance.rb"))
 eval_file(File.join(DIRECTORY, "time.rb"))
 
@@ -26,6 +27,7 @@ use_tuning(get("settings/space")[:tuning])
 
 use_random_seed(get("settings/general")[:seed])
 use_cue_logging(get("settings/general")[:shouldLogCues])
+use_debug(get("settings/general")[:shouldLogDebug])
 use_midi_logging(get("settings/general")[:shouldLogMIDI])
 
 # time-state

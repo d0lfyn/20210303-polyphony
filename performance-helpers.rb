@@ -56,11 +56,19 @@ define :getAllSyntheses do
 end
 
 define :getAllVoicesNumbersArray do |pVoiceType|
-	return makeRangeArrayFromZero(get("settings/voices/#{pVoiceType}")[:performance][:midi][:ensemble].length)
+	if get("settings/voices/#{pVoiceType}")[:performance][:useMIDI]
+		return makeRangeArrayFromZero(get("settings/voices/#{pVoiceType}")[:performance][:midi][:ensemble].length)
+	else
+		return makeRangeArrayFromZero(get("settings/voices/#{pVoiceType}")[:performance][:spi][:ensemble].length)
+	end
 end
 
 define :getAllVoicesNumbersRange do |pVoiceType|
-	return (0...get("settings/voices/#{pVoiceType}")[:performance][:midi][:ensemble].length).freeze
+	if get("settings/voices/#{pVoiceType}")[:performance][:useMIDI]
+		return (0...get("settings/voices/#{pVoiceType}")[:performance][:midi][:ensemble].length).freeze
+	else
+		return (0...get("settings/voices/#{pVoiceType}")[:performance][:spi][:ensemble].length).freeze
+	end
 end
 
 define :getAllVoicesSyntheses do |pVoiceType|
@@ -73,6 +81,18 @@ define :getAllVoicesSyntheses do |pVoiceType|
 end
 
 define :getVoiceInstrument do |pVoiceType, pNumber|
+	if get("settings/voices/#{pVoiceType}")[:performance][:useMIDI]
+		return getVoiceMIDIInstrument(pVoiceType, pNumber)
+	else
+		return getVoiceSPiInstrument(pVoiceType, pNumber)
+	end
+end
+
+define :getVoiceSPiInstrument do |pVoiceType, pNumber|
+	return get("settings/voices/#{pVoiceType}")[:performance][:spi][:ensemble][pNumber]
+end
+
+define :getVoiceMIDIInstrument do |pVoiceType, pNumber|
 	return get("settings/voices/#{pVoiceType}")[:performance][:midi][:ensemble][pNumber]
 end
 
