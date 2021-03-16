@@ -18,7 +18,7 @@ This project is under active development.
 1. On line 1 of `main.rb`, replace the `DIRECTORY` string with the location of the project
 1. Within the `selection` array in `"settings/voices"` in `settings.rb`, comment/uncomment desired sections to play
 1. To use Sonic Pi's internal synths, proceed to [Sonic Pi Setup](#sonic-pi-setup). To use MIDI, proceed to [MIDI Setup](#midi-setup)
-1. In Sonic Pi, run the following: `run_file("LOCATION")`, replacing `LOCATION` with the location of the project
+1. In Sonic Pi, run the following: `run_file "LOCATION/20210303-polyphony/main.rb"`, replacing `LOCATION` with the location of the project (e.g. `run_file "~/OneDrive/music-production/sonic-pi/20210303-polyphony/main.rb"`)
 
 ## Sonic Pi Setup
 
