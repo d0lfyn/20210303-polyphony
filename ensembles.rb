@@ -128,22 +128,18 @@ SPI_INSTRUMENTS = {
 	ALTO: {
 		SYNTH: :saw,
 		RANGE: makeRangePair(note(:G3), note(:C5)),
-		RANGE: makeRangePair(note(:C3), note(:C6)),
 	}.freeze,
 	BASS: {
 		SYNTH: :fm,
 		RANGE: makeRangePair(note(:F2), note(:C4)),
-		RANGE: makeRangePair(note(:C2), note(:G5)),
 	}.freeze,
 	SOPRANO: {
 		SYNTH: :square,
 		RANGE: makeRangePair(note(:Bb3), note(:E5)),
-		RANGE: makeRangePair(note(:G3), note(:G6)),
 	}.freeze,
 	TENOR: {
 		SYNTH: :pulse,
 		RANGE: makeRangePair(note(:C3), note(:G4)),
-		RANGE: makeRangePair(note(:C3), note(:C6)),
 	}.freeze,
 }.freeze
 
