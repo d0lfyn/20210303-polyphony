@@ -13,6 +13,13 @@ define :performSPiArticulated do |pPitch, pDuration, pAmp|
 	end
 end
 
+define :performSPiArticulatedConclusion do |pSynthesis, pInstrument|
+	hypothesis = pSynthesis[:hypotheses].choose
+	spaceDomain = getCurrentSpaceDomain()
+	span = get("settings/metronome")[:numUnitsPerMeasure]
+	performSPiShortMidHypothesisForSpan(pSynthesis[:position], hypothesis, span, spaceDomain, pInstrument)
+end
+
 define :performSPiArticulatedSynthesis do |pVoiceNumber|
 	instrument = getVoiceSPiInstrument("articulated".freeze, pVoiceNumber)
 	svap = get("settings/voices/articulated")[:performance]
@@ -30,25 +37,16 @@ define :performSPiArticulatedSynthesis do |pVoiceNumber|
 				compositeRhythmSpans.each do |span|
 					performSPiShortMidHypothesisForSpan(synthesis[:position], hypothesis, span, spaceDomain, instrument)
 				end
-
 				synthesis = getVoiceSynthesis("articulated".freeze, pVoiceNumber)
 				break if synthesis.nil?
 			end
 			unless synthesis.nil?
-				hypothesis = synthesis[:hypotheses].choose
-				spaceDomain = getCurrentSpaceDomain()
-				span = get("settings/metronome")[:numUnitsPerMeasure]
-				performSPiShortMidHypothesisForSpan(synthesis[:position], hypothesis, span, spaceDomain, instrument)
+				performSPiArticulatedConclusion(synthesis, instrument)
 			else
 				break
 			end
 		end
-		unless synthesis.nil?
-			hypothesis = synthesis[:hypotheses].choose
-			spaceDomain = getCurrentSpaceDomain()
-			span = get("settings/metronome")[:numUnitsPerMeasure]
-			performSPiShortMidHypothesisForSpan(synthesis[:position], hypothesis, span, spaceDomain, instrument)
-		end
+		performSPiArticulatedConclusion(synthesis, instrument) unless synthesis.nil?
 	end
 end
 

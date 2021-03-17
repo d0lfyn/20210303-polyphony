@@ -1,4 +1,4 @@
-# ***Polyphony*** `v0.3.2 (initium)` *for Sonic Pi*
+# ***Polyphony*** `v0.3.3 (initium)` *for Sonic Pi*
 
 ## Contents
 
@@ -22,20 +22,20 @@ This project is under active development.
 
 ## Sonic Pi Setup
 
-1. Set `useMIDI` in `"settings/voices/articulated"` and `"settings/voices/sustained"` of `settings.rb` to `false`
+1. Set `useMIDI` in `"settings/voices/articulated" > performance` and `"settings/voices/sustained" > performance` of `settings.rb` to `false`
 1. Set up new instruments:
 	- within `SPI_INSTRUMENTS` in `ensembles.rb`, enter new instruments (use an existing instrument as a template!)
 	- within `ensembles` in `ensembles.rb`, enter new ensembles using instruments from `SPI_INSTRUMENTS`
-	- for `ensemble` in `"settings/voices/articulated" > performance > spi` and `"settings/voices/sustained" > performance > spi` of `settings.rb`, replace the symbols with the appropriate ensemble
+	- for `ensemble` in `"settings/voices/articulated" > performance > spi` and `"settings/voices/sustained" > performance > spi` of `settings.rb`, set the appropriate ensembles
 1. Proceed with [setup](#setup)
 
 ## MIDI Setup
 
-1. Set `useMIDI` in `"settings/voices/articulated"` and `"settings/voices/sustained"` of `settings.rb` to `true`
+1. Set `useMIDI` in `"settings/voices/articulated" > performance` and `"settings/voices/sustained" > performance` of `settings.rb` to `true`
 1. Set up new instruments:
 	- within `MIDI_INSTRUMENTS` in `ensembles.rb`, enter new instruments (use an existing instrument as a template!)
 	- within `ensembles` in `ensembles.rb`, enter new ensembles using instruments from `MIDI_INSTRUMENTS`
-	- for `ensemble` in `"settings/voices/articulated" > performance > midi` and `"settings/voices/sustained" > performance > midi` of `settings.rb`, replace the symbols with the appropriate ensemble
+	- for `ensemble` in `"settings/voices/articulated" > performance > midi` and `"settings/voices/sustained" > performance > midi` of `settings.rb`, replace the symbols with the appropriate ensembles
 1. Under `ports` in `"settings/voices/articulated"` and `"settings/voices/sustained"` of `settings.rb`, replace the array entries with the appropriate MIDI out ports
 1. Proceed with [setup](#setup)
 

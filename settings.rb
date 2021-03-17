@@ -34,6 +34,8 @@ set("settings/ideation/creation", {
 	displacementLimit: 5, # int [0,)
 	displacementIntervalLimit: 5, # int [0,)
 
+	shouldMergeBriefStart: true,
+
 	weightForDisplacementIntervals: 0, # [-1,1] | -ve for small intervals, +ve for large intervals
 
 	weightForSpans: 0, # [-1,1] | -ve for small spans, +ve for large spans
@@ -105,7 +107,7 @@ set("settings/voices/articulated", {
 			chanceLegato: 0, # [0,1]
 			legatoSpanThreshold: 8, # int [1,)
 
-			ensemble: get("ensembles/midi")[:STRINGS],
+			ensemble: get("ensembles/midi")[:BBCSO_STRINGS_4],
 
 			ports: [
 				"polyphony-articulated-0_2",
@@ -144,7 +146,7 @@ set("settings/voices/articulated", {
 		}.freeze,
 
 		spi: {
-			ensemble: get("ensembles/spi")[:SYNTHS_SATB],
+			ensemble: get("ensembles/spi")[:SYNTHS_SATB_8],
 
 			shortMid: {
 				amp: {
@@ -168,7 +170,7 @@ set("settings/voices/sustained", {
 		useMIDI: false,
 
 		midi: {
-			ensemble: get("ensembles/midi")[:STRINGS],
+			ensemble: get("ensembles/midi")[:BBCSO_STRINGS_4],
 
 			ports: [
 				"polyphony-sustained-0_3",
@@ -192,7 +194,7 @@ set("settings/voices/sustained", {
 		}.freeze,
 
 		spi: {
-			ensemble: get("ensembles/spi")[:SYNTHS_SATB],
+			ensemble: get("ensembles/spi")[:SYNTHS_SATB_8],
 
 			long: {
 				amp: {

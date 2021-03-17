@@ -64,6 +64,17 @@ define :performMIDIArticulated do |pPitch, pDuration, pVelocityOn, pVelocityOff|
 	end
 end
 
+define :performMIDIArticulatedConclusion do |pSynthesis, pInstrument|
+	hypothesis = pSynthesis[:hypotheses].choose
+	spaceDomain = getCurrentSpaceDomain()
+	span = get("settings/metronome")[:numUnitsPerMeasure]
+	if evalChance?(get("settings/voices/articulated")[:performance][:midi][:chanceLegato])
+		performMIDILegatoHypothesisForSpan(pSynthesis[:position], hypothesis, span, spaceDomain, pInstrument)
+	else
+		performMIDIShortMidHypothesisForSpan(pSynthesis[:position], hypothesis, span, spaceDomain, pInstrument)
+	end
+end
+
 define :performMIDIArticulatedSynthesis do |pVoiceNumber|
 	instrument = getVoiceMIDIInstrument("articulated".freeze, pVoiceNumber)
 	svap = get("settings/voices/articulated")[:performance]
@@ -86,32 +97,17 @@ define :performMIDIArticulatedSynthesis do |pVoiceNumber|
 						performMIDIShortMidHypothesisForSpan(synthesis[:position], hypothesis, span, spaceDomain, instrument)
 					end
 				end
-
 				synthesis = getVoiceSynthesis("articulated".freeze, pVoiceNumber)
 				break if synthesis.nil?
 			end
 			unless synthesis.nil?
-				hypothesis = synthesis[:hypotheses].choose
-				spaceDomain = getCurrentSpaceDomain()
-				span = get("settings/metronome")[:numUnitsPerMeasure]
-				if evalChance?(svap[:midi][:chanceLegato])
-					performMIDILegatoHypothesisForSpan(synthesis[:position], hypothesis, span, spaceDomain, instrument)
-				else
-					performMIDIShortMidHypothesisForSpan(synthesis[:position], hypothesis, span, spaceDomain, instrument)
-				end
+				performMIDIArticulatedConclusion(synthesis, instrument)
 			else
 				break
 			end
 		end
 		unless synthesis.nil?
-			hypothesis = synthesis[:hypotheses].choose
-			spaceDomain = getCurrentSpaceDomain()
-			span = get("settings/metronome")[:numUnitsPerMeasure]
-			if evalChance?(svap[:midi][:chanceLegato])
-				performMIDILegatoHypothesisForSpan(synthesis[:position], hypothesis, span, spaceDomain, instrument)
-			else
-				performMIDIShortMidHypothesisForSpan(synthesis[:position], hypothesis, span, spaceDomain, instrument)
-			end
+			performMIDIArticulatedConclusion(synthesis, instrument)
 		end
 	end
 end
