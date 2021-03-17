@@ -98,16 +98,14 @@ set("settings/voices/articulated", {
 		chanceContinue: 0.9, # [0,1]
 		chanceRepeat: 0.75, # [0,1]
 
+		ensemble: get("ensembles/spi")[:SPI_SATB_4],
+
 		rangeNumRhythmicDivisions: makeRangePair(1, 8), # int [1,)
 		rangeNumRhythms: makeRangePair(1, 2), # int [1,)
-
-		useMIDI: false,
 
 		midi: {
 			chanceLegato: 0, # [0,1]
 			legatoSpanThreshold: 8, # int [1,)
-
-			ensemble: get("ensembles/midi")[:BBCSO_STRINGS_4],
 
 			ports: [
 				"polyphony-articulated-0_2",
@@ -115,7 +113,7 @@ set("settings/voices/articulated", {
 			].freeze,
 
 			cc: {
-				base: 0.5, # [0,1]
+				base: 0.6, # [0,1]
 				maxHeight: 0.15, # [0,1]
 				rangeNumMeasuresInPeriod: makeRangePair(2, 4), # int [1,)
 			},
@@ -146,8 +144,6 @@ set("settings/voices/articulated", {
 		}.freeze,
 
 		spi: {
-			ensemble: get("ensembles/spi")[:SYNTHS_SATB_8],
-
 			shortMid: {
 				amp: {
 					accent: 0.1, # [0,1]
@@ -167,18 +163,16 @@ set("settings/voices/sustained", {
   performance: {
 		rangeNumMeasuresToSustain: makeRangePair(3, 4), # int [1,)
 
-		useMIDI: false,
+		ensemble: get("ensembles/spi")[:SPI_SATB_4],
 
 		midi: {
-			ensemble: get("ensembles/midi")[:BBCSO_STRINGS_4],
-
 			ports: [
 				"polyphony-sustained-0_3",
 				# "polyphony-sustained-0_5",
 			].freeze,
 
 			cc: {
-				base: 0.5, # [0,1]
+				base: 0.6, # [0,1]
 				maxHeight: 0.15, # [0,1]
 			},
 			long: {
@@ -194,8 +188,6 @@ set("settings/voices/sustained", {
 		}.freeze,
 
 		spi: {
-			ensemble: get("ensembles/spi")[:SYNTHS_SATB_8],
-
 			long: {
 				amp: {
 					base: 0.25, # [0,1]

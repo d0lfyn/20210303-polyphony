@@ -24,10 +24,10 @@ define :generateVoice do |pVoiceType, pVoiceNumber|
 		if isVoiceActive?(pVoiceType, pVoiceNumber)
 			logOptional("#{pVoiceType} #{pVoiceNumber.to_s} playing #{getVoiceSynthesis(pVoiceType, pVoiceNumber).to_s}")
 
-			if get("settings/voices/#{pVoiceType}")[:performance][:useMIDI]
-				send("performMIDI#{pVoiceType.capitalize}Synthesis", pVoiceNumber)
-			else
+			if get("settings/voices/#{pVoiceType}")[:performance][:ensemble][pVoiceNumber].has_key?(:SYNTH)
 				send("performSPi#{pVoiceType.capitalize}Synthesis", pVoiceNumber)
+			else
+				send("performMIDI#{pVoiceType.capitalize}Synthesis", pVoiceNumber)
 			end
 			clearVoice(pVoiceType, pVoiceNumber)
 

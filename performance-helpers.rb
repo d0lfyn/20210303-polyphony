@@ -14,8 +14,8 @@ define :clearAllVoices do |pVoiceType|
 	end
 end
 
-define :clearVoice do |pVoiceType, pNumber|
-	set("#{pVoiceType}/#{pNumber.to_s}", nil)
+define :clearVoice do |pVoiceType, pVoiceNumber|
+	set("#{pVoiceType}/#{pVoiceNumber.to_s}", nil)
 end
 
 define :countVoicesActive do |pVoiceType|
@@ -56,19 +56,11 @@ define :getAllSyntheses do
 end
 
 define :getAllVoicesNumbersArray do |pVoiceType|
-	if get("settings/voices/#{pVoiceType}")[:performance][:useMIDI]
-		return makeRangeArrayFromZero(get("settings/voices/#{pVoiceType}")[:performance][:midi][:ensemble].length)
-	else
-		return makeRangeArrayFromZero(get("settings/voices/#{pVoiceType}")[:performance][:spi][:ensemble].length)
-	end
+	return makeRangeArrayFromZero(get("settings/voices/#{pVoiceType}")[:performance][:ensemble].length)
 end
 
 define :getAllVoicesNumbersRange do |pVoiceType|
-	if get("settings/voices/#{pVoiceType}")[:performance][:useMIDI]
-		return (0...get("settings/voices/#{pVoiceType}")[:performance][:midi][:ensemble].length).freeze
-	else
-		return (0...get("settings/voices/#{pVoiceType}")[:performance][:spi][:ensemble].length).freeze
-	end
+	return (0...get("settings/voices/#{pVoiceType}")[:performance][:ensemble].length).freeze
 end
 
 define :getAllVoicesSyntheses do |pVoiceType|
@@ -80,32 +72,20 @@ define :getAllVoicesSyntheses do |pVoiceType|
 	return allSyntheses.freeze
 end
 
-define :getVoiceInstrument do |pVoiceType, pNumber|
-	if get("settings/voices/#{pVoiceType}")[:performance][:useMIDI]
-		return getVoiceMIDIInstrument(pVoiceType, pNumber)
-	else
-		return getVoiceSPiInstrument(pVoiceType, pNumber)
-	end
+define :getVoiceInstrument do |pVoiceType, pVoiceNumber|
+	return get("settings/voices/#{pVoiceType}")[:performance][:ensemble][pVoiceNumber]
 end
 
-define :getVoiceSPiInstrument do |pVoiceType, pNumber|
-	return get("settings/voices/#{pVoiceType}")[:performance][:spi][:ensemble][pNumber]
+define :getVoiceSynthesis do |pVoiceType, pVoiceNumber|
+	return get("#{pVoiceType}/#{pVoiceNumber.to_s}")
 end
 
-define :getVoiceMIDIInstrument do |pVoiceType, pNumber|
-	return get("settings/voices/#{pVoiceType}")[:performance][:midi][:ensemble][pNumber]
+define :isVoiceActive? do |pVoiceType, pVoiceNumber|
+	return !getVoiceSynthesis(pVoiceType, pVoiceNumber).nil?
 end
 
-define :getVoiceSynthesis do |pVoiceType, pNumber|
-	return get("#{pVoiceType}/#{pNumber.to_s}")
-end
-
-define :isVoiceActive? do |pVoiceType, pNumber|
-	return !getVoiceSynthesis(pVoiceType, pNumber).nil?
-end
-
-define :isVoiceFree? do |pVoiceType, pNumber|
-	return getVoiceSynthesis(pVoiceType, pNumber).nil?
+define :isVoiceFree? do |pVoiceType, pVoiceNumber|
+	return getVoiceSynthesis(pVoiceType, pVoiceNumber).nil?
 end
 
 define :setAllVoicesSyntheses do |pVoiceType, pSyntheses|
@@ -114,6 +94,6 @@ define :setAllVoicesSyntheses do |pVoiceType, pSyntheses|
 	end
 end
 
-define :setVoiceSynthesis do |pVoiceType, pNumber, pSynthesis|
-	set("#{pVoiceType}/#{pNumber.to_s}", pSynthesis)
+define :setVoiceSynthesis do |pVoiceType, pVoiceNumber, pSynthesis|
+	set("#{pVoiceType}/#{pVoiceNumber.to_s}", pSynthesis)
 end
