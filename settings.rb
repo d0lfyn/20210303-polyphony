@@ -144,7 +144,7 @@ set("settings/voices/articulated", {
 		}.freeze,
 
 		spi: {
-			ensemble: get("ensembles/spi")[:SYNTHS_SATB],
+			ensemble: get("ensembles/spi")[:SYNTHS_SATB_8],
 
 			shortMid: {
 				amp: {
@@ -192,7 +192,7 @@ set("settings/voices/sustained", {
 		}.freeze,
 
 		spi: {
-			ensemble: get("ensembles/spi")[:SYNTHS_SATB],
+			ensemble: get("ensembles/spi")[:SYNTHS_SATB_8],
 
 			long: {
 				amp: {
