@@ -113,7 +113,7 @@ set("settings/voices/articulated", {
 			].freeze,
 
 			cc: {
-				base: 0.5, # [0,1]
+				base: 0.6, # [0,1]
 				maxHeight: 0.15, # [0,1]
 				rangeNumMeasuresInPeriod: makeRangePair(2, 4), # int [1,)
 			},
@@ -172,7 +172,7 @@ set("settings/voices/sustained", {
 			].freeze,
 
 			cc: {
-				base: 0.5, # [0,1]
+				base: 0.6, # [0,1]
 				maxHeight: 0.15, # [0,1]
 			},
 			long: {
