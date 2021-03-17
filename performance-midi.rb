@@ -76,7 +76,7 @@ define :performMIDIArticulatedConclusion do |pSynthesis, pInstrument|
 end
 
 define :performMIDIArticulatedSynthesis do |pVoiceNumber|
-	instrument = getVoiceMIDIInstrument("articulated".freeze, pVoiceNumber)
+	instrument = getVoiceInstrument("articulated".freeze, pVoiceNumber)
 	svap = get("settings/voices/articulated")[:performance]
 	synthesis = getVoiceSynthesis("articulated".freeze, pVoiceNumber)
 
@@ -185,7 +185,7 @@ end
 define :performMIDISustainedSynthesis do |pVoiceNumber|
 	svsp = get("settings/voices/sustained")[:performance]
 
-	instrument = getVoiceMIDIInstrument("sustained".freeze, pVoiceNumber)
+	instrument = getVoiceInstrument("sustained".freeze, pVoiceNumber)
 	keyswitch = instrument[:LONG_SWITCHES].choose
 
 	numMeasuresRemaining = getIntInRangePair(svsp[:rangeNumMeasuresToSustain])

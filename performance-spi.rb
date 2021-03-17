@@ -21,7 +21,7 @@ define :performSPiArticulatedConclusion do |pSynthesis, pInstrument|
 end
 
 define :performSPiArticulatedSynthesis do |pVoiceNumber|
-	instrument = getVoiceSPiInstrument("articulated".freeze, pVoiceNumber)
+	instrument = getVoiceInstrument("articulated".freeze, pVoiceNumber)
 	svap = get("settings/voices/articulated")[:performance]
 	synthesis = getVoiceSynthesis("articulated".freeze, pVoiceNumber)
 
@@ -79,7 +79,7 @@ end
 define :performSPiSustainedSynthesis do |pVoiceNumber|
 	svsp = get("settings/voices/sustained")[:performance]
 
-	instrument = getVoiceSPiInstrument("sustained".freeze, pVoiceNumber)
+	instrument = getVoiceInstrument("sustained".freeze, pVoiceNumber)
 
 	numMeasuresRemaining = getIntInRangePair(svsp[:rangeNumMeasuresToSustain])
 	numUnits = (numMeasuresRemaining * get("settings/metronome")[:numUnitsPerMeasure])
