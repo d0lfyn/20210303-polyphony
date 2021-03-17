@@ -22,7 +22,7 @@ This project is under active development.
 
 ## Ensemble Setup
 
-N.B. MIDI instruments should be placed before Sonic Pi instruments, so that channels align as expected.
+N.B. MIDI instruments should be placed *before* Sonic Pi instruments, so that channels align as expected.
 
 - within `MIDI_INSTRUMENTS` in `ensembles.rb`, enter new instruments (use an existing instrument as a template!)
 - within `SPI_INSTRUMENTS` in `ensembles.rb`, enter new instruments (use an existing instrument as a template!)
