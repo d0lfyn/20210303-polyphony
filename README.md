@@ -1,4 +1,4 @@
-# ***Polyphony*** `v0.3.2 (initium)` *for Sonic Pi*
+# ***Polyphony*** `v0.3.3 (initium)` *for Sonic Pi*
 
 ## Contents
 
