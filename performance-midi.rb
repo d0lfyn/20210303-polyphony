@@ -68,7 +68,7 @@ define :performMIDIArticulatedConclusion do |pSynthesis, pInstrument|
 	hypothesis = pSynthesis[:hypotheses].choose
 	spaceDomain = getCurrentSpaceDomain()
 	span = get("settings/metronome")[:numUnitsPerMeasure]
-	if evalChance?(svap[:midi][:chanceLegato])
+	if evalChance?(get("settings/voices/articulated")[:performance][:midi][:chanceLegato])
 		performMIDILegatoHypothesisForSpan(pSynthesis[:position], hypothesis, span, spaceDomain, pInstrument)
 	else
 		performMIDIShortMidHypothesisForSpan(pSynthesis[:position], hypothesis, span, spaceDomain, pInstrument)
