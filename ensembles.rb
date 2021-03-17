@@ -162,6 +162,14 @@ MIDI_INSTRUMENTS = {
 		CC_NUMS: [1, 11].freeze,
 		RANGE: makeRangePair(note(:F4), note(:C8)),
 	}.freeze,
+	NI_YANGQIN: {
+		SHORT_SWITCHES: [].freeze,
+		MID_SWITCHES: [nil, note(:E1), note(:Fs1), note(:G1), note(:A1)].freeze,
+		LONG_SWITCHES: [].freeze,
+		LEGATO_SWITCHES: [].freeze,
+		CC_NUMS: [].freeze,
+		RANGE: makeRangePair(note(:F2), note(:A6)),
+	}.freeze,
 	PIANOTEQ_HARPSICHORD: {
 		SHORT_SWITCHES: [].freeze,
 		MID_SWITCHES: [].freeze,
@@ -185,14 +193,6 @@ MIDI_INSTRUMENTS = {
 		LEGATO_SWITCHES: [].freeze,
 		CC_NUMS: [].freeze,
 		RANGE: makeRangePair(note(:C1), note(:C8)),
-	}.freeze,
-	YANGQIN: {
-		SHORT_SWITCHES: [].freeze,
-		MID_SWITCHES: [nil, note(:E1), note(:Fs1), note(:G1), note(:A1)].freeze,
-		LONG_SWITCHES: [].freeze,
-		LEGATO_SWITCHES: [].freeze,
-		CC_NUMS: [].freeze,
-		RANGE: makeRangePair(note(:F2), note(:A6)),
 	}.freeze,
 }.freeze
 
