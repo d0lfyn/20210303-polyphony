@@ -34,6 +34,8 @@ set("settings/ideation/creation", {
 	displacementLimit: 5, # int [0,)
 	displacementIntervalLimit: 5, # int [0,)
 
+	shouldMergeBriefStart: true,
+
 	weightForDisplacementIntervals: 0, # [-1,1] | -ve for small intervals, +ve for large intervals
 
 	weightForSpans: 0, # [-1,1] | -ve for small spans, +ve for large spans

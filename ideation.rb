@@ -118,7 +118,7 @@ define :createBoundMotif do |pBounds, pNumUnitsPerMeasure, pSettingsCreation|
 	while areAllChronomorphsFeatureless?(chronomorphs)
 		divisions = divideUnitsRhythmically(pNumUnitsPerMeasure, pSettingsCreation[:weightForSpans])
 		subdivisions = divisions.map { |division| ((division == 1) ? division : divideUnitsRhythmically(division, pSettingsCreation[:weightForSpans])) }.flatten.freeze
-		subdivisions = mergeBriefStart(subdivisions)
+		subdivisions = mergeBriefStart(subdivisions) if pSettingsCreation[:shouldMergeBriefStart]
 		chronomorphs = [createInitialChronomorph(subdivisions.first, pSettingsCreation)]
 		subdivisions[1...subdivisions.length].each do |subdivision|
 			chronomorphs.push(createNextBoundChronomorph(chronomorphs, pBounds, subdivision, pSettingsCreation))
