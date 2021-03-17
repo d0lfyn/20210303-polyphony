@@ -22,7 +22,7 @@ This project is under active development.
 
 ## Sonic Pi Setup
 
-1. Set `useMIDI` in `"settings/voices/articulated"` and `"settings/voices/sustained"` of `settings.rb` to `false`
+1. Set `useMIDI` in `"settings/voices/articulated" > performance` and `"settings/voices/sustained" > performance` of `settings.rb` to `false`
 1. Set up new instruments:
 	- within `SPI_INSTRUMENTS` in `ensembles.rb`, enter new instruments (use an existing instrument as a template!)
 	- within `ensembles` in `ensembles.rb`, enter new ensembles using instruments from `SPI_INSTRUMENTS`
@@ -31,7 +31,7 @@ This project is under active development.
 
 ## MIDI Setup
 
-1. Set `useMIDI` in `"settings/voices/articulated"` and `"settings/voices/sustained"` of `settings.rb` to `true`
+1. Set `useMIDI` in `"settings/voices/articulated" > performance` and `"settings/voices/sustained" > performance` of `settings.rb` to `true`
 1. Set up new instruments:
 	- within `MIDI_INSTRUMENTS` in `ensembles.rb`, enter new instruments (use an existing instrument as a template!)
 	- within `ensembles` in `ensembles.rb`, enter new ensembles using instruments from `MIDI_INSTRUMENTS`
