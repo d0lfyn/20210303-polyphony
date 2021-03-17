@@ -25,28 +25,30 @@ define :performSPiArticulatedSynthesis do |pVoiceNumber|
 	svap = get("settings/voices/articulated")[:performance]
 	synthesis = getVoiceSynthesis("articulated".freeze, pVoiceNumber)
 
-	with_synth(instrument[:SYNTH]) do
-		sync_bpm("time/subunit") # 4
-		sync_bpm("time/subunit") # 0
-		while evalChance?(svap[:chanceContinue])
-			compositeRhythm = getCompositeRhythm(getIntInRangePair(svap[:rangeNumRhythms]), svap[:rangeNumRhythmicDivisions], get("settings/metronome")[:numUnitsPerMeasure])
-			compositeRhythmSpans = convertOffsetsToSpans(compositeRhythm, get("settings/metronome")[:numUnitsPerMeasure])
-			hypothesis = synthesis[:hypotheses].choose
-			while evalChance?(svap[:chanceRepeat])
-				spaceDomain = getCurrentSpaceDomain()
-				compositeRhythmSpans.each do |span|
-					performSPiShortMidHypothesisForSpan(synthesis[:position], hypothesis, span, spaceDomain, instrument)
+	with_fx(:compressor, amp: 0.9) do
+		with_synth(instrument[:SYNTH]) do
+			sync_bpm("time/subunit") # 4
+			sync_bpm("time/subunit") # 0
+			while evalChance?(svap[:chanceContinue])
+				compositeRhythm = getCompositeRhythm(getIntInRangePair(svap[:rangeNumRhythms]), svap[:rangeNumRhythmicDivisions], get("settings/metronome")[:numUnitsPerMeasure])
+				compositeRhythmSpans = convertOffsetsToSpans(compositeRhythm, get("settings/metronome")[:numUnitsPerMeasure])
+				hypothesis = synthesis[:hypotheses].choose
+				while evalChance?(svap[:chanceRepeat])
+					spaceDomain = getCurrentSpaceDomain()
+					compositeRhythmSpans.each do |span|
+						performSPiShortMidHypothesisForSpan(synthesis[:position], hypothesis, span, spaceDomain, instrument)
+					end
+					synthesis = getVoiceSynthesis("articulated".freeze, pVoiceNumber)
+					break if synthesis.nil?
 				end
-				synthesis = getVoiceSynthesis("articulated".freeze, pVoiceNumber)
-				break if synthesis.nil?
+				unless synthesis.nil?
+					performSPiArticulatedConclusion(synthesis, instrument)
+				else
+					break
+				end
 			end
-			unless synthesis.nil?
-				performSPiArticulatedConclusion(synthesis, instrument)
-			else
-				break
-			end
+			performSPiArticulatedConclusion(synthesis, instrument) unless synthesis.nil?
 		end
-		performSPiArticulatedConclusion(synthesis, instrument) unless synthesis.nil?
 	end
 end
 
@@ -91,29 +93,31 @@ define :performSPiSustainedSynthesis do |pVoiceNumber|
 	synthesis = getVoiceSynthesis("sustained".freeze, pVoiceNumber)
 	pitch = calculatePitch(synthesis[:position], getCurrentSpaceDomain())
 
-	with_synth(instrument[:SYNTH]) do
-		sync_bpm("time/subunit") # 4
-		sync_bpm("time/subunit") # 0
+	sync_bpm("time/subunit") # 4
+	sync_bpm("time/subunit") # 0
 
-		sync_bpm("time/subunit") # coordinate with MIDI
+	sync_bpm("time/subunit") # coordinate with MIDI
 
-		sync_bpm("time/subunit") # coordinate with MIDI
-		in_thread do
-			play(pitch, amp: calculateAmp(svsp[:spi][:long][:amp]), attack: (numUnits * 0.1), sustain: 0, release: (numUnits * 0.9))
+	sync_bpm("time/subunit") # coordinate with MIDI
+	in_thread do
+		with_fx(:compressor, amp: 0.9) do
+			with_synth(instrument[:SYNTH]) do
+				play(pitch, amp: calculateAmp(svsp[:spi][:long][:amp]), attack: (numUnits * 0.1), sustain: 0, release: (numUnits * 0.9))
+			end
+		end
+	end
+	sync_bpm("time/measure")
+	numMeasuresRemaining -= 1
+	while ((get("space/key") == startingKey) && (numMeasuresRemaining > 0))
+		currentChordRoot = get("space/chordRoot")
+		unless (currentChordRoot == stableChordRoot)
+			if isPositionInGeneralChord?(synthesis[:position], currentChordRoot, getCurrentTonicity(), get("settings/composition")[:generalPositionsOfChord])
+				stableChordRoot = currentChordRoot
+			else
+				numMeasuresRemaining = 0
+			end
 		end
 		sync_bpm("time/measure")
 		numMeasuresRemaining -= 1
-		while ((get("space/key") == startingKey) && (numMeasuresRemaining > 0))
-			currentChordRoot = get("space/chordRoot")
-			unless (currentChordRoot == stableChordRoot)
-				if isPositionInGeneralChord?(synthesis[:position], currentChordRoot, getCurrentTonicity(), get("settings/composition")[:generalPositionsOfChord])
-					stableChordRoot = currentChordRoot
-				else
-					numMeasuresRemaining = 0
-				end
-			end
-			sync_bpm("time/measure")
-			numMeasuresRemaining -= 1
-		end
 	end
 end
