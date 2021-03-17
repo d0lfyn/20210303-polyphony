@@ -56,7 +56,7 @@ MIDI_INSTRUMENTS = {
 		LONG_SWITCHES: [1, 4, 5].freeze,
 		LEGATO_SWITCHES: [0].freeze,
 		CC_NUMS: [1, 11].freeze,
-		RANGE: makeRangePair(note(:A1), note(:F5)),
+		RANGE: makeRangePair(note(:C3), note(:C5)),
 	}.freeze,
 	BBCSO_OBOE: {
 		SHORT_SWITCHES: [4].freeze,
