@@ -1,15 +1,15 @@
 # generalised functions
 
 define :arePositionsDissonant? do |pPosition0, pPosition1, pSpaceDomain, pSpecificDissonances|
-	absoluteInterval = (calculatePitch(pPosition1, pSpaceDomain) - calculatePitch(pPosition0, pSpaceDomain)).abs
+  absoluteInterval = (calculatePitch(pPosition1, pSpaceDomain) - calculatePitch(pPosition0, pSpaceDomain)).abs
 
-	return pSpecificDissonances.any? { |d| (d == absoluteInterval) }
+  return pSpecificDissonances.any? { |d| (d == absoluteInterval) }
 end
 
 define :arePositionsProximate? do |pPosition0, pPosition1, pSpaceDomain, pProximityLimit|
-	frequencyDifference = (midi_to_hz(calculatePitch(pPosition1, pSpaceDomain)) - midi_to_hz(calculatePitch(pPosition0, pSpaceDomain))).abs
+  frequencyDifference = (midi_to_hz(calculatePitch(pPosition1, pSpaceDomain)) - midi_to_hz(calculatePitch(pPosition0, pSpaceDomain))).abs
 
-	return (frequencyDifference <= pProximityLimit)
+  return (frequencyDifference <= pProximityLimit)
 end
 
 define :calculateModulationToChordRoot do |pSpaceDomain, pChordRoot, pSettingsSpace|
@@ -23,7 +23,7 @@ define :calculateModulationToChordRoot do |pSpaceDomain, pChordRoot, pSettingsSp
     if (((newFifth - newTonic) == 6) || ((newTonic - newFifth) == 6))
       return makeKey(newTonic, pSettingsSpace[:diminishedScales].choose)
     else
-			return makeKey(newTonic, pSettingsSpace[:minorScales].choose)
+      return makeKey(newTonic, pSettingsSpace[:minorScales].choose)
     end
   end
 end
@@ -60,91 +60,91 @@ define :getPositionAtOrBelowPitch do |pPitch, pSpaceDomain|
 end
 
 define :getPositionInGeneralChord do |pPosition, pChordRoot, pTonicity|
-	return (((pPosition - pChordRoot) + pTonicity) % pTonicity)
+  return (((pPosition - pChordRoot) + pTonicity) % pTonicity)
 end
 
 define :getSpaceDomain do |pKey, pNumOctaves|
-	return scale(pKey[:tonic], pKey[:scale], num_octaves: pNumOctaves)
+  return scale(pKey[:tonic], pKey[:scale], num_octaves: pNumOctaves)
 end
 
 define :isPositionAGeneralRoot? do |pPosition, pChordRoot, pTonicity|
-	return (getPositionInGeneralChord(pPosition, pChordRoot, pTonicity) == 0)
+  return (getPositionInGeneralChord(pPosition, pChordRoot, pTonicity) == 0)
 end
 
 define :isPositionInGeneralChord? do |pPosition, pChordRoot, pTonicity, pGeneralPositionsOfChord|
-	return pGeneralPositionsOfChord.any? { |gpc| (gpc == getPositionInGeneralChord(pPosition, pChordRoot, pTonicity)) }
+  return pGeneralPositionsOfChord.any? { |gpc| (gpc == getPositionInGeneralChord(pPosition, pChordRoot, pTonicity)) }
 end
 
 define :makeKey do |pTonic, pScale|
-	return {
-		tonic: pTonic,
-		scale: pScale,
-	}.freeze
+  return {
+    tonic: pTonic,
+    scale: pScale,
+  }.freeze
 end
 
 define :modulatePositionToKey do |pPosition, pOriginalKey, pNewKey|
-	if (pOriginalKey == pNewKey)
-		return pPosition
-	else
-		originalSpaceDomain = getSpaceDomain(pOriginalKey, get("settings/space")[:numOctaves])
-		pitch = calculatePitch(pPosition, originalSpaceDomain)
-		newSpaceDomain = getSpaceDomain(pNewKey, get("settings/space")[:numOctaves])
-		if (pitch >= newSpaceDomain.first)
-			return getPositionAtOrBelowPitch(pitch, newSpaceDomain)
-		else
-			return getPositionAtOrAbovePitch(pitch, newSpaceDomain)
-		end
-	end
+  if (pOriginalKey == pNewKey)
+    return pPosition
+  else
+    originalSpaceDomain = getSpaceDomain(pOriginalKey, get("settings/space")[:numOctaves])
+    pitch = calculatePitch(pPosition, originalSpaceDomain)
+    newSpaceDomain = getSpaceDomain(pNewKey, get("settings/space")[:numOctaves])
+    if (pitch >= newSpaceDomain.first)
+      return getPositionAtOrBelowPitch(pitch, newSpaceDomain)
+    else
+      return getPositionAtOrAbovePitch(pitch, newSpaceDomain)
+    end
+  end
 end
 
 # specialised functions
 
 define :activateSpace do
-	if evalChance?(get("settings/space")[:chanceProgress])
-		startingKey = get("space/key")
+  if evalChance?(get("settings/space")[:chanceProgress])
+    startingKey = get("space/key")
 
-		if (!get("space/chordRoot").zero? && evalChance?(get("settings/space")[:chanceReturnToRoot]))
-			returnToRoot()
-		else
-			progress()
-			modulate() if (!get("space/chordRoot").zero? && evalChance?(get("settings/space")[:chanceModulate]))
-		end
+    if (!get("space/chordRoot").zero? && evalChance?(get("settings/space")[:chanceReturnToRoot]))
+      returnToRoot()
+    else
+      progress()
+      modulate() if (!get("space/chordRoot").zero? && evalChance?(get("settings/space")[:chanceModulate]))
+    end
 
-		recompose(startingKey)
-	end
+    recompose(startingKey)
+  end
 end
 
 define :getCurrentScale do
-	return get("space/key")[:scale]
+  return get("space/key")[:scale]
 end
 
 define :getCurrentSpaceDomain do
-	return getSpaceDomain(get("space/key"), get("settings/space")[:numOctaves])
+  return getSpaceDomain(get("space/key"), get("settings/space")[:numOctaves])
 end
 
 define :getCurrentTonicity do
-	return (scale(:C0, getCurrentScale()).length - 1)
+  return (scale(:C0, getCurrentScale()).length - 1)
 end
 
 define :modulate do
-	newKey = calculateModulationToChordRoot(getCurrentSpaceDomain(), get("space/chordRoot"), get("settings/space"))
-	set("space/key", newKey)
-	set("space/chordRoot", 0)
+  newKey = calculateModulationToChordRoot(getCurrentSpaceDomain(), get("space/chordRoot"), get("settings/space"))
+  set("space/key", newKey)
+  set("space/chordRoot", 0)
 
-	logOptional("modulating to #{newKey.to_s}")
+  logOptional("modulating to #{newKey.to_s}")
 end
 
 define :progress do
-	tonicity = getCurrentTonicity()
-	progressionsAvailable = get("settings/space")[:progressions].nil? ? makeRangeArrayFromZero(tonicity) : get("settings/space")[:progressions]
-	nextChordRoot = ((get("space/chordRoot") + progressionsAvailable.choose) % tonicity)
-	set("space/chordRoot", nextChordRoot)
+  tonicity = getCurrentTonicity()
+  progressionsAvailable = get("settings/space")[:progressions].nil? ? makeRangeArrayFromZero(tonicity) : get("settings/space")[:progressions]
+  nextChordRoot = ((get("space/chordRoot") + progressionsAvailable.choose) % tonicity)
+  set("space/chordRoot", nextChordRoot)
 
-	logOptional("progressing to #{get("space/chordRoot")}: #{note_info(calculatePitch(get("space/chordRoot"), getCurrentSpaceDomain())).to_s}")
+  logOptional("progressing to #{get("space/chordRoot")}: #{note_info(calculatePitch(get("space/chordRoot"), getCurrentSpaceDomain())).to_s}")
 end
 
 define :returnToRoot do
-	set("space/chordRoot", 0)
+  set("space/chordRoot", 0)
 
-	logOptional("returning to 0: #{note_info(calculatePitch(0, getCurrentSpaceDomain())).to_s}")
+  logOptional("returning to 0: #{note_info(calculatePitch(0, getCurrentSpaceDomain())).to_s}")
 end

@@ -43,13 +43,13 @@ set("time/units", nil)
 
 live_loop(:maintainLog) do
   activateLogger()
-	sync_bpm("time/measure")
+  sync_bpm("time/measure")
 end
 
 live_loop(:maintainSpace, delay: (get("settings/space")[:numMeasuresBeforeProgressionsBegin] * get("settings/metronome")[:numUnitsPerMeasure])) do
   waitNumUnitsQuantised(get("settings/metronome")[:numUnitsPerMeasure] / 2)
-	activateSpace()
-	sync_bpm("time/measure")
+  activateSpace()
+  sync_bpm("time/measure")
 end
 
 live_loop(:measureTime, delay: get("settings/metronome")[:startDelay]) do
@@ -62,5 +62,5 @@ live_loop(:maintainVoices, sync_bpm: "time/measure") do
       activateVoices(voiceType)
     end
   end
-	sync_bpm("time/measure")
+  sync_bpm("time/measure")
 end

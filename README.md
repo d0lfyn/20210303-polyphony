@@ -29,10 +29,10 @@ N.B. MIDI instruments should be placed *before* Sonic Pi instruments, so that ch
 - within the appropriate `"ensembles"` in `ensembles.rb` (i.e. `"ensembles/fusion"`, `"ensembles/midi"`, or `"ensembles/spi"`), create a new ensemble using instruments from `MIDI_INSTRUMENTS` and/or `SPI_INSTRUMENTS`
 - for `ensemble` in `"settings/voices/articulated" > performance` and `"settings/voices/sustained" > performance` of `settings.rb`, set the appropriate ensembles (use the existing setting as a template)
 - if using MIDI:
-	- set up (a) MIDI cable(s) and make sure Sonic Pi recognises it as (a) MIDI out port(s)
-	- under `ports` in `"settings/voices/articulated"` and `"settings/voices/sustained"` of `settings.rb`, replace the array entries with the appropriate MIDI out ports, as named in Sonic Pi
-	- set the MIDI channels at your endpoint (DAW and/or hardware) to correspond with the instruments in the ensemble (starting with channel 1 for the first instrument)
-	- N.B. any instruments (of any kind) more than 16 will automatically be mapped to the next MIDI port(s), because each MIDI port only has 16 channels
+  - set up (a) MIDI cable(s) and make sure Sonic Pi recognises it as (a) MIDI out port(s)
+  - under `ports` in `"settings/voices/articulated"` and `"settings/voices/sustained"` of `settings.rb`, replace the array entries with the appropriate MIDI out ports, as named in Sonic Pi
+  - set the MIDI channels at your endpoint (DAW and/or hardware) to correspond with the instruments in the ensemble (starting with channel 1 for the first instrument)
+  - N.B. any instruments (of any kind) more than 16 will automatically be mapped to the next MIDI port(s), because each MIDI port only has 16 channels
 - Proceed with [setup](#setup)
 
 ## Quick Settings
