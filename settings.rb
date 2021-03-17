@@ -107,7 +107,7 @@ set("settings/voices/articulated", {
 			chanceLegato: 0, # [0,1]
 			legatoSpanThreshold: 8, # int [1,)
 
-			ensemble: get("ensembles/midi")[:STRINGS],
+			ensemble: get("ensembles/midi")[:BBCSO_STRINGS_4],
 
 			ports: [
 				"polyphony-articulated-0_2",
@@ -170,7 +170,7 @@ set("settings/voices/sustained", {
 		useMIDI: false,
 
 		midi: {
-			ensemble: get("ensembles/midi")[:STRINGS],
+			ensemble: get("ensembles/midi")[:BBCSO_STRINGS_4],
 
 			ports: [
 				"polyphony-sustained-0_3",
