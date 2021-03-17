@@ -18,13 +18,13 @@ MIDI_INSTRUMENTS = {
 		CC_NUMS: [1, 11].freeze,
 		RANGE: makeRangePair(note(:Bb2), note(:C5)),
 	}.freeze,
-  BBCSO_CLARINET: {
-		SHORT_SWITCHES: [4].freeze,
-		MID_SWITCHES: [4, 5].freeze,
-		LONG_SWITCHES: [1].freeze,
+	BBCSO_CELESTE: {
+		SHORT_SWITCHES: [1].freeze,
+		MID_SWITCHES: [1, 2].freeze,
+		LONG_SWITCHES: [0].freeze,
 		LEGATO_SWITCHES: [0].freeze,
 		CC_NUMS: [1, 11].freeze,
-		RANGE: makeRangePair(note(:D3), note(:D6)),
+		RANGE: makeRangePair(note(:C3), note(:C8)),
 	}.freeze,
   BBCSO_CELLO_BOW: {
 		SHORT_SWITCHES: [19].freeze,
@@ -42,6 +42,14 @@ MIDI_INSTRUMENTS = {
 		CC_NUMS: [1, 11].freeze,
 		RANGE: makeRangePair(note(:C2), note(:G5)),
 	}.freeze,
+	BBCSO_CLARINET: {
+		SHORT_SWITCHES: [4].freeze,
+		MID_SWITCHES: [4, 5].freeze,
+		LONG_SWITCHES: [1].freeze,
+		LEGATO_SWITCHES: [0].freeze,
+		CC_NUMS: [1, 11].freeze,
+		RANGE: makeRangePair(note(:D3), note(:D6)),
+	}.freeze,
 	BBCSO_FLUTE: {
 		SHORT_SWITCHES: [4].freeze,
 		MID_SWITCHES: [4, 5].freeze,
@@ -57,6 +65,22 @@ MIDI_INSTRUMENTS = {
 		LEGATO_SWITCHES: [0].freeze,
 		CC_NUMS: [1, 11].freeze,
 		RANGE: makeRangePair(note(:C3), note(:C5)),
+	}.freeze,
+	BBCSO_GLOCKENSPIEL: {
+		SHORT_SWITCHES: [0].freeze,
+		MID_SWITCHES: [0].freeze,
+		LONG_SWITCHES: [0].freeze,
+		LEGATO_SWITCHES: [0].freeze,
+		CC_NUMS: [1, 11].freeze,
+		RANGE: makeRangePair(note(:F5), note(:C8)),
+	}.freeze,
+	BBCSO_MARIMBA: {
+		SHORT_SWITCHES: [0].freeze,
+		MID_SWITCHES: [0].freeze,
+		LONG_SWITCHES: [0].freeze,
+		LEGATO_SWITCHES: [0].freeze,
+		CC_NUMS: [1, 11].freeze,
+		RANGE: makeRangePair(note(:C2), note(:C7)),
 	}.freeze,
 	BBCSO_OBOE: {
 		SHORT_SWITCHES: [4].freeze,
@@ -90,6 +114,14 @@ MIDI_INSTRUMENTS = {
 		CC_NUMS: [1, 11].freeze,
 		RANGE: makeRangePair(note(:D1), note(:E4)),
 	}.freeze,
+	BBCSO_VIBRAPHONE: {
+		SHORT_SWITCHES: [0].freeze,
+		MID_SWITCHES: [0].freeze,
+		LONG_SWITCHES: [0].freeze,
+		LEGATO_SWITCHES: [0].freeze,
+		CC_NUMS: [1, 11].freeze,
+		RANGE: makeRangePair(note(:F3), note(:F6)),
+	}.freeze,
 	BBCSO_VIOLA_BOW: {
 		SHORT_SWITCHES: [19].freeze,
 		MID_SWITCHES: [19].freeze,
@@ -121,6 +153,14 @@ MIDI_INSTRUMENTS = {
 		LEGATO_SWITCHES: [6].freeze,
 		CC_NUMS: [1, 11].freeze,
 		RANGE: makeRangePair(note(:G3), note(:G6)),
+	}.freeze,
+	BBCSO_XYLOPHONE: {
+		SHORT_SWITCHES: [0].freeze,
+		MID_SWITCHES: [0].freeze,
+		LONG_SWITCHES: [0].freeze,
+		LEGATO_SWITCHES: [0].freeze,
+		CC_NUMS: [1, 11].freeze,
+		RANGE: makeRangePair(note(:F4), note(:C8)),
 	}.freeze,
 	PIANOTEQ_HARPSICHORD: {
 		SHORT_SWITCHES: [].freeze,
@@ -181,9 +221,15 @@ set("ensembles/midi", {
 	BBCSO_BRASS_4: [
     MIDI_INSTRUMENTS[:BBCSO_TRUMPET], MIDI_INSTRUMENTS[:BBCSO_FRENCH_HORN], MIDI_INSTRUMENTS[:BBCSO_TENOR_TROMBONE], MIDI_INSTRUMENTS[:BBCSO_TUBA],
   ].freeze,
+	BBCSO_MALLETS_3: [
+		MIDI_INSTRUMENTS[:BBCSO_GLOCKENSPIEL], MIDI_INSTRUMENTS[:BBCSO_XYLOPHONE], MIDI_INSTRUMENTS[:BBCSO_MARIMBA],
+	],
 	BBCSO_STRINGS_4: [
     MIDI_INSTRUMENTS[:BBCSO_VIOLIN_BOW], MIDI_INSTRUMENTS[:BBCSO_VIOLIN_BOW], MIDI_INSTRUMENTS[:BBCSO_VIOLA_BOW], MIDI_INSTRUMENTS[:BBCSO_CELLO_BOW],
   ].freeze,
+	BBCSO_VIBES_4: [
+		MIDI_INSTRUMENTS[:BBCSO_VIBRAPHONE], MIDI_INSTRUMENTS[:BBCSO_VIBRAPHONE], MIDI_INSTRUMENTS[:BBCSO_VIBRAPHONE], MIDI_INSTRUMENTS[:BBCSO_VIBRAPHONE],
+	],
   BBCSO_WINDS_4: [
     MIDI_INSTRUMENTS[:BBCSO_FLUTE], MIDI_INSTRUMENTS[:BBCSO_OBOE], MIDI_INSTRUMENTS[:BBCSO_CLARINET], MIDI_INSTRUMENTS[:BBCSO_BASSOON],
   ].freeze,
