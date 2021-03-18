@@ -29,10 +29,10 @@ define :generateVoice do |pVoiceType, pVoiceNumber|
       else
         send("performMIDI#{pVoiceType.capitalize}Synthesis", pVoiceNumber)
       end
-      clearVoice(pVoiceType, pVoiceNumber)
 
       logOptional("#{pVoiceType} #{pVoiceNumber.to_s} done")
     end
+    clearVoice(pVoiceType, pVoiceNumber)
   end
 end
 
