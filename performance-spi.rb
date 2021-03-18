@@ -4,6 +4,10 @@ define :calculateAmp do |pSettingsAmp|
   return (pSettingsAmp[:base] + rrand(pSettingsAmp[:rangeRandom][:low], pSettingsAmp[:rangeRandom][:high]))
 end
 
+define :calculatePan do |pVoiceNumber, pEnsemble, pPanWidth|
+  return ((pVoiceNumber * (pPanWidth / pEnsemble.length.to_f)) - (pPanWidth / 2.to_f))
+end
+
 # specialised functions
 
 define :performSPiArticulated do |pPitch, pDuration, pAmp|
@@ -25,29 +29,31 @@ define :performSPiArticulatedSynthesis do |pVoiceNumber|
   svap = get("settings/voices/articulated")[:performance]
   synthesis = getVoiceSynthesis("articulated".freeze, pVoiceNumber)
 
-  with_fx(:compressor, amp: 0.9) do
-    with_synth(instrument[:SYNTH]) do
-      sync_bpm("time/subunit") # 4
-      sync_bpm("time/subunit") # 0
-      while evalChance?(svap[:chanceContinue])
-        compositeRhythm = getCompositeRhythm(getIntInRangePair(svap[:rangeNumRhythms]), svap[:rangeNumRhythmicDivisions], get("settings/metronome")[:numUnitsPerMeasure])
-        compositeRhythmSpans = convertOffsetsToSpans(compositeRhythm, get("settings/metronome")[:numUnitsPerMeasure])
-        hypothesis = synthesis[:hypotheses].choose
-        while evalChance?(svap[:chanceRepeat])
-          spaceDomain = getCurrentSpaceDomain()
-          compositeRhythmSpans.each do |span|
-            performSPiShortMidHypothesisForSpan(synthesis[:position], hypothesis, span, spaceDomain, instrument)
+  with_fx(:pan, pan: calculatePan(pVoiceNumber, getEnsemble("articulated".freeze), svap[:spi][:shortMid][:panWidth])) do
+    with_fx(:compressor, amp: 0.9) do
+      with_synth(instrument[:SYNTH]) do
+        sync_bpm("time/subunit") # 4
+        sync_bpm("time/subunit") # 0
+        while evalChance?(svap[:chanceContinue])
+          compositeRhythm = getCompositeRhythm(getIntInRangePair(svap[:rangeNumRhythms]), svap[:rangeNumRhythmicDivisions], get("settings/metronome")[:numUnitsPerMeasure])
+          compositeRhythmSpans = convertOffsetsToSpans(compositeRhythm, get("settings/metronome")[:numUnitsPerMeasure])
+          hypothesis = synthesis[:hypotheses].choose
+          while evalChance?(svap[:chanceRepeat])
+            spaceDomain = getCurrentSpaceDomain()
+            compositeRhythmSpans.each do |span|
+              performSPiShortMidHypothesisForSpan(synthesis[:position], hypothesis, span, spaceDomain, instrument)
+            end
+            synthesis = getVoiceSynthesis("articulated".freeze, pVoiceNumber)
+            break if synthesis.nil?
           end
-          synthesis = getVoiceSynthesis("articulated".freeze, pVoiceNumber)
-          break if synthesis.nil?
+          unless synthesis.nil?
+            performSPiArticulatedConclusion(synthesis, instrument)
+          else
+            break
+          end
         end
-        unless synthesis.nil?
-          performSPiArticulatedConclusion(synthesis, instrument)
-        else
-          break
-        end
+        performSPiArticulatedConclusion(synthesis, instrument) unless synthesis.nil?
       end
-      performSPiArticulatedConclusion(synthesis, instrument) unless synthesis.nil?
     end
   end
 end
@@ -100,9 +106,11 @@ define :performSPiSustainedSynthesis do |pVoiceNumber|
 
   sync_bpm("time/subunit") # coordinate with MIDI
   in_thread do
-    with_fx(:compressor, amp: 0.9) do
-      with_synth(instrument[:SYNTH]) do
-        play(pitch, amp: calculateAmp(svsp[:spi][:long][:amp]), attack: (numUnits * 0.1), sustain: 0, release: (numUnits * 0.9))
+    with_fx(:pan, pan: calculatePan(pVoiceNumber, getEnsemble("sustained".freeze), svsp[:spi][:long][:panWidth])) do
+      with_fx(:compressor, amp: 0.9) do
+        with_synth(instrument[:SYNTH]) do
+          play(pitch, amp: calculateAmp(svsp[:spi][:long][:amp]), attack: (numUnits * 0.1), sustain: 0, release: (numUnits * 0.9))
+        end
       end
     end
   end

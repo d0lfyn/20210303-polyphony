@@ -56,11 +56,11 @@ define :getAllSyntheses do
 end
 
 define :getAllVoicesNumbersArray do |pVoiceType|
-  return makeRangeArrayFromZero(get("settings/voices/#{pVoiceType}")[:performance][:ensemble].length)
+  return makeRangeArrayFromZero(getEnsemble(pVoiceType).length)
 end
 
 define :getAllVoicesNumbersRange do |pVoiceType|
-  return (0...get("settings/voices/#{pVoiceType}")[:performance][:ensemble].length).freeze
+  return (0...getEnsemble(pVoiceType).length).freeze
 end
 
 define :getAllVoicesSyntheses do |pVoiceType|
@@ -72,8 +72,12 @@ define :getAllVoicesSyntheses do |pVoiceType|
   return allSyntheses.freeze
 end
 
+define :getEnsemble do |pVoiceType|
+  return get("settings/voices/#{pVoiceType}")[:performance][:ensemble]
+end 
+
 define :getVoiceInstrument do |pVoiceType, pVoiceNumber|
-  return get("settings/voices/#{pVoiceType}")[:performance][:ensemble][pVoiceNumber]
+  return getEnsemble(pVoiceType)[pVoiceNumber]
 end
 
 define :getVoiceSynthesis do |pVoiceType, pVoiceNumber|

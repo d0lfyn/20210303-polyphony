@@ -20,18 +20,22 @@ define :activateVoices do |pVoiceType|
 end
 
 define :generateVoice do |pVoiceType, pVoiceNumber|
-  in_thread(name: "#{pVoiceType}#{pVoiceNumber.to_s}".to_sym, sync_bpm: "time/measure") do
-    if isVoiceActive?(pVoiceType, pVoiceNumber)
-      logOptional("#{pVoiceType} #{pVoiceNumber.to_s} playing #{getVoiceSynthesis(pVoiceType, pVoiceNumber).to_s}")
+  in_thread do
+    sync_bpm("time/measure")
+    in_thread(name: "#{pVoiceType}#{pVoiceNumber.to_s}".to_sym) do
+      if isVoiceActive?(pVoiceType, pVoiceNumber)
+        logOptional("#{pVoiceType} #{pVoiceNumber.to_s} playing #{getVoiceSynthesis(pVoiceType, pVoiceNumber).to_s}")
 
-      if get("settings/voices/#{pVoiceType}")[:performance][:ensemble][pVoiceNumber].has_key?(:SYNTH)
-        send("performSPi#{pVoiceType.capitalize}Synthesis", pVoiceNumber)
-      else
-        send("performMIDI#{pVoiceType.capitalize}Synthesis", pVoiceNumber)
+        if get("settings/voices/#{pVoiceType}")[:performance][:ensemble][pVoiceNumber].has_key?(:SYNTH)
+          send("performSPi#{pVoiceType.capitalize}Synthesis", pVoiceNumber)
+        else
+          send("performMIDI#{pVoiceType.capitalize}Synthesis", pVoiceNumber)
+        end
+
+        logOptional("#{pVoiceType} #{pVoiceNumber.to_s} done")
+
+        clearVoice(pVoiceType, pVoiceNumber)
       end
-      clearVoice(pVoiceType, pVoiceNumber)
-
-      logOptional("#{pVoiceType} #{pVoiceNumber.to_s} done")
     end
   end
 end

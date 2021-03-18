@@ -69,7 +69,7 @@ set("settings/space", {
   minorScales: [:dorian, :phrygian, :aeolian].freeze, # [any heptatonic scale]
   progressions: nil, # [0,tonicity] | nil permits all progressions
 
-  initialKey: makeKey(0, :aeolian), # 0-11 [any heptatonic scale]
+  initialKey: makeKey(0, :aeolian), # 0-11, [any heptatonic scale]
   numOctaves: 9, # int [1,)
 
   maxPositionInterval: 5, # int [0,)
@@ -150,6 +150,8 @@ set("settings/voices/articulated", {
           base: 0.5, # [0,1]
           rangeRandom: makeMirrorRangePair(0.1), # [0,1]
         }.freeze,
+
+        panWidth: 1, # [0,2]
       }.freeze,
     }.freeze,
   }.freeze,
@@ -193,6 +195,8 @@ set("settings/voices/sustained", {
           base: 0.25, # [0,1]
           rangeRandom: makeMirrorRangePair(0.1), # [0,1]
         }.freeze,
+
+        panWidth: 1, # [0,2]
       }.freeze,
     }.freeze,
   }.freeze,
