@@ -151,7 +151,7 @@ set("settings/voices/articulated", {
           rangeRandom: makeMirrorRangePair(0.1), # [0,1]
         }.freeze,
 
-        panWidth: 1,
+        panWidth: 1, # [0,2]
       }.freeze,
     }.freeze,
   }.freeze,
@@ -196,7 +196,7 @@ set("settings/voices/sustained", {
           rangeRandom: makeMirrorRangePair(0.1), # [0,1]
         }.freeze,
 
-        panWidth: 1,
+        panWidth: 1, # [0,2]
       }.freeze,
     }.freeze,
   }.freeze,
