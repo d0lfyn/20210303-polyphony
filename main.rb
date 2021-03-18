@@ -26,9 +26,10 @@ use_bpm(get("settings/metronome")[:unitsPerMinute])
 use_tuning(get("settings/space")[:tuning])
 
 use_random_seed(get("settings/general")[:seed])
-use_cue_logging(get("settings/general")[:shouldLogCues])
-use_debug(get("settings/general")[:shouldLogDebug])
-use_midi_logging(get("settings/general")[:shouldLogMIDI])
+
+use_cue_logging(get("settings/logging")[:shouldLogCues])
+use_debug(get("settings/logging")[:shouldLogDebug])
+use_midi_logging(get("settings/logging")[:shouldLogMIDI])
 
 # time-state
 
