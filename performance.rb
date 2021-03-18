@@ -29,9 +29,6 @@ define :generateVoice do |pVoiceType, pVoiceNumber|
       else
         send("performMIDI#{pVoiceType.capitalize}Synthesis", pVoiceNumber)
       end
-      2.times do
-        sync_bpm("time/measure")
-      end
       clearVoice(pVoiceType, pVoiceNumber)
 
       logOptional("#{pVoiceType} #{pVoiceNumber.to_s} done")
