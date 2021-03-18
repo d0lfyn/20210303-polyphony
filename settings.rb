@@ -69,7 +69,7 @@ set("settings/space", {
   minorScales: [:dorian, :phrygian, :aeolian].freeze, # [any heptatonic scale]
   progressions: nil, # [0,tonicity] | nil permits all progressions
 
-  initialKey: makeKey(0, :lydian), # 0-11, [any heptatonic scale]
+  initialKey: makeKey(0, :aeolian), # 0-11, [any heptatonic scale]
   numOctaves: 9, # int [1,)
 
   maxPositionInterval: 5, # int [0,)
