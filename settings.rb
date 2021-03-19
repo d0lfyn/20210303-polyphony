@@ -2,7 +2,7 @@ set("settings/composition", {
   chanceCompose: 0.9, # [0,1]
   chanceImprovise: 0.8, # [0,1]
 
-  degreeOfOverlap: 2, # 0: none; 1: edges; 2: spaces; 3: positions
+  degreeOfOverlap: 1, # 0: none; 1: edges; 2: spaces; 3: positions
 
   generalPositionsOfChord: [0, 1, 2, 4, 6].freeze, # [0,tonicity] | zero-indexed positions
 
@@ -14,6 +14,7 @@ set("settings/composition", {
 set("settings/general", {
   seed: ((Time.new.to_i * 1e9).to_i + Time.new.nsec), # int [0,)
   seed: Time.new.to_i, # int [0,)
+  seed: 1616179017, # int [0,)
 }.freeze)
 
 set("settings/ideation", {
@@ -56,7 +57,7 @@ set("settings/metronome", {
   unitsPerMinute: 360, # (0,)
 
   startDelay: 2, # [0,)
-  timeLimitInMinutes: nil, # [0,) | nil performs forever
+  timeLimitInMinutes: 3.05, # [0,) | nil performs forever
 }.freeze)
 
 set("settings/space", {
@@ -69,7 +70,7 @@ set("settings/space", {
   minorScales: [:dorian, :phrygian, :aeolian].freeze, # [any heptatonic scale]
   progressions: nil, # [0,tonicity] | nil permits all progressions
 
-  initialKey: makeKey(0, :aeolian), # 0-11, [any heptatonic scale]
+  initialKey: makeKey(0, :lydian), # 0-11, [any heptatonic scale]
   numOctaves: 9, # int [1,)
 
   maxPositionInterval: 5, # int [0,)
@@ -98,9 +99,9 @@ set("settings/voices/articulated", {
     chanceContinue: 0.9, # [0,1]
     chanceRepeat: 0.75, # [0,1]
 
-    ensemble: get("ensembles/spi")[:SPI_SATB_4],
+    ensemble: get("ensembles/midi")[:BBCSO_WINDS_4],
 
-    rangeNumRhythmicDivisions: makeRangePair(1, 8), # int [1,)
+    rangeNumRhythmicDivisions: makeRangePair(1, 4), # int [1,)
     rangeNumRhythms: makeRangePair(1, 2), # int [1,)
 
     midi: {
@@ -165,7 +166,7 @@ set("settings/voices/sustained", {
   performance: {
     rangeNumMeasuresToSustain: makeRangePair(3, 4), # int [1,)
 
-    ensemble: get("ensembles/spi")[:SPI_SATB_4],
+    ensemble: get("ensembles/midi")[:BBCSO_VIBRAPHONE_1] * 4,
 
     midi: {
       ports: [
