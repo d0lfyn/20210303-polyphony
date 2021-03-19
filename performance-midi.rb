@@ -81,8 +81,6 @@ define :performMIDIArticulatedSynthesis do |pVoiceNumber|
   synthesis = getVoiceSynthesis("articulated".freeze, pVoiceNumber)
 
   with_midi_defaults(port: selectPort(pVoiceNumber, svap[:midi][:ports]), channel: selectChannel(pVoiceNumber)) do
-    sync_bpm("time/subunit") # 4
-    sync_bpm("time/subunit") # 0
     launchCCArticulated(pVoiceNumber, instrument) unless instrument[:CC_NUMS].empty?
     while evalChance?(svap[:chanceContinue])
       compositeRhythm = getCompositeRhythm(getIntInRangePair(svap[:rangeNumRhythms]), svap[:rangeNumRhythmicDivisions], get("settings/metronome")[:numUnitsPerMeasure])
@@ -198,8 +196,6 @@ define :performMIDISustainedSynthesis do |pVoiceNumber|
   pitch = calculatePitch(synthesis[:position], getCurrentSpaceDomain())
 
   with_midi_defaults(port: selectPort(pVoiceNumber, svsp[:midi][:ports]), channel: selectChannel(pVoiceNumber)) do
-    sync_bpm("time/subunit") # 4
-    sync_bpm("time/subunit") # 0
     launchCCSustained(pVoiceNumber, instrument, numMeasuresRemaining) unless instrument[:CC_NUMS].empty?
 
     sync_bpm("time/subunit")
