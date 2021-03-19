@@ -32,8 +32,6 @@ define :performSPiArticulatedSynthesis do |pVoiceNumber|
   with_fx(:pan, pan: calculatePan(pVoiceNumber, getEnsemble("articulated".freeze), svap[:spi][:shortMid][:panWidth])) do
     with_fx(:compressor, amp: 0.9) do
       with_synth(instrument[:SYNTH]) do
-        sync_bpm("time/subunit") # 4
-        sync_bpm("time/subunit") # 0
         while evalChance?(svap[:chanceContinue])
           compositeRhythm = getCompositeRhythm(getIntInRangePair(svap[:rangeNumRhythms]), svap[:rangeNumRhythmicDivisions], get("settings/metronome")[:numUnitsPerMeasure])
           compositeRhythmSpans = convertOffsetsToSpans(compositeRhythm, get("settings/metronome")[:numUnitsPerMeasure])
@@ -98,9 +96,6 @@ define :performSPiSustainedSynthesis do |pVoiceNumber|
 
   synthesis = getVoiceSynthesis("sustained".freeze, pVoiceNumber)
   pitch = calculatePitch(synthesis[:position], getCurrentSpaceDomain())
-
-  sync_bpm("time/subunit") # 4
-  sync_bpm("time/subunit") # 0
 
   sync_bpm("time/subunit") # coordinate with MIDI
 
