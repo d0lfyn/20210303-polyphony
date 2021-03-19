@@ -1,5 +1,5 @@
 Field | Content
----   | ---
+--- | ---
 Date Completed | yyyy-mm-dd
 Description | Information on a work
 Program | [20210303-polyphony](https://github.com/dolphinOfDelphi/20210303-polyphony)
