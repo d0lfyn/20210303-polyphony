@@ -38,7 +38,7 @@ set("motifs", createStateMotifs())
 set("space/chordRoot", 0)
 set("space/key", get("settings/space")[:initialKey])
 
-set("time/units", nil)
+set("time/units", 0)
 
 # live loops
 
