@@ -61,11 +61,7 @@ set("settings/metronome", {
 
 set("settings/space", {
   chanceModulate: 0.15, # [0,1]
-<<<<<<< HEAD
   chanceModulateWithPivot: 0.5, # [0,1]
-=======
-  chanceModulateWithPivot: 0.75, # [0,1]
->>>>>>> 160ead7edfcbeb68e2a95d9d44ce4fc402e1550c
 
   chanceProgress: 0.8, # [0,1]
   chanceReturnToRoot: 0.2, # [0,1]
