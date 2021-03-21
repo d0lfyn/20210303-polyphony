@@ -62,13 +62,13 @@ define :performSPiShortMidHypothesisForSpan do |pPosition, pHypothesis, pSpan, p
   isOnFirstUnit = true
   unitsLeft = pSpan
   (0...pHypothesis.length).each do |i|
-    chronomorph = pHypothesis[i]
+    note = pHypothesis[i]
 
-    duration = getMin(chronomorph[:span], unitsLeft)
+    duration = getMin(note[:span], unitsLeft)
     unitsLeft -= duration
 
     pitch = nil
-    pitch = calculatePitch((chronomorph[:displacement] + pPosition), pSpaceDomain) unless chronomorph[:displacement].nil?
+    pitch = calculatePitch((note[:displacement] + pPosition), pSpaceDomain) unless note[:displacement].nil?
 
     amp = calculateAmp(svaps[:amp])
 

@@ -1,87 +1,87 @@
 # generalised functions
 
-# chronomorphs
+# notes
 
-define :areAllChronomorphsFeatureless? do |pChronomorphs|
-  return pChronomorphs.all? { |c| isChronomorphFeatureless?(c) }
+define :areAllNotesFeatureless? do |pNotes|
+  return pNotes.all? { |c| isNoteFeatureless?(c) }
 end
 
-define :createInitialChronomorph do |pSpan, pSettingsCreation|
-  return makeChronomorph((evalChance?(pSettingsCreation[:chanceCreateNilFeature]) ? nil : 0), pSpan)
+define :createInitialNote do |pSpan, pSettingsCreation|
+  return makeNote((evalChance?(pSettingsCreation[:chanceCreateNilFeature]) ? nil : 0), pSpan)
 end
 
-define :createNextBoundChronomorph do |pChronomorphs, pBounds, pSpan, pSettingsCreation|
-  if areAllChronomorphsFeatureless?(pChronomorphs)
-    return createInitialChronomorph(pSpan, pSettingsCreation)
+define :createNextBoundNote do |pNotes, pBounds, pSpan, pSettingsCreation|
+  if areAllNotesFeatureless?(pNotes)
+    return createInitialNote(pSpan, pSettingsCreation)
   end
 
-  previousDisplacement = getLastFeatureOfChronomorphs(pChronomorphs)
+  previousDisplacement = getLastFeatureOfNotes(pNotes)
   displacementIntervals = makeArrayOfIntsFromRangePair(makeMirrorRangePair(pSettingsCreation[:displacementIntervalLimit]))
-  displacementIntervals = filterDisplacementIntervalsForCompatibility(displacementIntervals, pChronomorphs, pBounds, pSettingsCreation)
+  displacementIntervals = filterDisplacementIntervalsForCompatibility(displacementIntervals, pNotes, pBounds, pSettingsCreation)
   if evalChance?(pSettingsCreation[:chanceCreateNoConsecutivelyRepeatedDisplacements])
     displacementIntervals -= [0]
   end
 
   if (displacementIntervals.empty? || evalChance?(pSettingsCreation[:chanceCreateNilFeature]))
-    return makeChronomorph(nil, pSpan)
-  elsif pChronomorphs.last[:displacement].nil?
-    return makeChronomorph((previousDisplacement + displacementIntervals.choose), pSpan)
+    return makeNote(nil, pSpan)
+  elsif pNotes.last[:displacement].nil?
+    return makeNote((previousDisplacement + displacementIntervals.choose), pSpan)
   else
-    return makeChronomorph((previousDisplacement + chooseAbsIntWithWeight(pSettingsCreation[:weightForDisplacementIntervals], displacementIntervals)), pSpan)
+    return makeNote((previousDisplacement + chooseAbsIntWithWeight(pSettingsCreation[:weightForDisplacementIntervals], displacementIntervals)), pSpan)
   end
 end
 
-define :filterDisplacementIntervalsForCompatibility do |pDisplacementIntervals, pChronomorphs, pBounds, pSettingsCreation|
-  peak = getPeakOfChronomorphs(pChronomorphs)
-  trough = getTroughOfChronomorphs(pChronomorphs)
+define :filterDisplacementIntervalsForCompatibility do |pDisplacementIntervals, pNotes, pBounds, pSettingsCreation|
+  peak = getPeakOfNotes(pNotes)
+  trough = getTroughOfNotes(pNotes)
   height = (peak - trough)
 
   leeway = (pSettingsCreation[:displacementLimit] - height)
   maxPeak = getMin((peak + leeway), pBounds[:high])
   minTrough = getMax((trough - leeway), pBounds[:low])
 
-  previousDisplacement = getLastFeatureOfChronomorphs(pChronomorphs)
+  previousDisplacement = getLastFeatureOfNotes(pNotes)
 
   return pDisplacementIntervals.select { |i| (previousDisplacement + i).between?(minTrough, maxPeak) }.freeze
 end
 
-define :getContourOfChronomorphs do |pChronomorphs|
-  return pChronomorphs.map { |c| c[:displacement] }
+define :getContourOfNotes do |pNotes|
+  return pNotes.map { |c| c[:displacement] }
 end
 
-define :getLastFeatureOfChronomorphs do |pChronomorphs|
-  return pChronomorphs.reverse_each.detect { |c| isChronomorphFeatureful?(c) }[:displacement]
+define :getLastFeatureOfNotes do |pNotes|
+  return pNotes.reverse_each.detect { |c| isNoteFeatureful?(c) }[:displacement]
 end
 
-define :getPeakOfChronomorphs do |pChronomorphs|
-  return getContourOfChronomorphs(pChronomorphs).compact.max
+define :getPeakOfNotes do |pNotes|
+  return getContourOfNotes(pNotes).compact.max
 end
 
-define :getTroughOfChronomorphs do |pChronomorphs|
-  return getContourOfChronomorphs(pChronomorphs).compact.min
+define :getTroughOfNotes do |pNotes|
+  return getContourOfNotes(pNotes).compact.min
 end
 
-define :invertChronomorph do |pChronomorph|
-  if isChronomorphFeatureless?(pChronomorph)
-    return pChronomorph
+define :invertNote do |pNote|
+  if isNoteFeatureless?(pNote)
+    return pNote
   else
-    return makeChronomorph(-pChronomorph[:displacement], pChronomorph[:span])
+    return makeNote(-pNote[:displacement], pNote[:span])
   end
 end
 
-define :invertChronomorphs do |pChronomorphs|
-  return pChronomorphs.map { |c| invertChronomorph(c) }.freeze
+define :invertNotes do |pNotes|
+  return pNotes.map { |c| invertNote(c) }.freeze
 end
 
-define :isChronomorphFeatureful? do |pChronomorph|
-  return !pChronomorph[:displacement].nil?
+define :isNoteFeatureful? do |pNote|
+  return !pNote[:displacement].nil?
 end
 
-define :isChronomorphFeatureless? do |pChronomorph|
-  return pChronomorph[:displacement].nil?
+define :isNoteFeatureless? do |pNote|
+  return pNote[:displacement].nil?
 end
 
-define :makeChronomorph do |pDisplacement, pSpan|
+define :makeNote do |pDisplacement, pSpan|
   assert (pDisplacement.nil? || pDisplacement.is_a?(Integer))
   assert (pSpan.nil? || (pSpan > 0))
 
@@ -91,41 +91,41 @@ define :makeChronomorph do |pDisplacement, pSpan|
   }.freeze
 end
 
-define :retrogradeChronomorphs do |pChronomorphs|
-  return pChronomorphs.reverse.freeze
+define :retrogradeNotes do |pNotes|
+  return pNotes.reverse.freeze
 end
 
-define :transposeChronomorph do |pChronomorph, pSteps|
-  if isChronomorphFeatureless?(pChronomorph)
-    return pChronomorph
+define :transposeNote do |pNote, pSteps|
+  if isNoteFeatureless?(pNote)
+    return pNote
   else
-    return makeChronomorph((pChronomorph[:displacement] + pSteps), pChronomorph[:span])
+    return makeNote((pNote[:displacement] + pSteps), pNote[:span])
   end
 end
 
-define :transposeChronomorphs do |pChronomorphs, pSteps|
-  return (pSteps.zero? ? pChronomorphs : pChronomorphs.map { |c| transposeChronomorph(c, pSteps) }).freeze
+define :transposeNotes do |pNotes, pSteps|
+  return (pSteps.zero? ? pNotes : pNotes.map { |c| transposeNote(c, pSteps) }).freeze
 end
 
-define :zeroChronomorphs do |pChronomorphs|
-  return transposeChronomorphs(pChronomorphs, -pChronomorphs.detect { |c| isChronomorphFeatureful?(c) }[:displacement]).freeze
+define :zeroNotes do |pNotes|
+  return transposeNotes(pNotes, -pNotes.detect { |c| isNoteFeatureful?(c) }[:displacement]).freeze
 end
 
 # motifs
 
 define :createBoundMotif do |pBounds, pNumUnitsPerMeasure, pSettingsCreation|
-  chronomorphs = []
-  while areAllChronomorphsFeatureless?(chronomorphs)
+  notes = []
+  while areAllNotesFeatureless?(notes)
     divisions = divideUnitsRhythmically(pNumUnitsPerMeasure, pSettingsCreation[:weightForSpans])
     subdivisions = divisions.map { |division| ((division == 1) ? division : divideUnitsRhythmically(division, pSettingsCreation[:weightForSpans])) }.flatten.freeze
     subdivisions = mergeBriefStart(subdivisions) if pSettingsCreation[:shouldMergeBriefStart]
-    chronomorphs = [createInitialChronomorph(subdivisions.first, pSettingsCreation)]
+    notes = [createInitialNote(subdivisions.first, pSettingsCreation)]
     subdivisions[1...subdivisions.length].each do |subdivision|
-      chronomorphs.push(createNextBoundChronomorph(chronomorphs, pBounds, subdivision, pSettingsCreation))
+      notes.push(createNextBoundNote(notes, pBounds, subdivision, pSettingsCreation))
     end
   end
 
-  return makeMotif(chronomorphs)
+  return makeMotif(notes)
 end
 
 define :createMotif do |pNumUnitsPerMeasure, pSettingsCreation|
@@ -133,23 +133,23 @@ define :createMotif do |pNumUnitsPerMeasure, pSettingsCreation|
 end
 
 define :getAllMotifsPeak do |pMotifs|
-  return pMotifs.map { |m| getPeakOfChronomorphs(m) }.max
+  return pMotifs.map { |m| getPeakOfNotes(m) }.max
 end
 
 define :getAllMotifsTrough do |pMotifs|
-  return pMotifs.map { |m| getTroughOfChronomorphs(m) }.min
+  return pMotifs.map { |m| getTroughOfNotes(m) }.min
 end
 
-define :makeMotif do |pChronomorphs|
-  assert_not areAllChronomorphsFeatureless?(pChronomorphs)
+define :makeMotif do |pNotes|
+  assert_not areAllNotesFeatureless?(pNotes)
 
-  return zeroChronomorphs(pChronomorphs).freeze
+  return zeroNotes(pNotes).freeze
 end
 
 # infinitum
 
-INFINITUM_CHRONOMORPH = makeChronomorph(0, nil)
-INFINITUM_MOTIF = makeMotif([INFINITUM_CHRONOMORPH])
+INFINITUM_NOTE = makeNote(0, nil)
+INFINITUM_MOTIF = makeMotif([INFINITUM_NOTE])
 
 define :getInfinitumMotif do
   return INFINITUM_MOTIF
@@ -173,10 +173,10 @@ define :ideate do
     prototype = get("motifs").choose
 
     if evalChance?(get("settings/ideation")[:chanceInvertMotif])
-      prototype = invertChronomorphs(prototype)
+      prototype = invertNotes(prototype)
     end
     if evalChance?(get("settings/ideation")[:chanceRetrogradeMotif])
-      prototype = retrogradeChronomorphs(prototype)
+      prototype = retrogradeNotes(prototype)
     end
 
     return makeMotif(prototype)

@@ -120,14 +120,14 @@ define :performMIDILegatoHypothesisForSpan do |pPosition, pHypothesis, pSpan, pS
   sync_bpm("time/subunit")
   switchKeyswitchOn(keyswitch)
   (0...pHypothesis.length).each do |i|
-    chronomorph = pHypothesis[i]
-    nextChronomorph = pHypothesis[i + 1]
+    note = pHypothesis[i]
+    nextNote = pHypothesis[i + 1]
 
-    duration = getMin(chronomorph[:span], unitsLeft)
+    duration = getMin(note[:span], unitsLeft)
     unitsLeft -= duration
 
     pitch = nil
-    pitch = calculatePitch((chronomorph[:displacement] + pPosition), pSpaceDomain) unless chronomorph[:displacement].nil?
+    pitch = calculatePitch((note[:displacement] + pPosition), pSpaceDomain) unless note[:displacement].nil?
 
     velocityOff = calculateVelocity(svapl[:velocityOff])
     velocityOn = calculateVelocity(svapl[:velocityOn])
@@ -135,7 +135,7 @@ define :performMIDILegatoHypothesisForSpan do |pPosition, pHypothesis, pSpan, pS
 
     sync_bpm("time/subunit") unless isOnFirstUnit
     sync_bpm("time/subunit")
-    if ((unitsLeft > 0) && (nextChronomorph[:displacement] != chronomorph[:displacement]))
+    if ((unitsLeft > 0) && (nextNote[:displacement] != note[:displacement]))
       performMIDIArticulated(pitch, (duration + 1), velocityOn, velocityOff)
     else
       performMIDIArticulated(pitch, duration, velocityOn, velocityOff)
@@ -154,15 +154,15 @@ define :performMIDIShortMidHypothesisForSpan do |pPosition, pHypothesis, pSpan, 
   isOnFirstUnit = true
   unitsLeft = pSpan
   (0...pHypothesis.length).each do |i|
-    chronomorph = pHypothesis[i]
+    note = pHypothesis[i]
 
-    duration = getMin(chronomorph[:span], unitsLeft)
+    duration = getMin(note[:span], unitsLeft)
     unitsLeft -= duration
 
     keyswitch = selectShortMidKeyswitch(pInstrument, duration, svaps[:durationMid])
 
     pitch = nil
-    pitch = calculatePitch((chronomorph[:displacement] + pPosition), pSpaceDomain) unless chronomorph[:displacement].nil?
+    pitch = calculatePitch((note[:displacement] + pPosition), pSpaceDomain) unless note[:displacement].nil?
 
     velocityOff = calculateVelocity(svaps[:velocityOff])
     velocityOn = calculateVelocity(svaps[:velocityOn])
