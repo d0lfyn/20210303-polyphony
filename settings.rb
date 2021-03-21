@@ -14,7 +14,7 @@ set("settings/composition", {
 set("settings/general", {
   seed: ((Time.new.to_i * 1e9).to_i + Time.new.nsec), # int [0,)
   seed: Time.new.to_i, # int [0,)
-  seed: 2, # int [0,)
+  seed: 1616366785, # int [0,)
 }.freeze)
 
 set("settings/ideation", {
@@ -102,7 +102,7 @@ set("settings/voices/articulated", {
 
     ensemble: get("ensembles/spi")[:SPI_SATB_4],
 
-    rangeNumRhythmicDivisions: makeRangePair(1, 8), # int [1,)
+    rangeNumRhythmicDivisions: makeRangePair(1, 4), # int [1,)
     rangeNumRhythms: makeRangePair(1, 2), # int [1,)
 
     midi: {
