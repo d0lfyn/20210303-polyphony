@@ -17,14 +17,18 @@ define :calculateModulationToChordRoot do |pSpaceDomain, pChordRoot, pSettingsSp
   newThird =  ((calculatePitch((pChordRoot + 2), pSpaceDomain) % 12))
   newFifth =  ((calculatePitch((pChordRoot + 4), pSpaceDomain) % 12))
 
-  if (((newThird - newTonic) == 4) || ((newTonic - newThird) == 8))
-    return makeKey(newTonic, pSettingsSpace[:majorScales].choose)
-  else
-    if (((newFifth - newTonic) == 6) || ((newTonic - newFifth) == 6))
-      return makeKey(newTonic, pSettingsSpace[:diminishedScales].choose)
+  if evalChance?(pSettingsSpace[:chanceModulateWithPivot])
+    if (((newThird - newTonic) == 4) || ((newTonic - newThird) == 8))
+      return makeKey(newTonic, pSettingsSpace[:majorScales].choose)
     else
-      return makeKey(newTonic, pSettingsSpace[:minorScales].choose)
+      if (((newFifth - newTonic) == 6) || ((newTonic - newFifth) == 6))
+        return makeKey(newTonic, pSettingsSpace[:diminishedScales].choose)
+      else
+        return makeKey(newTonic, pSettingsSpace[:minorScales].choose)
+      end
     end
+  else
+    return makeKey(newTonic, (pSettingsSpace[:majorScales] + pSettingsSpace[:minorScales] + pSettingsSpace[:diminishedScales]).choose)
   end
 end
 
