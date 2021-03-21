@@ -33,7 +33,34 @@ use_midi_logging(get("settings/logging")[:shouldLogMIDI])
 
 # time-state
 
-set("motifs", createStateMotifs())
+set("motifs", [
+  makeMotif([
+    makeChronomorph(0, 3),
+    makeChronomorph(1, 1),
+    makeChronomorph(2, 2),
+    makeChronomorph(2, 2),
+    
+    makeChronomorph(1, 1),
+    makeChronomorph(0, 1),
+    makeChronomorph(1, 1),
+    makeChronomorph(2, 1),
+    makeChronomorph(0, 2),
+    makeChronomorph(-3, 2),
+    ]),
+    
+  makeMotif([
+    makeChronomorph(0, 3),
+    makeChronomorph(1, 1),
+    makeChronomorph(2, 2),
+    makeChronomorph(2, 2),
+    
+    makeChronomorph(1, 1),
+    makeChronomorph(0, 1),
+    makeChronomorph(1, 1),
+    makeChronomorph(2, 1),
+    makeChronomorph(0, 4),
+    ]),
+  ])
 
 set("space/chordRoot", 0)
 set("space/key", get("settings/space")[:initialKey])

@@ -14,6 +14,7 @@ set("settings/composition", {
 set("settings/general", {
   seed: ((Time.new.to_i * 1e9).to_i + Time.new.nsec), # int [0,)
   seed: Time.new.to_i, # int [0,)
+  seed: 2, # int [0,)
 }.freeze)
 
 set("settings/ideation", {
@@ -53,7 +54,7 @@ set("settings/metronome", {
   numUnitsPerMeasure: 16, # int [1,)
   numSubunits: 4, # int [2,)
   unit: 1, # (0,)
-  unitsPerMinute: 360, # (0,)
+  unitsPerMinute: 280, # (0,)
 
   startDelay: 2, # [0,)
   timeLimitInMinutes: nil, # [0,) | nil performs forever
@@ -70,7 +71,7 @@ set("settings/space", {
   minorScales: [:dorian, :phrygian, :aeolian].freeze, # [any heptatonic scale]
   progressions: nil, # [0,tonicity] | nil permits all progressions
 
-  initialKey: makeKey(0, :aeolian), # 0-11, [any heptatonic scale]
+  initialKey: makeKey(0, :ionian), # 0-11, [any heptatonic scale]
   numOctaves: 9, # int [1,)
 
   maxPositionInterval: 5, # int [0,)
