@@ -146,6 +146,12 @@ define :makeMotif do |pNotes|
   return zeroNotes(pNotes).freeze
 end
 
+define :makeMotifFromArrays do |pArrays|
+  notes = pArrays.map { |array| makeNote(array[0], array[1]) }
+
+  return makeMotif(notes)
+end
+
 # infinitum
 
 INFINITUM_NOTE = makeNote(0, nil)
