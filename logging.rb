@@ -9,6 +9,7 @@ module Polyphony
     # Outputs time information.
     #
     def activateLogging
+      puts(-"----------------------------------------------------------------")
       puts("start of measure #{((get(-"time/unitsElapsed") / Settings::TIMEKEEPING[:numUnitsPerMeasure]) + 1).to_s}")
       puts("units elapsed: #{get(-"time/unitsElapsed").to_s}")
     end
