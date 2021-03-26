@@ -96,11 +96,25 @@ module Polyphony
     end
 
     #
-    # Facilitates user ideating.
+    # Used for diagnosis.
     #
-    # @param [Array<Array<Integer>>] pArrays arrays of arrays containing displacement and span at indices 0 and 1 respectively
+    # @param [Hash] pMotif motif hash
     #
-    # @return [Hash] motif
+    # @return [Array<Array<Integer>>] array of arrays containing displacement and span at indices 0 and 1 respectively
+    #
+    def makeArraysFromMotif(pMotif)
+      # @type [Array<Array<Integer>>]
+      arrays = pMotif[:notes].map { |note| makeArrayFromNote(note) }.freeze
+
+      return arrays
+    end
+
+    #
+    # Used for custom motifs.
+    #
+    # @param [Array<Array<Integer>>] pArrays array of arrays containing displacement and span at indices 0 and 1 respectively
+    #
+    # @return [Hash] motif hash
     #
     def makeMotifFromArrays(pArrays)
       # @type [Array<Hash>]
@@ -263,6 +277,20 @@ module Polyphony
     def invertNote(pNote)
       return pNote if pNote[:displacement].nil?
       return makeNote(-pNote[:displacement], pNote[:span])
+    end
+
+    #
+    # Used for diagnosis.
+    #
+    # @param [Hash] pNote note hash
+    #
+    # @return [Array<Integer>] array containing displacement and span at indices 0 and 1 respectively
+    #
+    def makeArrayFromNote(pNote)
+      # @type [Array<Integer>]
+      array = [pNote[:displacement], pNote[:span]].freeze
+
+      return array
     end
 
     #
