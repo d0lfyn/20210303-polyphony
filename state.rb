@@ -17,9 +17,9 @@ module Polyphony
         # @type [Hash]
         newMotif = createMotif(Settings::TIMEKEEPING[:numUnitsPerMeasure], Settings::CREATION)
         if stateMotifs.length == Settings::STATE[:maxNumStateMotifs]
-          # @type [Integer]
-          indexToRemove = rand_i(Settings::STATE[:maxNumStateMotifs] - Settings::STATE[:numStateMotifsToKeep]) + Settings::STATE[:numStateMotifsToKeep]
-          stateMotifs -= [stateMotifs[indexToRemove]]
+          # @type [Hash]
+          motifToRemove = stateMotifs.drop(Settings::STATE[:numStateMotifsToKeep]).choose
+          stateMotifs -= [motifToRemove]
         end
         set("motifs", (stateMotifs + [newMotif]))
 
