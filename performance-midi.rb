@@ -217,7 +217,7 @@ module Polyphony
           # @type [Hash]
           note = pHypothesis[:notes][i]
           # @type [Hash]
-          nextNote = pHypothesis[i + 1]
+          nextNote = pHypothesis[:notes][i + 1]
 
           # @type [Integer]
           duration = getMin(note[:span], unitsLeft)
