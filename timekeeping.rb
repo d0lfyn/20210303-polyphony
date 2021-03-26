@@ -20,7 +20,7 @@ module Polyphony
       if Settings::TIMEKEEPING[:timeLimitInUnits].nil?
         return false
       else
-        return get("time/unitsElapsed") < Settings::TIMEKEEPING[:timeLimitInUnits]
+        return get("time/unitsElapsed") >= Settings::TIMEKEEPING[:timeLimitInUnits]
       end
     end
 
