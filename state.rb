@@ -22,6 +22,8 @@ module Polyphony
           stateMotifs -= [stateMotifs[indexToRemove]]
         end
         set("motifs", (stateMotifs + [newMotif]))
+
+        logMessage("motif added: #{makeArraysFromMotif(motif).to_s}")
       end
     end
 
