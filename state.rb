@@ -23,7 +23,7 @@ module Polyphony
         end
         set("motifs", (stateMotifs + [newMotif]))
 
-        logMessage("motif added: #{makeArraysFromMotif(motif).to_s}")
+        logMessage("motif added: #{makeArraysFromMotif(newMotif).to_s}")
       end
     end
 
