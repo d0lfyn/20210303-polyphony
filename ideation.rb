@@ -50,23 +50,6 @@ module Polyphony
     end
 
     #
-    # Creates an array of the given number of motif hashes, using the given parameters.
-    #
-    # @param [Integer] pNumMotifs number of motif hashes to create
-    # @param [Integer] pNumUnitsPerMeasure number of units per measure that each motif will be based on
-    # @param [Hash] pSettingsCreation creation settings
-    #
-    # @return [Array<Hash>] array of the given number of motif hashes
-    #
-    def createNumMotifs(pNumMotifs, pNumUnitsPerMeasure, pSettingsCreation)
-      if pNumMotifs.zero?
-        return [].freeze
-      else
-        return pNumMotifs.toRangeAFromZero.map { |x| createMotif(pNumUnitsPerMeasure, pSettingsCreation) }.freeze
-      end
-    end
-
-    #
     # @param [Array<Hash>] pMotifs motif hashes
     #
     # @return [Integer] max peak of given motif hashes

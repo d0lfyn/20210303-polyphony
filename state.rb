@@ -31,8 +31,14 @@ module Polyphony
     # Sets the time-state motifs to motif hashes generated from global settings.
     #
     def initState
-      # @type [Array<Motif>]
-      motifs = createNumMotifs(Settings::STATE[:numInitialStateMotifs], Settings::TIMEKEEPING[:numUnitsPerMeasure], Settings::CREATION)
+      # @type [Array<Hash>]
+      motifs = []
+      motifs += Settings::STATE[:customStateMotifs]
+
+      (Settings::STATE[:numInitialStateMotifs] - motifs.length).times do
+        motifs.push(createMotif(Settings::TIMEKEEPING[:numUnitsPerMeasure], Settings::CREATION))
+      end
+
       set("motifs", motifs)
     end
   end
