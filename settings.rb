@@ -324,7 +324,7 @@ module Polyphony
       chanceCreateNewStateMotif: 0.005, # [0, 1]
 
       customStateMotifs: [
-        # makeMotifFromArrays([0, 4], [1, 4], [3, 4], [2, 4]),
+        # makeMotifFromArrays([[0, 4], [1, 4], [3, 4], [2, 4]]),
       ].freeze,
 
       maxNumStateMotifs: 4, # int [0,]
