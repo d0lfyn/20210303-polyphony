@@ -254,8 +254,8 @@ module Polyphony
       chanceCreateNilFeature: 0, # [0, 1]
       chanceCreateNoConsecutivelyRepeatedDisplacements: 1, # [0, 1]
 
-      displacementLimit: 7, # int [0,]
-      displacementIntervalLimit: 7, # int [0,]
+      displacementLimit: 5, # int [0,]
+      displacementIntervalLimit: 5, # int [0,]
       weightForDisplacementIntervals: 0, # [0, 1] # negative for small intervals, positive for large intervals
 
       shouldMergeBriefStart: true,
@@ -270,12 +270,12 @@ module Polyphony
       chanceInvertMotif: 0.1, # [0, 1]
       chanceRetrogradeMotif: 0.1, # [0, 1]
 
-      rangeNumMotifsToIdeate: RangePairI.new(1, 1).freeze, # int [0,]
+      rangeNumMotifsToIdeate: RangePairI.new(1, 2).freeze, # int [0,]
     }.freeze
 
     # making syntheses
     COMPOSITION = {
-      chanceArrange: 0.9, # [0, 1]
+      chanceArrange: 0.95, # [0, 1]
       chanceImprovise: 0.8, # [0, 1]
 
       degreeOfOverlap: 2, # 0: none; 1: edges; 2: spaces; 3: positions
@@ -342,7 +342,7 @@ module Polyphony
 
       timeLimitInUnits: nil, # int [0,]
 
-      unitsPerMinute: 400, # (0,)
+      unitsPerMinute: 360, # (0,)
     }.freeze
 
     # sections of playing styles
