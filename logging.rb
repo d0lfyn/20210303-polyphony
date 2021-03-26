@@ -1,10 +1,26 @@
-# specialised functions
+module Polyphony
+  #
+  # Methods for outputting to console.
+  #
+  module Logging
+    # impure functions
 
-define :activateLogger do
-  puts("seed: #{get("settings/general")[:seed].to_s}".freeze)
-  puts("minutes elapsed: #{(get("time/units") / get("settings/metronome")[:unitsPerMinute].to_f).round(4).to_s}")
-end
+    #
+    # Outputs seed and time information.
+    #
+    def activateLogging
+      puts("start of measure #{((get(-"time/unitsElapsed") / Settings::TIMEKEEPING[:numUnitsPerMeasure]) + 1).to_s}")
+      puts("units elapsed: #{get(-"time/unitsElapsed").to_s}")
+      puts(-"random seed: #{Settings::RANDOM[:seed].to_s}")
+    end
 
-define :logOptional do |pMessage|
-  puts(pMessage) if get("settings/logging")[:shouldLogOptional]
+    #
+    # Outputs message if global message logging is enabled.
+    #
+    # @param [String] pMessage message to output
+    #
+    def logMessage(pMessage)
+      puts(pMessage) if Settings::LOGGING[:shouldLogMessages]
+    end
+  end
 end

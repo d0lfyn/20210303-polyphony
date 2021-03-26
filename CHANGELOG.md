@@ -4,6 +4,10 @@ v0.3.0 (2021-03-14)
 - [log](#v0.3.0)
 - [tag]("https://github.com/dolphinOfDelphi/20210303-polyphony/releases/tag/v0.3.0")
 
+v0.4.0 (2021-03-26)
+- [log](#v0.4.0)
+- [tag]("https://github.com/dolphinOfDelphi/20210303-polyphony/releases/tag/v0.4.0")
+
 <hr/>
 
 ### v0.3.0
@@ -13,3 +17,9 @@ This version is a complete rewrite of the project, which was previously referred
 The newly created files each reflect an aspect (if not an explicit component) of the program. The main file is kept abstract. All settings are collected into the settings file for ease of use. The programmer-user can keep copies of their configurations for future use.
 
 This version is the first to be documented and integrated with version control. Previous programs were more prototypal in nature. It is almost likely that sweeping changes may still be made and that this program may be completely rewritten and re-organised. In light of that, the programmer-user should expect breaking changes in the future. Hence, this is not yet version 1.0.0.
+
+### v0.4.0
+
+This version is another complete rewrite of the project. The code has been refactored to use Ruby modules and classes. The justification for this is that a modular design is more organised and can be recognised by code editors as standard Ruby code, which aids maintenance.
+
+The code is now documented using the YARD standard. This makes it easy to learn how components fit together, from a glance at a code editor such as VSCode with appropriate plugins such as Solargraph.
