@@ -24,6 +24,8 @@ This version is another complete rewrite of the project. The code has been refac
 
 Also, the code is now documented using the YARD standard. This makes it easy to learn how components fit together, from a glance at a code editor such as VSCode with appropriate plugins such as Solargraph.
 
+This work lays a solid foundation for further developments.
+
 Important updates from [v0.3.0](#v0.3.0) are:
 
 - a revised MIDI CC system, with improved behaviour and variety
@@ -40,3 +42,4 @@ Future updates should address:
 
 - testing
 - ease of use of settings (including custom motifs)
+- refinements of musical ideas (e.g. with Markov matrices)
