@@ -313,7 +313,7 @@ module Polyphony
       progressions: nil, # int [0, tonicity] # nil permits all progressions
 
       initialKey: makeKey(0, :aeolian), # int 0-11, [any heptatonic scale]
-      numOctaves: 9, # int [1,]
+      numOctaves: 10, # int [1,]
 
       maxPositionInterval: 5, # int [0,]
       weightForPositionIntervals: -0.8, # int [-1,1] # -ve for small intervals, +ve for large intervals
