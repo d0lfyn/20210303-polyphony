@@ -340,7 +340,7 @@ module Polyphony
 
       numSubunits: 4, # int [1,]
 
-      timeLimitInUnits: nil, # int [0,]
+      timeLimitInUnits: nil, # int [0,] | nil for no limit
 
       unitsPerMinute: 360, # (0,)
     }.freeze
