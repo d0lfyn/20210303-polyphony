@@ -17,7 +17,7 @@ module Polyphony
         longSwitches: [1].freeze,
         legatoSwitches: [0].freeze,
         ccNums: [1, 11].freeze,
-        playingRangePair: RangePairI.new(note(:Bb2), note(:C5)).freeze,
+        playingRangePair: RangePairI.new(note(:Bb1), note(:C5)).freeze,
       }.freeze).freeze,
       BBCSO_CELESTE: MIDIInstrument.new({
         shortSwitches: [1].freeze,
