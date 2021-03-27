@@ -252,7 +252,7 @@ module Polyphony
     # making ideas
     CREATION = {
       chanceCreateNilFeature: 0, # [0, 1]
-      chanceCreateNoConsecutivelyRepeatedDisplacements: 1, # [0, 1]
+      chanceCreateNoConsecutivelyRepeatedDisplacements: 0, # [0, 1]
 
       displacementLimit: 5, # int [0,]
       displacementIntervalLimit: 5, # int [0,]
