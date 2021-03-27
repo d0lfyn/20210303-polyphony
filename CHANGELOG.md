@@ -20,6 +20,23 @@ This version is the first to be documented and integrated with version control. 
 
 ### v0.4.0
 
-This version is another complete rewrite of the project. The code has been refactored to use Ruby modules and classes. The justification for this is that a modular design is more organised and can be recognised by code editors as standard Ruby code, which aids maintenance.
+This version is another complete rewrite of the project. The code has been refactored to use Ruby modules and classes. The justification for this is that a modular design is more organised and can be recognised by code editors as standard Ruby code, which aids maintenance and navigation.
 
-The code is now documented using the YARD standard. This makes it easy to learn how components fit together, from a glance at a code editor such as VSCode with appropriate plugins such as Solargraph.
+Also, the code is now documented using the YARD standard. This makes it easy to learn how components fit together, from a glance at a code editor such as VSCode with appropriate plugins such as Solargraph.
+
+Important updates from [v0.3.0](#v0.3.0) are:
+
+- a revised MIDI CC system, with improved behaviour and variety
+- expanded frequency space possibilities, in terms of scales and modulations
+- implementation of a subsystem for Sonic Pi synths, with instruments that can be used together with MIDI instruments
+- improved musicality with conclusion passages for the articulated performance section
+- additional default instruments
+- simplified ensembles
+- preparation of a human-readable meta-data document (`entry.catalogue.md`)
+- preparation of functions and setting for custom motif input
+- improved logging format
+
+Future updates should address:
+
+- testing
+- ease of use of settings (including custom motifs)
