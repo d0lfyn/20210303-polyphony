@@ -36,8 +36,10 @@ module Polyphony
     # @return [Array<Integer>] rhythmic divisions of number of units
     #
     def divideUnitsRhythmically(pNumUnits, pWeightForSpans)
+      return 1 if (pNumUnits == 1)
+
       # @type [Integer]
-      numRhythmicDivisions = chooseAbsIntWithWeight(-pWeightForSpans, (1..pNumUnits).to_a)
+      numRhythmicDivisions = chooseAbsIntWithWeight(-pWeightForSpans, (1..(pNumUnits / 2)).to_a)
       # @type [Array<Integer>]
       offsets = getTrueIndices(spread(numRhythmicDivisions, pNumUnits, rotate: rand_i(numRhythmicDivisions)))
       # @type [Array<Integer>]
@@ -80,6 +82,25 @@ module Polyphony
 
         return divisions.freeze
       end
+    end
+
+    #
+    # @param [Integer] pNumUnits total number of units
+    # @param [Float] pWeightForSpans weight affecting span value
+    #
+    # @return [Array<Integer>] rhythmic subdivisions of number of units
+    #
+    def subdivideUnitsRhythmically(pNumUnits, pWeightForSpans)
+      return 1 if (pNumUnits == 1)
+
+      # @type [Integer]
+      numRhythmicSubdivisions = chooseAbsIntWithWeight(-pWeightForSpans, (1..pNumUnits).to_a)
+      # @type [Array<Integer>]
+      offsets = getTrueIndices(spread(numRhythmicSubdivisions, pNumUnits, rotate: rand_i(numRhythmicSubdivisions)))
+      # @type [Array<Integer>]
+      subdivisions = convertOffsetsToSpans(offsets, pNumUnits)
+
+      return subdivisions.freeze
     end
   end
 end

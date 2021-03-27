@@ -25,7 +25,7 @@ module Polyphony
         # @type [Array<Integer>]
         divisions = divideUnitsRhythmically(pNumUnitsPerMeasure, pSettingsCreation[:weightForSpans])
         # @type [Array<Integer>]
-        subdivisions = divisions.map { |division| (division == 1) ? division : divideUnitsRhythmically(division, pSettingsCreation[:weightForSpans]) }.flatten.freeze
+        subdivisions = divisions.map { |division| subdivideUnitsRhythmically(division, pSettingsCreation[:weightForSpans]) }.flatten.freeze
         subdivisions = mergeBriefStart(subdivisions) if pSettingsCreation[:shouldMergeBriefStart]
         # @type [Array<Hash>]
         notes = [createInitialNote(subdivisions.first, pSettingsCreation)]
