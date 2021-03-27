@@ -52,8 +52,8 @@ module Polyphony
           set("time/subunit", subunit)
           wait(subunitDuration)
         end
+        finishPiece() if isTimeUp?()
       end
-      finishPiece() if isTimeUp?()
     end
   end
 end
