@@ -105,7 +105,7 @@ module Polyphony
         sync_bpm(-"time/measure")
       end
 
-      live_loop :maintainTimekeeper, delay: Settings::TIMEKEEPING[:initialUnitsDelay] do
+      live_loop :maintainTimekeeper do
         activateTimekeeping()
       end
 

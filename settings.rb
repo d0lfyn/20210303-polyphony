@@ -334,8 +334,6 @@ module Polyphony
 
     # regulates tempo and time
     TIMEKEEPING = {
-      initialUnitsDelay: 2, # int [0,]
-
       numUnitsPerMeasure: 16, # int [1,]
 
       numSubunits: 4, # int [1,]
