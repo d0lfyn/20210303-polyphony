@@ -1,16 +1,16 @@
-## History
+# History
 
 v0.3.0 (2021-03-14)
 - [log](#v0.3.0)
-- [tag]("https://github.com/dolphinOfDelphi/20210303-polyphony/releases/tag/v0.3.0")
+- [tag](https://github.com/dolphinOfDelphi/20210303-polyphony/releases/tag/v0.3.0)
 
 v0.4.0 (2021-03-28)
 - [log](#v0.4.0)
-- [tag]("https://github.com/dolphinOfDelphi/20210303-polyphony/releases/tag/v0.4.0")
+- [tag](https://github.com/dolphinOfDelphi/20210303-polyphony/releases/tag/v0.4.0)
 
 <hr/>
 
-### v0.3.0
+## v0.3.0
 
 This version is a complete rewrite of the project, which was previously referred to as "motifs", "phrases", and "sections". The code has been organised into files and rewritten for clarity and maintainability. Towards that end, functions within each file have been categorised as generalised and specialised. Generalised functions are modular and depend only on the parameters supplied to them. Specialised functions are tied to the project's time-state global variables.
 
@@ -18,7 +18,7 @@ The newly created files each reflect an aspect (if not an explicit component) of
 
 This version is the first to be documented and integrated with version control. Previous programs were more prototypal in nature. It is almost likely that sweeping changes may still be made and that this program may be completely rewritten and re-organised. In light of that, the programmer-user should expect breaking changes in the future. Hence, this is not yet version 1.0.0.
 
-### v0.4.0
+## v0.4.0
 
 This version is another complete rewrite of the project. The code has been refactored to use Ruby modules and classes. The justification for this is that a modular design is more organised and can be recognised by code editors as standard Ruby code, which aids maintenance and navigation.
 
