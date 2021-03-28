@@ -4,7 +4,7 @@ v0.3.0 (2021-03-14)
 - [log](#v0.3.0)
 - [tag]("https://github.com/dolphinOfDelphi/20210303-polyphony/releases/tag/v0.3.0")
 
-v0.4.0 (2021-03-27)
+v0.4.0 (2021-03-28)
 - [log](#v0.4.0)
 - [tag]("https://github.com/dolphinOfDelphi/20210303-polyphony/releases/tag/v0.4.0")
 
