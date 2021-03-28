@@ -40,7 +40,8 @@ Important updates from [v0.3.0](#v0.3.0) are:
 
 Future updates should address:
 
-- testing
-- customisation (with a complementary GUI app)
 - idea development (with Markov matrices)
+- percussion
+- customisation (with a complementary GUI app)
+- testing
 - extensive logging (with files)
