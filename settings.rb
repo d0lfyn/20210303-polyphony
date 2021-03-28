@@ -203,7 +203,7 @@ module Polyphony
         playingRangePair: RangePairI.new(note(:G3), note(:C5)).freeze,
       }.freeze).freeze,
       BASS: SPiInstrument.new({
-        synth: :fm,
+        synth: :pulse,
         playingRangePair: RangePairI.new(note(:F2), note(:C4)).freeze,
       }.freeze).freeze,
       SOPRANO: SPiInstrument.new({
@@ -211,7 +211,7 @@ module Polyphony
         playingRangePair: RangePairI.new(note(:Bb3), note(:E5)).freeze,
       }.freeze).freeze,
       TENOR: SPiInstrument.new({
-        synth: :pulse,
+        synth: :tri,
         playingRangePair: RangePairI.new(note(:C3), note(:G4)).freeze,
       }.freeze).freeze,
     }.freeze
