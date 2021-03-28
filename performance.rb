@@ -1,82 +1,134 @@
-# specialised functions
+module Polyphony
+  #
+  # Methods for using voices.
+  #
+  module Performance
+    # impure functions
 
-define :activateVoices do |pVoiceType|
-  numVoicesToAdd = 0
-  numVoicesToAdd = getIntInRangePair(get("settings/voices/#{pVoiceType}")[:rangeNumToAddPerMeasure]) if evalChance?(get("settings/voices/#{pVoiceType}")[:chanceAddVoices])
-  numVoicesActive = countVoicesActive(pVoiceType)
-  numVoicesToAdd += 1 if (numVoicesActive.zero? && numVoicesToAdd.zero?)
-  numVoicesRemaining = (get("settings/voices/#{pVoiceType}")[:maxNumVoicesActive] - numVoicesActive)
-  numVoicesToAdd = getMin(numVoicesToAdd, numVoicesRemaining)
+    #
+    # Prepares and generates voices of the given type randomly if there is room to add them and if the chance of adding voices evaluates true. If a voice is to be added, the function will attempt to prepare free voices until either: one is successfully prepared (i.e. there is room for it), or until all voices have been tried.
+    #
+    # @param [String] pVoiceType voice type
+    #
+    def activateVoices(pVoiceType)
+      # @type [Hash]
+      s = Settings.const_get(-pVoiceType.upcase)
+      # @type [Integer]
+      numVoicesToAdd = 0
+      numVoicesToAdd = s[:rangeNumVoicesToAddPerMeasure].get if s[:chanceAddVoices].evalChance?
+      # @type [Integer]
+      numVoicesActive = countVoicesActive(pVoiceType)
+      numVoicesToAdd += 1 if (numVoicesActive.zero? && numVoicesToAdd.zero?)
+      # @type [Integer]
+      numVoicesRemaining = (s[:maxNumVoicesActive] - numVoicesActive)
+      numVoicesToAdd = getMin(numVoicesToAdd, numVoicesRemaining)
 
-  unless numVoicesToAdd.zero?
-    getAllVoicesNumbersArray(pVoiceType).shuffle.each do |vn|
-      if (isVoiceFree?(pVoiceType, vn) && send("prepare#{pVoiceType.capitalize}Synthesis?", vn))
-        generateVoice(pVoiceType, vn)
-        numVoicesToAdd -= 1
-        break if numVoicesToAdd.zero?
-      end
-    end
-  end
-end
-
-define :generateVoice do |pVoiceType, pVoiceNumber|
-  in_thread do
-    sync_bpm("time/measure")
-    in_thread(name: "#{pVoiceType}#{pVoiceNumber.to_s}".to_sym) do
-      if isVoiceActive?(pVoiceType, pVoiceNumber)
-        logOptional("#{pVoiceType} #{pVoiceNumber.to_s} playing #{getVoiceSynthesis(pVoiceType, pVoiceNumber).to_s}")
-
-        if get("settings/voices/#{pVoiceType}")[:performance][:ensemble][pVoiceNumber].has_key?(:SYNTH)
-          send("performSPi#{pVoiceType.capitalize}Synthesis", pVoiceNumber)
-        else
-          send("performMIDI#{pVoiceType.capitalize}Synthesis", pVoiceNumber)
+      unless numVoicesToAdd.zero?
+        getEnsemble(pVoiceType).length.toRangeAFromZero.shuffle.each do |vn|
+          if (isVoiceFree?(pVoiceType, vn) && send(-"prepare#{pVoiceType.capitalize}Synthesis?", vn))
+            generateVoice(pVoiceType, vn)
+            numVoicesToAdd -= 1
+            break if numVoicesToAdd.zero?
+          end
         end
-
-        logOptional("#{pVoiceType} #{pVoiceNumber.to_s} done")
-
-        clearVoice(pVoiceType, pVoiceNumber)
       end
     end
-  end
-end
 
-define :initialiseVoices do
-  get("settings/voices")[:selection].each do |voiceType|
-    clearAllVoices(voiceType)
-  end
-end
+    #
+    # At the beginning of the next measure, generates a thread for the voice specified by the givens, in which thread the voice will perform and clear when done.
+    #
+    # @param [String] pVoiceType voice type
+    # @param [Integer] pVoiceNumber voice number
+    #
+    def generateVoice(pVoiceType, pVoiceNumber)
+      in_thread do
+        sync_bpm(-"time/measure")
+        in_thread name: (-"#{pVoiceType}#{pVoiceNumber.to_s}").to_sym do
+          if isVoiceActive?(pVoiceType, pVoiceNumber)
+            logMessage("#{pVoiceType} #{pVoiceNumber.to_s} playing #{getVoiceSynthesis(pVoiceType, pVoiceNumber).to_s}")
 
-define :prepareArticulatedSynthesis? do |pVoiceNumber|
-  hypotheses = makeRangeArrayFromZero(getIntInRangePair(get("settings/ideation")[:rangeNumMotifsToIdeate])).map { |i| ideate() }
-  synthesis = arrangeArticulatedVoice(pVoiceNumber, hypotheses) if evalChance?(get("settings/composition")[:chanceCompose])
-  synthesis = improviseArticulatedVoice(pVoiceNumber) if (synthesis.nil? && evalChance?(get("settings/composition")[:chanceImprovise]))
+            if Settings.const_get(-pVoiceType.upcase)[:performance][:ensemble][pVoiceNumber].is_a?(SPiInstrument)
+              send(-"performSPi#{pVoiceType.capitalize}Synthesis", pVoiceNumber)
+            else
+              send(-"performMIDI#{pVoiceType.capitalize}Synthesis", pVoiceNumber)
+            end
 
-  unless synthesis.nil?
-    setVoiceSynthesis("articulated".freeze, pVoiceNumber, synthesis)
+            logMessage(-"#{pVoiceType} #{pVoiceNumber.to_s} done")
 
-    logOptional("articulated #{pVoiceNumber.to_s} preparing to play #{synthesis.to_s}")
+            clearVoice(pVoiceType, pVoiceNumber)
+          end
+        end
+      end
+    end
 
-    return true
-  else
-    logOptional("no room for articulated #{pVoiceNumber.to_s}")
+    #
+    # Clears all voices of all types selected in the settings.
+    #
+    def initVoices
+      Settings::VOICES[:selection].each do |voiceType|
+        clearAllVoices(voiceType)
+      end
+    end
 
-    return false
-  end
-end
+    #
+    # Attempts to prepare an articulated synthesis hash for the given voice by arranging or improvising depending on chance. Improvisation only occurs if arranging fails. If a synthesis is produced, the voice synthesis is set to it, and this function returns true. Otherwise, this function returns false.
+    #
+    # @param [Integer] pVoiceNumber voice number
+    #
+    # @return [TrueClass, FalseClass] true if a synthesis hash is successfully prepared and set for the given voice
+    #
+    def prepareArticulatedSynthesis?(pVoiceNumber)
+      # @type [Hash]
+      synthesis = nil
+      # @type [TrueClass, FalseClass]
+      tried = false
+      if Settings::COMPOSITION[:chanceArrange].evalChance?
+        # @type [Array<Hash>]
+        hypotheses = Settings::IDEATION[:rangeNumMotifsToIdeate].get.toRangeAFromZero.map { |x| ideate() }
+        tried = true
+        synthesis = arrangeForArticulatedVoice(pVoiceNumber, hypotheses)
+      end
+      if synthesis.nil? && Settings::COMPOSITION[:chanceImprovise].evalChance?
+        tried = true
+        synthesis = improviseArticulatedVoice(pVoiceNumber)
+      end
 
-define :prepareSustainedSynthesis? do |pVoiceNumber|
-  hypothesis = [getInfinitumMotif()].freeze
-  synthesis = arrangeSustainedVoice(pVoiceNumber, hypothesis)
+      unless synthesis.nil?
+        setVoiceSynthesis(-"articulated", pVoiceNumber, synthesis)
 
-  unless synthesis.nil?
-    setVoiceSynthesis("sustained".freeze, pVoiceNumber, synthesis)
+        logMessage(-"articulated #{pVoiceNumber.to_s} preparing to play #{synthesis.to_s}")
 
-    logOptional("sustained #{pVoiceNumber.to_s} preparing to play")
+        return true
+      else
+        logMessage(-"no room for articulated #{pVoiceNumber.to_s}") if tried
+      end
+      return false
+    end
 
-    return true
-  else
-    logOptional("no room for sustained #{pVoiceNumber.to_s}")
+    #
+    # Attempts to prepare a sustained synthesis hash for the given voice by arranging the infinitum motif. If a synthesis is produced, the voice synthesis is set to it, and this function returns true. Otherwise, this function returns false.
+    #
+    # @param [Integer] pVoiceNumber voice number
+    #
+    # @return [TrueClass, FalseClass] true if a synthesis hash is successfully prepared and set for the given voice
+    #
+    def prepareSustainedSynthesis?(pVoiceNumber)
+      # @type [Array<Hash>]
+      hypotheses = [Ideation::INFINITUM].freeze
+      # @type [Hash]
+      synthesis = arrangeForSustainedVoice(pVoiceNumber, hypotheses)
 
-    return false
+      unless synthesis.nil?
+        setVoiceSynthesis(-"sustained", pVoiceNumber, synthesis)
+
+        logMessage(-"sustained #{pVoiceNumber.to_s} preparing to play")
+
+        return true
+      else
+        logMessage(-"no room for sustained #{pVoiceNumber.to_s}")
+
+        return false
+      end
+    end
   end
 end
