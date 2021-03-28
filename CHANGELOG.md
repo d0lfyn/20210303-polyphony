@@ -41,5 +41,6 @@ Important updates from [v0.3.0](#v0.3.0) are:
 Future updates should address:
 
 - testing
-- ease of use of settings (including custom motifs)
-- refinements of musical ideas (e.g. with Markov matrices)
+- customisation (with a complementary GUI app)
+- idea development (with Markov matrices)
+- extensive logging (with files)
