@@ -12,11 +12,11 @@ module Polyphony
       # @type [Array<Hash>]
       stateMotifs = get("motifs")
       # @type [TrueClass, FalseClass]
-      roomForMoreExists = (stateMotifs.length < Settings::STATE[:maxNumStateMotifs]) || (Settings::STATE[:numStateMotifsToKeep] < Settings::STATE[:maxNumStateMotifs])
-      if roomForMoreExists && Settings::STATE[:chanceCreateNewStateMotif].evalChance?
+      roomForMoreExists = ((stateMotifs.length < Settings::STATE[:maxNumStateMotifs]) || (Settings::STATE[:numStateMotifsToKeep] < Settings::STATE[:maxNumStateMotifs]))
+      if (roomForMoreExists && Settings::STATE[:chanceCreateNewStateMotif].evalChance?)
         # @type [Hash]
         newMotif = createMotif(Settings::TIMEKEEPING[:numUnitsPerMeasure], Settings::CREATION)
-        if stateMotifs.length == Settings::STATE[:maxNumStateMotifs]
+        if (stateMotifs.length == Settings::STATE[:maxNumStateMotifs])
           # @type [Hash]
           motifToRemove = stateMotifs.drop(Settings::STATE[:numStateMotifsToKeep]).choose
           stateMotifs -= [motifToRemove]

@@ -91,7 +91,7 @@ module Polyphony
       def ==(pOther)
         return false if pOther.nil?
         return false unless pOther.instance_of?(RangePairF)
-        return (@min == pOther.min) && (@max == pOther.max)
+        return ((@min == pOther.min) && (@max == pOther.max))
       end
     end
 
@@ -136,7 +136,7 @@ module Polyphony
       def ==(pOther)
         return false if pOther.nil?
         return false unless pOther.instance_of?(RangePairI)
-        return @min == pOther.min && @max == pOther.max
+        return ((@min == pOther.min) && (@max == pOther.max))
       end
     end
 
