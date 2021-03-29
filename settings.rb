@@ -298,6 +298,7 @@ module Polyphony
     # random seed
     RANDOM = {
       seed: Time.now.to_i, # int [0,]
+      seed: 1617049298, # int [0,]
     }.freeze
 
     # key/chord management
@@ -306,13 +307,13 @@ module Polyphony
       chanceModulateWithPivot: 0.5, # [0, 1]
 
       chanceProgress: 0.8, # [0, 1]
-      chanceReturnToRoot: 0.2, # [0, 1]
+      chanceReturnToRoot: 0.4, # [0, 1]
       diminishedScales: [:locrian].freeze, # [any heptatonic scale]
       majorScales: [:ionian, :lydian, :mixolydian].freeze, # [any heptatonic scale]
       minorScales: [:dorian, :phrygian, :aeolian].freeze, # [any heptatonic scale]
       progressions: nil, # int [0, tonicity] # nil permits all progressions
 
-      initialKey: makeKey(0, :aeolian), # int 0-11, [any heptatonic scale]
+      initialKey: makeKey(0, :ionian), # int 0-11, [any heptatonic scale]
       numOctaves: 10, # int [1,]
 
       maxPositionInterval: 5, # int [0,]
@@ -339,8 +340,9 @@ module Polyphony
       numSubunits: 4, # int [1,]
 
       timeLimitInUnits: nil, # int [0,] | nil for no limit
+      timeLimitInUnits: 802, # int [0,] | nil for no limit
 
-      unitsPerMinute: 360, # (0,)
+      unitsPerMinute: 400, # (0,)
     }.freeze
 
     # sections of playing styles
@@ -359,16 +361,16 @@ module Polyphony
     # articulated playing style
     ARTICULATED = {
       chanceAddVoices: 0.5, # [0, 1]
-      maxNumVoicesActive: 4, # int [0,]
+      maxNumVoicesActive: 3, # int [0,]
       rangeNumVoicesToAddPerMeasure: RangePairI.new(0, 1).freeze, # int [0,]
 
       performance: {
         chanceRecalculate: 0.95, # [0, 1]
         chanceRepeat: 0.75, # [0, 1]
 
-        ensemble: ENSEMBLES[:SPI_SATB_4], # (select ensemble from ensembles)
+        ensemble: ENSEMBLES[:BBCSO_WINDS_4], # (select ensemble from ensembles)
 
-        rangeNumRhythmicDivisions: RangePairI.new(1, 4).freeze, # int [0,]
+        rangeNumRhythmicDivisions: RangePairI.new(1, 3).freeze, # int [0,]
         rangeNumRhythmsInPolyrhythm: RangePairI.new(1, 2).freeze, # int [0,]
 
         midi: {
@@ -431,7 +433,7 @@ module Polyphony
       rangeNumVoicesToAddPerMeasure: RangePairI.new(0, 3).freeze, # int [0,]
 
       performance: {
-        ensemble: ENSEMBLES[:SPI_SATB_4], # (select ensemble from ensembles)
+        ensemble: ENSEMBLES[:BBCSO_VIBRAPHONE_1]*4, # (select ensemble from ensembles)
 
         rangeNumMeasuresToSustain: RangePairI.new(3, 4).freeze, # int [0,]
 
