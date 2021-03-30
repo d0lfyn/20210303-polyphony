@@ -4,6 +4,34 @@ module Polyphony
     # Methods for voice management.
     #
     module Helpers
+      # pure functions
+
+      #
+      # @param [Hash] pChain displacement Markov chain
+      # @param [Integer] pD0 current displacement
+      #
+      # @return [Integer] next displacement calculated with the Markov chain
+      #
+      def chooseNextMarkovChainDisplacement(pChain, pD0)
+        # @type [Hash]
+        d1Wts = pChain[pD0]
+        # @type [Integer]
+        totalWt = 0
+        d1Wts.each do |d1, wt|
+          totalWt += wt
+        end
+        # @type [Integer]
+        i = rand_i(totalWt)
+        # @type [Integer]
+        sumWt = 0
+        d1Wts.each do |d1, wt|
+          return d1 if (sumWt >= i)
+          sumWt += wt
+        end
+
+        return d1Wts.keys[-1]
+      end
+
       # impure functions
 
       #

@@ -10,6 +10,36 @@ module Polyphony
     # motif hashes
 
     #
+    # Calculates a Markov chain on the displacements of the given notes. The last displacement is linked back to the first displacement.
+    #
+    # @param [Array<Hash>] pZeroedNotes zeroed notes
+    #
+    # @return [Hash] displacement Markov chain
+    #
+    def calculateDisplacementMarkovChain(pZeroedNotes)
+      # @type [Hash]
+      displacementMarkovChain = {}
+      # @type [Array<Hash>]
+      notes = pZeroedNotes + [pZeroedNotes.first] # loop around
+      # @type [Array<Integer>]
+      d0s = notes[0..-2].map { |note| note[:displacement] }.uniq
+      d0s.each { |key| displacementMarkovChain[key] = {} }
+      notes[1..-1].each_with_index do |n, i|
+        # @type [Integer]
+        d0 = notes[i][:displacement]
+        # @type [Integer]
+        d1 = n[:displacement]
+        # @type [Integer]
+        wt = displacementMarkovChain[d0].fetch(d1, 0)
+        wt += 1
+        displacementMarkovChain[d0][d1] = wt
+      end
+      displacementMarkovChain.each_value { |wts| wts.freeze }
+
+      return displacementMarkovChain.freeze
+    end
+
+    #
     # Creates a random motif by dividing and subdividing the given number of measure units, with displacement intervals chosen by the given settings, keeping within the given displacement bounds.
     #
     # @param [RangePairI] pBounds displacement bounds
@@ -120,6 +150,7 @@ module Polyphony
         notes: zeroedNotes,
         peak: getPeakOfNotes(zeroedNotes),
         trough: getTroughOfNotes(zeroedNotes),
+        displacementMarkovChain: calculateDisplacementMarkovChain(zeroedNotes),
       }.freeze
     end
 

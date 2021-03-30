@@ -261,6 +261,9 @@ module Polyphony
         # @type [Hash]
         svaps = Settings::ARTICULATED[:performance][:midi][:shortMid]
 
+        # @type [Integer]
+        d = pHypothesis[:notes].first[:displacement]
+
         # @type [TrueClass, FalseClass]
         isOnFirstUnit = true
         # @type [Integer]
@@ -278,7 +281,7 @@ module Polyphony
 
           # @type [Integer]
           pitch = nil
-          pitch = calculatePitch((note[:displacement] + pPosition), pSpaceDomain) unless note[:displacement].nil?
+          pitch = calculatePitch((d + pPosition), pSpaceDomain) unless d.nil?
 
           # @type [Float]
           velocityOff = calculateVelocity(svaps[:velocityOff])
@@ -295,6 +298,8 @@ module Polyphony
 
           isOnFirstUnit = false
           break if unitsLeft.zero?
+
+          d = chooseNextMarkovChainDisplacement(pHypothesis[:displacementMarkovChain], d)
         end
       end
 
