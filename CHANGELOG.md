@@ -8,6 +8,9 @@ v0.4.0 (2021-03-28)
 - [log](#v0.4.0)
 - [tag](https://github.com/dolphinOfDelphi/20210303-polyphony/releases/tag/v0.4.0)
 
+v0.4.1 (2021-04-xx)
+- [log](#v0.4.1)
+
 <hr/>
 
 ## v0.3.0
@@ -45,3 +48,14 @@ Future updates should address:
 - customisation (with a complementary GUI app)
 - testing
 - extensive logging (with files)
+
+### v0.4.1
+
+This version implements Markov matrices for idea displacements as a motif property that is interpreted during performance. This adds variety to the music while maintaining a sense of familiarity and coherence.
+
+Minor changes are:
+
+- additional default heptatonic scales (i.e. the harmonic and melodic minor scales, as well as the super locrian)
+- renaming instruments and ensembles for consistency of capitalisation
+- renaming the `ensembles.rb` file to `instruments.rb`, since the module contained therein only contains instrument classes
+- adding an initial delay time before changes of space and state begin
