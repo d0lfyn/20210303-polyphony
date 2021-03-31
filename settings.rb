@@ -230,10 +230,10 @@ module Polyphony
         MIDI_INSTRUMENTS[:bbcsoVibraphone],
       ].freeze,
       bbcsoWinds4: [
-        MIDI_INSTRUMENTS[:bbcsoFlute], MIDI_INSTRUMENTS[:bbcsoOboe], MIDI_INSTRUMENTS[:bbcsoClarinet], MIDI_INSTRUMENTS[:bbcsoBassoon:],
+        MIDI_INSTRUMENTS[:bbcsoFlute], MIDI_INSTRUMENTS[:bbcsoOboe], MIDI_INSTRUMENTS[:bbcsoClarinet], MIDI_INSTRUMENTS[:bbcsoBassoon],
       ].freeze,
       bbcsoWinds5: [
-        MIDI_INSTRUMENTS[:bbcsoFlute], MIDI_INSTRUMENTS[:bbcsoOboe], MIDI_INSTRUMENTS[:bbcsoClarinet], MIDI_INSTRUMENTS[:bbcsoFrenchHorn], MIDI_INSTRUMENTS[:bbcsoBassoon:],
+        MIDI_INSTRUMENTS[:bbcsoFlute], MIDI_INSTRUMENTS[:bbcsoOboe], MIDI_INSTRUMENTS[:bbcsoClarinet], MIDI_INSTRUMENTS[:bbcsoFrenchHorn], MIDI_INSTRUMENTS[:bbcsoBassoon],
       ].freeze,
       pianoteqHarpsichord1: [
         MIDI_INSTRUMENTS[:pianoteqHarpsichord]
