@@ -317,6 +317,8 @@ module Polyphony
 
       maxPositionInterval: 5, # int [0,]
       weightForPositionIntervals: -0.8, # int [-1,1] # -ve for small intervals, +ve for large intervals
+
+      numMeasuresInitialDelay: 4, # int [0,]
     }.freeze
 
     # motif management
@@ -330,6 +332,8 @@ module Polyphony
       maxNumStateMotifs: 4, # int [0,]
       numInitialStateMotifs: 2, # int [0,]
       numStateMotifsToKeep: 2, # int [0,]
+
+      numMeasuresInitialDelay: 40, # int [0,]
     }.freeze
 
     # regulates tempo and time

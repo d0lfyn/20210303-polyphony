@@ -93,13 +93,13 @@ module Polyphony
         sync_bpm(-"time/measure")
       end
 
-      live_loop :maintainSpace, sync_bpm: -"time/measure" do
+      live_loop :maintainSpace, delay: (Settings::SPACE[:numMeasuresInitialDelay] * Settings::TIMEKEEPING[:numUnitsPerMeasure]), sync_bpm: -"time/measure" do
         waitNumUnitsQuantised(Settings::TIMEKEEPING[:numUnitsPerMeasure] / 2)
         activateSpace()
         sync_bpm(-"time/measure")
       end
 
-      live_loop :maintainState, sync_bpm: -"time/measure" do
+      live_loop :maintainState, delay: (Settings::STATE[:numMeasuresInitialDelay] * Settings::TIMEKEEPING[:numUnitsPerMeasure]), sync_bpm: -"time/measure" do
         waitNumUnitsQuantised(Settings::TIMEKEEPING[:numUnitsPerMeasure] / 2)
         activateState()
         sync_bpm(-"time/measure")
