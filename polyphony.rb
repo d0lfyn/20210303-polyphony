@@ -30,7 +30,7 @@ module Polyphony
   module Core
     extend self
     include Polyphony::Composition
-    include Polyphony::Ensembles
+    include Polyphony::Instruments
     include Polyphony::Ideation
     include Polyphony::Logging
     include Polyphony::Performance::Helpers

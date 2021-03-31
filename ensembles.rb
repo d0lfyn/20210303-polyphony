@@ -2,7 +2,7 @@ module Polyphony
   #
   # Class abstractions of instruments.
   #
-  module Ensembles
+  module Instruments
     extend self
 
     #

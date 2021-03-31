@@ -4,7 +4,7 @@ module Polyphony
   #
   module Settings
     extend self
-    include Polyphony::Ensembles
+    include Polyphony::Instruments
     include Polyphony::Ideation
     include Polyphony::Space
     include Polyphony::Utils
