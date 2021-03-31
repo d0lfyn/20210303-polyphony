@@ -370,7 +370,7 @@ module Polyphony
         chanceRecalculate: 0.95, # [0, 1]
         chanceRepeat: 0.75, # [0, 1]
 
-        ensemble: ENSEMBLES[:SPI_SATB_4], # (select ensemble from ensembles)
+        ensemble: ENSEMBLES[:spiSATB4], # (select ensemble from ensembles)
 
         rangeNumRhythmicDivisions: RangePairI.new(1, 4).freeze, # int [0,]
         rangeNumRhythmsInPolyrhythm: RangePairI.new(1, 2).freeze, # int [0,]
@@ -435,7 +435,7 @@ module Polyphony
       rangeNumVoicesToAddPerMeasure: RangePairI.new(0, 3).freeze, # int [0,]
 
       performance: {
-        ensemble: ENSEMBLES[:SPI_SATB_4], # (select ensemble from ensembles)
+        ensemble: ENSEMBLES[:spiSATB4], # (select ensemble from ensembles)
 
         rangeNumMeasuresToSustain: RangePairI.new(3, 4).freeze, # int [0,]
 
