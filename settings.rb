@@ -11,7 +11,7 @@ module Polyphony
     include SonicPi::Lang::WesternTheory
 
     MIDI_INSTRUMENTS = {
-      BBCSO_BASSOON: MIDIInstrument.new({
+      bbcsoBassoon: MIDIInstrument.new({
         shortSwitches: [4].freeze,
         midSwitches: [4, 5].freeze,
         longSwitches: [1].freeze,
@@ -19,7 +19,7 @@ module Polyphony
         ccNums: [1, 11].freeze,
         playingRangePair: RangePairI.new(note(:Bb1), note(:C5)).freeze,
       }.freeze).freeze,
-      BBCSO_CELESTE: MIDIInstrument.new({
+      bbcsoCeleste: MIDIInstrument.new({
         shortSwitches: [1].freeze,
         midSwitches: [1, 2].freeze,
         longSwitches: [0].freeze,
@@ -27,7 +27,7 @@ module Polyphony
         ccNums: [1, 11].freeze,
         playingRangePair: RangePairI.new(note(:C3), note(:C8)).freeze,
       }.freeze).freeze,
-      BBCSO_CELLO_BOW: MIDIInstrument.new({
+      bbcsoCelloBow: MIDIInstrument.new({
         shortSwitches: [19].freeze,
         midSwitches: [19].freeze,
         longSwitches: [1, 2, 3, 11, 18].freeze,
@@ -35,7 +35,7 @@ module Polyphony
         ccNums: [1, 11].freeze,
         playingRangePair: RangePairI.new(note(:C2), note(:G5)).freeze,
       }.freeze).freeze,
-      BBCSO_CELLO_PLUCK: MIDIInstrument.new({
+      bbcsoCelloPluck: MIDIInstrument.new({
         shortSwitches: [6].freeze,
         midSwitches: [6].freeze,
         longSwitches: [1, 2, 3, 11, 18].freeze,
@@ -43,7 +43,7 @@ module Polyphony
         ccNums: [1, 11].freeze,
         playingRangePair: RangePairI.new(note(:C2), note(:G5)).freeze,
       }.freeze).freeze,
-      BBCSO_CLARINET: MIDIInstrument.new({
+      bbcsoClarinet: MIDIInstrument.new({
         shortSwitches: [4].freeze,
         midSwitches: [4, 5].freeze,
         longSwitches: [1].freeze,
@@ -51,7 +51,7 @@ module Polyphony
         ccNums: [1, 11].freeze,
         playingRangePair: RangePairI.new(note(:D3), note(:D6)).freeze,
       }.freeze).freeze,
-      BBCSO_FLUTE: MIDIInstrument.new({
+      bbcsoFlute: MIDIInstrument.new({
         shortSwitches: [4].freeze,
         midSwitches: [4, 5].freeze,
         longSwitches: [1].freeze,
@@ -59,7 +59,7 @@ module Polyphony
         ccNums: [1, 11].freeze,
         playingRangePair: RangePairI.new(note(:C4), note(:G6)).freeze,
       }.freeze).freeze,
-      BBCSO_FRENCH_HORN: MIDIInstrument.new({
+      bbcsoFrenchHorn: MIDIInstrument.new({
         shortSwitches: [2].freeze,
         midSwitches: [3].freeze,
         longSwitches: [1, 4, 5].freeze,
@@ -67,7 +67,7 @@ module Polyphony
         ccNums: [1, 11].freeze,
         playingRangePair: RangePairI.new(note(:C3), note(:C5)).freeze,
       }.freeze).freeze,
-      BBCSO_GLOCKENSPIEL: MIDIInstrument.new({
+      bbcsoGlockenspiel: MIDIInstrument.new({
         shortSwitches: [0].freeze,
         midSwitches: [0].freeze,
         longSwitches: [0].freeze,
@@ -75,7 +75,7 @@ module Polyphony
         ccNums: [1, 11].freeze,
         playingRangePair: RangePairI.new(note(:F5), note(:C8)).freeze,
       }.freeze).freeze,
-      BBCSO_MARIMBA: MIDIInstrument.new({
+      bbcsoMarimba: MIDIInstrument.new({
         shortSwitches: [0].freeze,
         midSwitches: [0].freeze,
         longSwitches: [0].freeze,
@@ -83,7 +83,7 @@ module Polyphony
         ccNums: [1, 11].freeze,
         playingRangePair: RangePairI.new(note(:C2), note(:C7)).freeze,
       }.freeze).freeze,
-      BBCSO_OBOE: MIDIInstrument.new({
+      bbcsoOboe: MIDIInstrument.new({
         shortSwitches: [4].freeze,
         midSwitches: [4, 5].freeze,
         longSwitches: [1].freeze,
@@ -91,7 +91,7 @@ module Polyphony
         ccNums: [1, 11].freeze,
         playingRangePair: RangePairI.new(note(:C4), note(:C6)).freeze,
       }.freeze).freeze,
-      BBCSO_TENOR_TROMBONE: MIDIInstrument.new({
+      bbcsoTenorTrombone: MIDIInstrument.new({
         shortSwitches: [2].freeze,
         midSwitches: [3].freeze,
         longSwitches: [1, 4, 5].freeze,
@@ -99,7 +99,7 @@ module Polyphony
         ccNums: [1, 11].freeze,
         playingRangePair: RangePairI.new(note(:G1), note(:D5)).freeze,
       }.freeze).freeze,
-      BBCSO_TRUMPET: MIDIInstrument.new({
+      bbcsoTrumpet: MIDIInstrument.new({
         shortSwitches: [2].freeze,
         midSwitches: [3].freeze,
         longSwitches: [1, 4, 5].freeze,
@@ -107,7 +107,7 @@ module Polyphony
         ccNums: [1, 11].freeze,
         playingRangePair: RangePairI.new(note(:E3), note(:C6)).freeze,
       }.freeze).freeze,
-      BBCSO_TUBA: MIDIInstrument.new({
+      bbcsoTuba: MIDIInstrument.new({
         shortSwitches: [2].freeze,
         midSwitches: [3].freeze,
         longSwitches: [1, 4, 5].freeze,
@@ -115,7 +115,7 @@ module Polyphony
         ccNums: [1, 11].freeze,
         playingRangePair: RangePairI.new(note(:D1), note(:E4)).freeze,
       }.freeze).freeze,
-      BBCSO_VIBRAPHONE: MIDIInstrument.new({
+      bbcsoVibraphone: MIDIInstrument.new({
         shortSwitches: [0].freeze,
         midSwitches: [0].freeze,
         longSwitches: [0].freeze,
@@ -123,7 +123,7 @@ module Polyphony
         ccNums: [1, 11].freeze,
         playingRangePair: RangePairI.new(note(:F3), note(:F6)).freeze,
       }.freeze).freeze,
-      BBCSO_VIOLA_BOW: MIDIInstrument.new({
+      bbcsoViolaBow: MIDIInstrument.new({
         shortSwitches: [19].freeze,
         midSwitches: [19].freeze,
         longSwitches: [1, 2, 3, 11, 18].freeze,
@@ -131,7 +131,7 @@ module Polyphony
         ccNums: [1, 11].freeze,
         playingRangePair: RangePairI.new(note(:C3), note(:C6)).freeze,
       }.freeze).freeze,
-      BBCSO_VIOLA_PLUCK: MIDIInstrument.new({
+      bbcsoViolaPluck: MIDIInstrument.new({
         shortSwitches: [6].freeze,
         midSwitches: [6].freeze,
         longSwitches: [1, 2, 3, 11, 18].freeze,
@@ -139,7 +139,7 @@ module Polyphony
         ccNums: [1, 11].freeze,
         playingRangePair: RangePairI.new(note(:C3), note(:C6)).freeze,
       }.freeze).freeze,
-      BBCSO_VIOLIN_BOW: MIDIInstrument.new({
+      bbcsoViolinBow: MIDIInstrument.new({
         shortSwitches: [19].freeze,
         midSwitches: [19].freeze,
         longSwitches: [1, 2, 3, 11, 18].freeze,
@@ -147,7 +147,7 @@ module Polyphony
         ccNums: [1, 11].freeze,
         playingRangePair: RangePairI.new(note(:G3), note(:G6)).freeze,
       }.freeze).freeze,
-      BBCSO_VIOLIN_PLUCK: MIDIInstrument.new({
+      bbcsoViolinPluck: MIDIInstrument.new({
         shortSwitches: [6].freeze,
         midSwitches: [6].freeze,
         longSwitches: [1, 2, 3, 11, 18].freeze,
@@ -155,7 +155,7 @@ module Polyphony
         ccNums: [1, 11].freeze,
         playingRangePair: RangePairI.new(note(:G3), note(:G6)).freeze,
       }.freeze).freeze,
-      BBCSO_XYLOPHONE: MIDIInstrument.new({
+      bbcsoXylophone: MIDIInstrument.new({
         shortSwitches: [0].freeze,
         midSwitches: [0].freeze,
         longSwitches: [0].freeze,
@@ -163,7 +163,7 @@ module Polyphony
         ccNums: [1, 11].freeze,
         playingRangePair: RangePairI.new(note(:F4), note(:C8)).freeze,
       }.freeze).freeze,
-      NI_YANGQIN: MIDIInstrument.new({
+      niYangqin: MIDIInstrument.new({
         shortSwitches: [].freeze,
         midSwitches: [nil, note(:E1), note(:Fs1), note(:G1), note(:A1)].freeze,
         longSwitches: [].freeze,
@@ -171,7 +171,7 @@ module Polyphony
         ccNums: [].freeze,
         playingRangePair: RangePairI.new(note(:F2), note(:A6)).freeze,
       }.freeze).freeze,
-      PIANOTEQ_HARPSICHORD: MIDIInstrument.new({
+      pianoteqHarpsichord: MIDIInstrument.new({
         shortSwitches: [].freeze,
         midSwitches: [].freeze,
         longSwitches: [].freeze,
@@ -179,7 +179,7 @@ module Polyphony
         ccNums: [].freeze,
         playingRangePair: RangePairI.new(note(:F1), note(:F6)).freeze,
       }.freeze).freeze,
-      PIANOTEQ_PIANO: MIDIInstrument.new({
+      pianoteqPiano: MIDIInstrument.new({
         shortSwitches: [].freeze,
         midSwitches: [].freeze,
         longSwitches: [].freeze,
@@ -187,7 +187,7 @@ module Polyphony
         ccNums: [].freeze,
         playingRangePair: RangePairI.new(note(:C1), note(:C8)).freeze,
       }.freeze).freeze,
-      SERUM: MIDIInstrument.new({
+      serum: MIDIInstrument.new({
         shortSwitches: [].freeze,
         midSwitches: [].freeze,
         longSwitches: [].freeze,
@@ -198,54 +198,54 @@ module Polyphony
     }.freeze
 
     SPI_INSTRUMENTS = {
-      ALTO: SPiInstrument.new({
+      alto: SPiInstrument.new({
         synth: :saw,
         playingRangePair: RangePairI.new(note(:G3), note(:C5)).freeze,
       }.freeze).freeze,
-      BASS: SPiInstrument.new({
+      bass: SPiInstrument.new({
         synth: :pulse,
         playingRangePair: RangePairI.new(note(:F2), note(:C4)).freeze,
       }.freeze).freeze,
-      SOPRANO: SPiInstrument.new({
+      soprano: SPiInstrument.new({
         synth: :square,
         playingRangePair: RangePairI.new(note(:Bb3), note(:E5)).freeze,
       }.freeze).freeze,
-      TENOR: SPiInstrument.new({
+      tenor: SPiInstrument.new({
         synth: :tri,
         playingRangePair: RangePairI.new(note(:C3), note(:G4)).freeze,
       }.freeze).freeze,
     }.freeze
 
     ENSEMBLES = {
-      BBCSO_BRASS_4: [
-        MIDI_INSTRUMENTS[:BBCSO_TRUMPET], MIDI_INSTRUMENTS[:BBCSO_FRENCH_HORN], MIDI_INSTRUMENTS[:BBCSO_TENOR_TROMBONE], MIDI_INSTRUMENTS[:BBCSO_TUBA],
+      bbcsoBrass4: [
+        MIDI_INSTRUMENTS[:bbcsoTrumpet], MIDI_INSTRUMENTS[:bbcsoFrenchHorn], MIDI_INSTRUMENTS[:bbcsoTenorTrombone], MIDI_INSTRUMENTS[:bbcsoTuba],
       ].freeze,
-      BBCSO_MALLETS_3: [
-        MIDI_INSTRUMENTS[:BBCSO_GLOCKENSPIEL], MIDI_INSTRUMENTS[:BBCSO_XYLOPHONE], MIDI_INSTRUMENTS[:BBCSO_MARIMBA],
+      bbcsoMallets3: [
+        MIDI_INSTRUMENTS[:bbcsoGlockenspiel], MIDI_INSTRUMENTS[:bbcsoXylophone], MIDI_INSTRUMENTS[:bbcsoMarimba],
       ].freeze,
-      BBCSO_STRINGS_4: [
-        MIDI_INSTRUMENTS[:BBCSO_VIOLIN_BOW], MIDI_INSTRUMENTS[:BBCSO_VIOLIN_BOW], MIDI_INSTRUMENTS[:BBCSO_VIOLA_BOW], MIDI_INSTRUMENTS[:BBCSO_CELLO_BOW],
+      bbcsoStrings4: [
+        MIDI_INSTRUMENTS[:bbcsoViolinBow], MIDI_INSTRUMENTS[:bbcsoViolinBow], MIDI_INSTRUMENTS[:bbcsoViolaBow], MIDI_INSTRUMENTS[:bbcsoCelloBow],
       ].freeze,
-      BBCSO_VIBRAPHONE_1: [
-        MIDI_INSTRUMENTS[:BBCSO_VIBRAPHONE],
+      bbcsoVibraphone1: [
+        MIDI_INSTRUMENTS[:bbcsoVibraphone],
       ].freeze,
-      BBCSO_WINDS_4: [
-        MIDI_INSTRUMENTS[:BBCSO_FLUTE], MIDI_INSTRUMENTS[:BBCSO_OBOE], MIDI_INSTRUMENTS[:BBCSO_CLARINET], MIDI_INSTRUMENTS[:BBCSO_BASSOON],
+      bbcsoWinds4: [
+        MIDI_INSTRUMENTS[:bbcsoFlute], MIDI_INSTRUMENTS[:bbcsoOboe], MIDI_INSTRUMENTS[:bbcsoClarinet], MIDI_INSTRUMENTS[:bbcsoBassoon:],
       ].freeze,
-      BBCSO_WINDS_5: [
-        MIDI_INSTRUMENTS[:BBCSO_FLUTE], MIDI_INSTRUMENTS[:BBCSO_OBOE], MIDI_INSTRUMENTS[:BBCSO_CLARINET], MIDI_INSTRUMENTS[:BBCSO_FRENCH_HORN], MIDI_INSTRUMENTS[:BBCSO_BASSOON],
+      bbcsoWinds5: [
+        MIDI_INSTRUMENTS[:bbcsoFlute], MIDI_INSTRUMENTS[:bbcsoOboe], MIDI_INSTRUMENTS[:bbcsoClarinet], MIDI_INSTRUMENTS[:bbcsoFrenchHorn], MIDI_INSTRUMENTS[:bbcsoBassoon:],
       ].freeze,
-      PIANOTEQ_HARPSICHORD_1: [
-        MIDI_INSTRUMENTS[:PIANOTEQ_HARPSICHORD]
+      pianoteqHarpsichord1: [
+        MIDI_INSTRUMENTS[:pianoteqHarpsichord]
       ].freeze,
-      PIANOTEQ_PIANO_1: [
-        MIDI_INSTRUMENTS[:PIANOTEQ_PIANO],
+      pianoteqPiano1: [
+        MIDI_INSTRUMENTS[:pianoteqPiano],
       ].freeze,
-      SERUM_1: [
-        MIDI_INSTRUMENTS[:SERUM],
+      serum1: [
+        MIDI_INSTRUMENTS[:serum],
       ].freeze,
-      SPI_SATB_4: [
-        SPI_INSTRUMENTS[:SOPRANO], SPI_INSTRUMENTS[:ALTO], SPI_INSTRUMENTS[:TENOR], SPI_INSTRUMENTS[:BASS],
+      spiSATB4: [
+        SPI_INSTRUMENTS[:soprano], SPI_INSTRUMENTS[:alto], SPI_INSTRUMENTS[:tenor], SPI_INSTRUMENTS[:bass],
       ].freeze,
     }.freeze
 
