@@ -6,6 +6,22 @@ module Polyphony
     # impure functions
 
     #
+    # Signals measure, units, and subunits until time is up, whereafter piece is finished.
+    #
+    def activateTimekeeping
+      subunitDuration = 1 / Settings::TIMEKEEPING[:numSubunits].to_f
+      cue(-"time/measure")
+      Settings::TIMEKEEPING[:numUnitsPerMeasure].times do
+        set("time/unitsElapsed", (tick() + 1))
+        Settings::TIMEKEEPING[:numSubunits].toRangeFromZero.each do |subunit|
+          set("time/subunit", subunit)
+          wait(subunitDuration)
+        end
+        finishPiece() if isTimeUp?()
+      end
+    end
+
+    #
     # Concludes MIDI and stops timekeeping loop.
     #
     def finishPiece
@@ -37,22 +53,6 @@ module Polyphony
           break if currentUnitsElapsed < get("time/unitsElapsed")
         end
         currentUnitsElapsed += 1
-      end
-    end
-
-    #
-    # Signals measure, units, and subunits until time is up, whereafter piece is finished.
-    #
-    def activateTimekeeping
-      subunitDuration = 1 / Settings::TIMEKEEPING[:numSubunits].to_f
-      cue(-"time/measure")
-      Settings::TIMEKEEPING[:numUnitsPerMeasure].times do
-        set("time/unitsElapsed", (tick() + 1))
-        Settings::TIMEKEEPING[:numSubunits].toRangeFromZero.each do |subunit|
-          set("time/subunit", subunit)
-          wait(subunitDuration)
-        end
-        finishPiece() if isTimeUp?()
       end
     end
   end
