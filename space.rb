@@ -213,13 +213,13 @@ module Polyphony
     #
     def activateSpace
       if Settings::SPACE[:chanceProgress].evalChance?
-        startingKey = get("space/key")
+        startingKey = get(-"space/key")
 
-        if !get("space/chordRoot").zero? && Settings::SPACE[:chanceReturnToRoot].evalChance?
+        if !get(-"space/chordRoot").zero? && Settings::SPACE[:chanceReturnToRoot].evalChance?
           returnToTonic()
         else
           progress()
-          modulate() if !get("space/chordRoot").zero? && Settings::SPACE[:chanceModulate].evalChance?
+          modulate() if get(-"post-build")
         end
 
         recompose(startingKey)
@@ -230,14 +230,14 @@ module Polyphony
     # @return [Ring] all positions currently available
     #
     def getCurrentSpaceDomain
-      return getSpaceDomain(get("space/key"), Settings::SPACE[:numOctaves])
+      return getSpaceDomain(get(-"space/key"), Settings::SPACE[:numOctaves])
     end
 
     #
     # @return [Integer] current tonicity (e.g. heptatonic = 7)
     #
     def getCurrentTonicity
-      return (scale(0, get("space/key")[:scale]).length - 1)
+      return (scale(0, get(-"space/key")[:scale]).length - 1)
     end
 
     #
@@ -245,9 +245,9 @@ module Polyphony
     #
     def modulate
       # @type [Hash]
-      newKey = calculateModulationToChordRoot(getCurrentSpaceDomain(), get("space/chordRoot"), Settings::SPACE)
-      set("space/key", newKey)
-      set("space/chordRoot", 0)
+      newKey = calculateModulationToChordRoot(getCurrentSpaceDomain(), get(-"space/chordRoot"), Settings::SPACE)
+      set(-"space/key", newKey)
+      set(-"space/chordRoot", 0)
 
       logMessage("modulating to #{newKey.to_s}")
     end
@@ -261,17 +261,17 @@ module Polyphony
       # @type [Array<Integer>]
       progressionsAvailable = Settings::SPACE[:progressions].nil? ? tonicity.toRangeAFromZero : Settings::SPACE[:progressions]
       # @type [Integer]
-      nextChordRoot = ((get("space/chordRoot") + progressionsAvailable.choose) % tonicity)
-      set("space/chordRoot", nextChordRoot)
+      nextChordRoot = ((get(-"space/chordRoot") + progressionsAvailable.choose) % tonicity)
+      set(-"space/chordRoot", nextChordRoot)
 
-      logMessage("progressing to #{get("space/chordRoot")}: #{note_info(calculatePitch(get("space/chordRoot"), getCurrentSpaceDomain())).to_s}")
+      logMessage("progressing to #{get(-"space/chordRoot")}: #{note_info(calculatePitch(get(-"space/chordRoot"), getCurrentSpaceDomain())).to_s}")
     end
 
     #
     # Sets the time-state chord root to the tonic chord root.
     #
     def returnToTonic
-      set("space/chordRoot", 0)
+      set(-"space/chordRoot", 0)
 
       logMessage("returning to 0: #{note_info(calculatePitch(0, getCurrentSpaceDomain())).to_s}")
     end

@@ -12,9 +12,9 @@ module Polyphony
       subunitDuration = 1 / Settings::TIMEKEEPING[:numSubunits].to_f
       cue(-"time/measure")
       Settings::TIMEKEEPING[:numUnitsPerMeasure].times do
-        set("time/unitsElapsed", (tick() + 1))
+        set(-"time/unitsElapsed", (tick() + 1))
         Settings::TIMEKEEPING[:numSubunits].toRangeFromZero.each do |subunit|
-          set("time/subunit", subunit)
+          set(-"time/subunit", subunit)
           wait(subunitDuration)
         end
         finishPiece() if isTimeUp?()
@@ -36,7 +36,7 @@ module Polyphony
       if Settings::TIMEKEEPING[:timeLimitInUnits].nil?
         return false
       else
-        return get("time/unitsElapsed") >= Settings::TIMEKEEPING[:timeLimitInUnits]
+        return get(-"time/unitsElapsed") >= Settings::TIMEKEEPING[:timeLimitInUnits]
       end
     end
 
@@ -46,11 +46,11 @@ module Polyphony
     # @param [Integer] pNumUnits units to wait
     #
     def waitNumUnitsQuantised(pNumUnits)
-      currentUnitsElapsed = get("time/unitsElapsed")
+      currentUnitsElapsed = get(-"time/unitsElapsed")
       pNumUnits.times do
         Settings::TIMEKEEPING[:numSubunits].times do
-          sync_bpm("time/subunit")
-          break if currentUnitsElapsed < get("time/unitsElapsed")
+          sync_bpm(-"time/subunit")
+          break if currentUnitsElapsed < get(-"time/unitsElapsed")
         end
         currentUnitsElapsed += 1
       end

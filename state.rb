@@ -10,7 +10,7 @@ module Polyphony
     #
     def activateState
       # @type [Array<Hash>]
-      stateMotifs = get("motifs")
+      stateMotifs = get(-"motifs")
       # @type [TrueClass, FalseClass]
       roomForMoreExists = ((stateMotifs.length < Settings::STATE[:maxNumStateMotifs]) || (Settings::STATE[:numStateMotifsToKeep] < Settings::STATE[:maxNumStateMotifs]))
       if (roomForMoreExists && Settings::STATE[:chanceCreateNewStateMotif].evalChance?)
@@ -21,7 +21,7 @@ module Polyphony
           motifToRemove = stateMotifs.drop(Settings::STATE[:numStateMotifsToKeep]).choose
           stateMotifs -= [motifToRemove]
         end
-        set("motifs", (stateMotifs + [newMotif]))
+        set(-"motifs", (stateMotifs + [newMotif]))
 
         logMessage("motif added: #{makeArraysFromMotif(newMotif).to_s}")
       end
@@ -39,7 +39,7 @@ module Polyphony
         motifs.push(createMotif(Settings::TIMEKEEPING[:numUnitsPerMeasure], Settings::CREATION))
       end
 
-      set("motifs", motifs)
+      set(-"motifs", motifs)
     end
   end
 end

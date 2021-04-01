@@ -350,8 +350,8 @@ module Polyphony
     # sections of playing styles
     VOICES = {
       selection: [ # comment out undesired sections
-        "articulated".freeze,
-        "sustained".freeze,
+        -"articulated",
+        -"sustained",
       ].freeze,
     }.freeze
 
@@ -380,7 +380,7 @@ module Polyphony
           legatoSpanThreshold: 8, # int [1,]
 
           ports: [
-            "polyphony-articulated-0_2",
+            -"polyphony-articulated-0_2",
           ],
 
           cc: {
@@ -441,7 +441,7 @@ module Polyphony
 
         midi: {
           ports: [
-            "polyphony-sustained-0_3",
+            -"polyphony-sustained-0_3",
           ].freeze,
 
           cc: {

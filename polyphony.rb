@@ -76,10 +76,10 @@ module Polyphony
     # Prepares Sonic Pi time-state.
     #
     def initTimeState
-      set("space/chordRoot", 0)
-      set("space/key", Settings::SPACE[:initialKey])
+      set(-"space/chordRoot", 0)
+      set(-"space/key", Settings::SPACE[:initialKey])
 
-      set("time/unitsElapsed", 0)
+      set(-"time/unitsElapsed", 0)
     end
 
     #
