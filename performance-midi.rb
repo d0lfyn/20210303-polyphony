@@ -204,6 +204,9 @@ module Polyphony
         # @type [Hash]
         svapl = Settings::ARTICULATED[:performance][:midi][:legato]
 
+        # @type [Integer]
+        d = pHypothesis[:notes].first[:displacement]
+
         # @type [TrueClass, FalseClass]
         isOnFirstUnit = true
         # @type [Integer]
@@ -225,7 +228,7 @@ module Polyphony
 
           # @type [Integer]
           pitch = nil
-          pitch = calculatePitch((note[:displacement] + pPosition), pSpaceDomain) unless note[:displacement].nil?
+          pitch = calculatePitch((d + pPosition), pSpaceDomain) unless d.nil?
 
           # @type [Float]
           velocityOff = calculateVelocity(svapl[:velocityOff])
@@ -233,9 +236,11 @@ module Polyphony
           velocityOn = calculateVelocity(svapl[:velocityOn])
           velocityOn += svapl[:velocityOn][:accent] if isOnFirstUnit
 
+          nextDisplacement = chooseNextMarkovChainDisplacement(pHypothesis[:displacementMarkovChain], d)
+
           sync_bpm(-"time/subunit") unless isOnFirstUnit
           sync_bpm(-"time/subunit")
-          if ((unitsLeft > 0) && (nextNote[:displacement] != note[:displacement]))
+          if ((unitsLeft > 0) && (nextDisplacement != d))
             performMIDIArticulated(pitch, (duration + 1), velocityOn, velocityOff)
           else
             performMIDIArticulated(pitch, duration, velocityOn, velocityOff)
@@ -244,6 +249,8 @@ module Polyphony
 
           isOnFirstUnit = false
           break if unitsLeft.zero?
+
+          d = nextDisplacement
         end
         switchKeyswitchOff(keyswitch)
       end
