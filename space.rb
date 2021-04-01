@@ -264,7 +264,7 @@ module Polyphony
       nextChordRoot = ((get(-"space/chordRoot") + progressionsAvailable.choose) % tonicity)
       set(-"space/chordRoot", nextChordRoot)
 
-      logMessage("progressing to #{get(-"space/chordRoot")}: #{note_info(calculatePitch(get(-"space/chordRoot"), getCurrentSpaceDomain())).to_s}")
+      logMessage("progressing to #{get(-"space/chordRoot")}: #{note_info(calculatePitch(get(-"space/chordRoot"), getCurrentSpaceDomain())).pitch_class.to_s}")
     end
 
     #
@@ -273,7 +273,7 @@ module Polyphony
     def returnToTonic
       set(-"space/chordRoot", 0)
 
-      logMessage("returning to 0: #{note_info(calculatePitch(0, getCurrentSpaceDomain())).to_s}")
+      logMessage("returning to 0: #{note_info(calculatePitch(0, getCurrentSpaceDomain())).pitch_class.to_s}")
     end
   end
 end
