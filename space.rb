@@ -219,7 +219,7 @@ module Polyphony
           returnToTonic()
         else
           progress()
-          modulate() if get(-"post-build")
+          # modulate()
         end
 
         recompose(startingKey)
