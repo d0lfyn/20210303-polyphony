@@ -132,15 +132,20 @@ module Polyphony
       #
       def performMIDIArticulatedConclusion(pSynthesis, pInstrument)
         # @type [Hash]
+        svap = Settings::ARTICULATED[:performance]
+        # @type [Hash]
         hypothesis = pSynthesis[:hypotheses].choose
         # @type [Ring]
         spaceDomain = getCurrentSpaceDomain()
         # @type [Integer]
-        span = Settings::TIMEKEEPING[:numUnitsPerMeasure]
-        if Settings::ARTICULATED[:performance][:midi][:chanceLegato].evalChance?
-          performMIDILegatoHypothesisForSpan(pSynthesis[:position], hypothesis, span, spaceDomain, pInstrument)
-        else
-          performMIDIShortMidHypothesisForSpan(pSynthesis[:position], hypothesis, span, spaceDomain, pInstrument)
+        numTransitionMeasureDivisions = get(-"numTransitionMeasureDivisions")
+        rhythmSpans = numTransitionMeasureDivisions.nil? ? [Settings::TIMEKEEPING[:numUnitsPerMeasure]] : getRhythmSpans(Settings::TIMEKEEPING[:numUnitsPerMeasure], numTransitionMeasureDivisions)
+        rhythmSpans.each do |span|
+          if ((span >= svap[:midi][:legatoSpanThreshold]) && svap[:midi][:chanceLegato].evalChance?)
+            performMIDILegatoHypothesisForSpan(pSynthesis[:position], hypothesis, span, spaceDomain, pInstrument)
+          else
+            performMIDIShortMidHypothesisForSpan(pSynthesis[:position], hypothesis, span, spaceDomain, pInstrument)
+          end
         end
       end
 
@@ -161,32 +166,36 @@ module Polyphony
           launchCCArticulated(pVoiceNumber, instrument) unless instrument.ccNums.empty?
           while svap[:chanceRecalculate].evalChance?
             # @type [Array<Integer>]
-            compositeRhythm = getCompositeRhythm(svap[:rangeNumRhythmsInPolyrhythm].get, svap[:rangeNumRhythmicDivisions], Settings::TIMEKEEPING[:numUnitsPerMeasure])
-            # @type [Array<Integer>]
-            compositeRhythmSpans = convertOffsetsToSpans(compositeRhythm, Settings::TIMEKEEPING[:numUnitsPerMeasure])
+            compositeRhythmSpans = getCompositeRhythmSpans(svap[:rangeNumRhythmsInPolyrhythm].get, svap[:rangeNumRhythmicDivisions], Settings::TIMEKEEPING[:numUnitsPerMeasure])
             # @type [Hash]
             hypothesis = synthesis[:hypotheses].choose
             while svap[:chanceRepeat].evalChance?
               # @type [Ring]
               spaceDomain = getCurrentSpaceDomain()
-              compositeRhythmSpans.each do |span|
+              # @type [Integer]
+              numTransitionMeasureDivisions = get(-"numTransitionMeasureDivisions")
+              rhythmSpans = numTransitionMeasureDivisions.nil? ? compositeRhythmSpans : getRhythmSpans(Settings::TIMEKEEPING[:numUnitsPerMeasure], numTransitionMeasureDivisions)
+              rhythmSpans.each do |span|
                 if ((span >= svap[:midi][:legatoSpanThreshold]) && svap[:midi][:chanceLegato].evalChance?)
                   performMIDILegatoHypothesisForSpan(synthesis[:position], hypothesis, span, spaceDomain, instrument)
                 else
                   performMIDIShortMidHypothesisForSpan(synthesis[:position], hypothesis, span, spaceDomain, instrument)
                 end
               end
+              sync_bpm(-"time/measure") if (Settings::ARTICULATED[:performance][:chancePause].evalChance? || ((get(-"numTransitionMeasureDivisions") == 1) && (Settings::ARTICULATED[:performance][:baseChancePauseBeforeDrop] * get(-"numMeasuresSinceTransition")).evalChance?))
               synthesis = getVoiceSynthesis(-"articulated", pVoiceNumber)
               break if synthesis.nil?
             end
             unless synthesis.nil?
               performMIDIArticulatedConclusion(synthesis, instrument)
+              sync_bpm(-"time/measure") if (Settings::ARTICULATED[:performance][:chancePause].evalChance? || ((get(-"numTransitionMeasureDivisions") == 1) && (Settings::ARTICULATED[:performance][:baseChancePauseBeforeDrop] * get(-"numMeasuresSinceTransition")).evalChance?))
             else
               break
             end
           end
           unless synthesis.nil?
             performMIDIArticulatedConclusion(synthesis, instrument)
+            sync_bpm(-"time/measure") if (Settings::ARTICULATED[:performance][:chancePause].evalChance? || ((get(-"numTransitionMeasureDivisions") == 1) && (Settings::ARTICULATED[:performance][:baseChancePauseBeforeDrop] * get(-"numMeasuresSinceTransition")).evalChance?))
           end
         end
       end
@@ -349,7 +358,7 @@ module Polyphony
           midi_note_on(pitch, vel_f: calculateVelocity(svsp[:midi][:long][:velocityOn]))
           sync_bpm(-"time/measure")
           numMeasuresRemaining -= 1
-          while ((get(-"space/key") == startingKey) && (numMeasuresRemaining > 0))
+          while ((get(-"space/key") == startingKey) && (get(-"numTransitionMeasureDivisions") != 1) && (numMeasuresRemaining > 0))
             currentChordRoot = get(-"space/chordRoot")
             unless (currentChordRoot == stableChordRoot)
               if isPositionInGeneralChord?(synthesis[:position], currentChordRoot, getCurrentTonicity(), Settings::COMPOSITION[:generalPositionsOfChord])

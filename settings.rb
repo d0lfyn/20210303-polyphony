@@ -347,6 +347,23 @@ module Polyphony
       unitsPerMinute: 360, # (0,)
     }.freeze
 
+    # regulates transitioning musical developments
+    TRANSITION = {
+      baseChanceTransition: 0.02, # [0, 1]
+      minNumMeasuresBetweenTransitions: 16, # int [0,]
+
+      rangeNumTransitionMeasureDivisions: [ # int [0,]
+        RangePairI.new(2, 6).freeze,
+        RangePairI.new(6, 10).freeze,
+        RangePairI.new(10, 16).freeze,
+      ].freeze,
+      rangeTransitionMeasureDivisors: [ # int [0,]
+        RangePairI.new(4, 8).freeze,
+        RangePairI.new(8, 12).freeze,
+        RangePairI.new(12, 16).freeze,
+      ].freeze,
+    }.freeze
+
     # sections of playing styles
     VOICES = {
       selection: [ # comment out undesired sections
@@ -367,12 +384,14 @@ module Polyphony
       rangeNumVoicesToAddPerMeasure: RangePairI.new(0, 1).freeze, # int [0,]
 
       performance: {
+        baseChancePauseBeforeDrop: 0.04, # [0, 1]
+        chancePause: 0.05, # [0, 1]
         chanceRecalculate: 0.95, # [0, 1]
         chanceRepeat: 0.75, # [0, 1]
 
         ensemble: ENSEMBLES[:spiSATB4], # (select ensemble from ensembles)
 
-        rangeNumRhythmicDivisions: RangePairI.new(1, 4).freeze, # int [0,]
+        rangeNumRhythmicDivisions: RangePairI.new(1, 3).freeze, # int [0,]
         rangeNumRhythmsInPolyrhythm: RangePairI.new(1, 2).freeze, # int [0,]
 
         midi: {

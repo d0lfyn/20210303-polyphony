@@ -42,10 +42,8 @@ module Polyphony
       numRhythmicDivisions = chooseAbsIntWithWeight(-pWeightForSpans, (1..(pNumUnits / 2)).to_a)
       # @type [Array<Integer>]
       offsets = getTrueIndices(spread(numRhythmicDivisions, pNumUnits, rotate: rand_i(numRhythmicDivisions)))
-      # @type [Array<Integer>]
-      divisions = convertOffsetsToSpans(offsets, pNumUnits)
 
-      return divisions.freeze
+      return convertOffsetsToSpans(offsets, pNumUnits)
     end
 
     #
@@ -55,7 +53,9 @@ module Polyphony
     #
     # @return [Array<Integer>] composite rhythm calculated from parameters
     #
-    def getCompositeRhythm(pNumRhythms, pRangeNumRhythmicDivisions, pNumUnitsPerMeasure)
+    def getCompositeRhythmSpans(pNumRhythms, pRangeNumRhythmicDivisions, pNumUnitsPerMeasure)
+      return 1 if (pNumUnitsPerMeasure == 1)
+
       # @type [Array<Integer>]
       compositeRhythm = []
       pNumRhythms.times do
@@ -64,7 +64,16 @@ module Polyphony
         compositeRhythm = compositeRhythm.union(getTrueIndices(spread(numRhythmicDivisions, pNumUnitsPerMeasure, rotate: rand_i(numRhythmicDivisions))))
       end
 
-      return compositeRhythm.sort.freeze
+      return convertOffsetsToSpans(compositeRhythm.sort, pNumUnitsPerMeasure)
+    end
+
+    def getRhythmSpans(pNumUnitsPerMeasure, pNumRhythmicDivisions)
+      return 1 if (pNumUnitsPerMeasure == 1)
+
+      # @type [Array<Integer>]
+      offsets = getTrueIndices(spread(pNumRhythmicDivisions, pNumUnitsPerMeasure))
+
+      return convertOffsetsToSpans(offsets, pNumUnitsPerMeasure)
     end
 
     #
@@ -97,10 +106,8 @@ module Polyphony
       numRhythmicSubdivisions = chooseAbsIntWithWeight(-pWeightForSpans, (1..pNumUnits).to_a)
       # @type [Array<Integer>]
       offsets = getTrueIndices(spread(numRhythmicSubdivisions, pNumUnits, rotate: rand_i(numRhythmicSubdivisions)))
-      # @type [Array<Integer>]
-      subdivisions = convertOffsetsToSpans(offsets, pNumUnits)
 
-      return subdivisions.freeze
+      return convertOffsetsToSpans(offsets, pNumUnits)
     end
   end
 end

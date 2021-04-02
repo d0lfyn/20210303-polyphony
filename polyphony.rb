@@ -13,6 +13,7 @@
   "state",
   "tests",
   "timekeeping",
+  "transition",
   "utils",
   # load settings last
   "settings"
@@ -42,6 +43,7 @@ module Polyphony
     include Polyphony::Space
     include Polyphony::State
     include Polyphony::Timekeeping
+    include Polyphony::Transition
     include Polyphony::Tests
     include Polyphony::Utils
     include SonicPi::Lang::Core
@@ -76,6 +78,9 @@ module Polyphony
     # Prepares Sonic Pi time-state.
     #
     def initTimeState
+      set(-"numMeasuresSinceTransition", 0)
+      set(-"numTransitionMeasureDivisions", nil)
+
       set(-"space/chordRoot", 0)
       set(-"space/key", Settings::SPACE[:initialKey])
 
@@ -107,6 +112,11 @@ module Polyphony
 
       live_loop :maintainTimekeeper do
         activateTimekeeping()
+      end
+
+      live_loop :maintainTransition, sync_bpm: -"time/measure" do
+        activateTransition()
+        sync_bpm(-"time/measure")
       end
 
       live_loop :maintainVoices, sync_bpm: -"time/measure" do

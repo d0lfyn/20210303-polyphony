@@ -209,7 +209,7 @@ module Polyphony
     # impure functions
 
     #
-    # Has a chance of progressing the time-state chord root, and a chance of also modulating keys to the new chord root. Repositions all musical symbols if a progression occurs.
+    # Has a chance of progressing the time-state chord root. Modulates if in the final stage of transition. Repositions all musical symbols if a progression/modulation occurs.
     #
     def activateSpace
       if Settings::SPACE[:chanceProgress].evalChance?
@@ -219,7 +219,7 @@ module Polyphony
           returnToTonic()
         else
           progress()
-          # modulate()
+          modulate() if (get(-"numTransitionMeasureDivisions") == 1)
         end
 
         recompose(startingKey)

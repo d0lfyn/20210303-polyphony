@@ -56,8 +56,11 @@ module Polyphony
         # @type [Ring]
         spaceDomain = getCurrentSpaceDomain()
         # @type [Integer]
-        span = Settings::TIMEKEEPING[:numUnitsPerMeasure]
-        performSPiShortMidHypothesisForSpan(pSynthesis[:position], hypothesis, span, spaceDomain, pInstrument)
+        numTransitionMeasureDivisions = get(-"numTransitionMeasureDivisions")
+        rhythmSpans = numTransitionMeasureDivisions.nil? ? [Settings::TIMEKEEPING[:numUnitsPerMeasure]] : getRhythmSpans(Settings::TIMEKEEPING[:numUnitsPerMeasure], numTransitionMeasureDivisions)
+        rhythmSpans.each do |span|
+          performSPiShortMidHypothesisForSpan(pSynthesis[:position], hypothesis, span, spaceDomain, pInstrument)
+        end
       end
 
       #
@@ -78,27 +81,31 @@ module Polyphony
             with_synth(instrument.synth) do
               while svap[:chanceRecalculate].evalChance?
                 # @type [Array<Integer>]
-                compositeRhythm = getCompositeRhythm(svap[:rangeNumRhythmsInPolyrhythm].get, svap[:rangeNumRhythmicDivisions], Settings::TIMEKEEPING[:numUnitsPerMeasure])
-                # @type [Array<Integer>]
-                compositeRhythmSpans = convertOffsetsToSpans(compositeRhythm, Settings::TIMEKEEPING[:numUnitsPerMeasure])
+                compositeRhythmSpans = getCompositeRhythmSpans(svap[:rangeNumRhythmsInPolyrhythm].get, svap[:rangeNumRhythmicDivisions], Settings::TIMEKEEPING[:numUnitsPerMeasure])
                 # @type [Hash]
                 hypothesis = synthesis[:hypotheses].choose
                 while svap[:chanceRepeat].evalChance?
                   # @type [Ring]
                   spaceDomain = getCurrentSpaceDomain()
-                  compositeRhythmSpans.each do |span|
+                  # @type [Integer]
+                  numTransitionMeasureDivisions = get(-"numTransitionMeasureDivisions")
+                  rhythmSpans = numTransitionMeasureDivisions.nil? ? compositeRhythmSpans : getRhythmSpans(Settings::TIMEKEEPING[:numUnitsPerMeasure], numTransitionMeasureDivisions)
+                  rhythmSpans.each do |span|
                     performSPiShortMidHypothesisForSpan(synthesis[:position], hypothesis, span, spaceDomain, instrument)
                   end
+                  sync_bpm(-"time/measure") if (Settings::ARTICULATED[:performance][:chancePause].evalChance? || ((get(-"numTransitionMeasureDivisions") == 1) && (Settings::ARTICULATED[:performance][:baseChancePauseBeforeDrop] * get(-"numMeasuresSinceTransition")).evalChance?))
                   synthesis = getVoiceSynthesis(-"articulated", pVoiceNumber)
                   break if synthesis.nil?
                 end
                 unless synthesis.nil?
                   performSPiArticulatedConclusion(synthesis, instrument)
+                  sync_bpm(-"time/measure") if (Settings::ARTICULATED[:performance][:chancePause].evalChance? || ((get(-"numTransitionMeasureDivisions") == 1) && (Settings::ARTICULATED[:performance][:baseChancePauseBeforeDrop] * get(-"numMeasuresSinceTransition")).evalChance?))
                 else
                   break
                 end
               end
               performSPiArticulatedConclusion(synthesis, instrument) unless synthesis.nil?
+              sync_bpm(-"time/measure") if (Settings::ARTICULATED[:performance][:chancePause].evalChance? || ((get(-"numTransitionMeasureDivisions") == 1) && (Settings::ARTICULATED[:performance][:baseChancePauseBeforeDrop] * get(-"numMeasuresSinceTransition")).evalChance?))
             end
           end
         end
@@ -180,6 +187,8 @@ module Polyphony
         # @type [Integer]
         pitch = calculatePitch(synthesis[:position], getCurrentSpaceDomain())
 
+        sustain = nil
+
         sync_bpm(-"time/subunit") # coordinate with MIDI
 
         sync_bpm(-"time/subunit") # coordinate with MIDI
@@ -187,14 +196,14 @@ module Polyphony
           with_fx(:pan, pan: calculatePan(pVoiceNumber, getEnsemble(-"sustained"), svsp[:spi][:long][:panWidth])) do
             with_fx(:compressor, amp: 0.9) do
               with_synth(instrument.synth) do
-                play(pitch, amp: calculateAmp(svsp[:spi][:long][:amp]), attack: (numUnits * 0.1), sustain: 0, release: (numUnits * 0.9))
+                sustain = play(pitch, amp: calculateAmp(svsp[:spi][:long][:amp]), attack: (numUnits * 0.1), sustain: 0, release: (numUnits * 0.9))
               end
             end
           end
         end
         sync_bpm(-"time/measure")
         numMeasuresRemaining -= 1
-        while ((get(-"space/key") == startingKey) && (numMeasuresRemaining > 0))
+        while ((get(-"space/key") == startingKey) && (get(-"numTransitionMeasureDivisions") != 1) && (numMeasuresRemaining > 0))
           currentChordRoot = get(-"space/chordRoot")
           unless (currentChordRoot == stableChordRoot)
             if isPositionInGeneralChord?(synthesis[:position], currentChordRoot, getCurrentTonicity(), Settings::COMPOSITION[:generalPositionsOfChord])
@@ -206,6 +215,7 @@ module Polyphony
           sync_bpm(-"time/measure")
           numMeasuresRemaining -= 1
         end
+        kill(sustain) if (numMeasuresRemaining > 0)
       end
     end
   end
