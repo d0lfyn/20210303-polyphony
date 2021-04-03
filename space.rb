@@ -212,14 +212,16 @@ module Polyphony
     # Has a chance of progressing the time-state chord root. Modulates if in the final stage of transition. Repositions all musical symbols if a progression/modulation occurs.
     #
     def activateSpace
-      if Settings::SPACE[:chanceProgress].evalChance?
+      isTransitioning = (get(-"numTransitionMeasureDivisions") == 1)
+
+      if (Settings::SPACE[:chanceProgress].evalChance? || isTransitioning)
         startingKey = get(-"space/key")
 
         if !get(-"space/chordRoot").zero? && Settings::SPACE[:chanceReturnToRoot].evalChance?
           returnToTonic()
         else
           progress()
-          modulate() if (get(-"numTransitionMeasureDivisions") == 1)
+          modulate() if isTransitioning
         end
 
         recompose(startingKey)
