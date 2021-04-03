@@ -13,7 +13,7 @@ module Polyphony
     MIDI_INSTRUMENTS = {
       bbcsoBassoon: MIDIInstrument.new({
         shortSwitches: [4].freeze,
-        midSwitches: [4, 5].freeze,
+        midSwitches: [5].freeze,
         longSwitches: [1].freeze,
         legatoSwitches: [0].freeze,
         ccNums: [1, 11].freeze,
@@ -45,7 +45,7 @@ module Polyphony
       }.freeze).freeze,
       bbcsoClarinet: MIDIInstrument.new({
         shortSwitches: [4].freeze,
-        midSwitches: [4, 5].freeze,
+        midSwitches: [5].freeze,
         longSwitches: [1].freeze,
         legatoSwitches: [0].freeze,
         ccNums: [1, 11].freeze,
@@ -53,7 +53,7 @@ module Polyphony
       }.freeze).freeze,
       bbcsoFlute: MIDIInstrument.new({
         shortSwitches: [4].freeze,
-        midSwitches: [4, 5].freeze,
+        midSwitches: [5].freeze,
         longSwitches: [1].freeze,
         legatoSwitches: [0].freeze,
         ccNums: [1, 11].freeze,
@@ -85,7 +85,7 @@ module Polyphony
       }.freeze).freeze,
       bbcsoOboe: MIDIInstrument.new({
         shortSwitches: [4].freeze,
-        midSwitches: [4, 5].freeze,
+        midSwitches: [5].freeze,
         longSwitches: [1].freeze,
         legatoSwitches: [0].freeze,
         ccNums: [1, 11].freeze,
