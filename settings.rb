@@ -384,7 +384,7 @@ module Polyphony
       rangeNumVoicesToAddPerMeasure: RangePairI.new(0, 1).freeze, # int [0,]
 
       performance: {
-        baseChancePauseBeforeDrop: 0.04, # [0, 1]
+        baseChancePauseBeforeDrop: 0.025, # [0, 1]
         chancePause: 0.05, # [0, 1]
         chanceRecalculate: 0.95, # [0, 1]
         chanceRepeat: 0.75, # [0, 1]
